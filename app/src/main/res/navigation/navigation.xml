@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/listFragment">
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.anibalventura.anothernote.ui.list.ListFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_list">
+        <action
+            android:id="@+id/action_listFragment_to_addFragment"
+            app:destination="@id/addFragment"
+            app:enterAnim="@anim/animation_from_right"
+            app:exitAnim="@anim/animation_to_left"
+            app:popEnterAnim="@anim/animation_from_left"
+            app:popExitAnim="@anim/animation_to_right" />
+        <action
+            android:id="@+id/action_listFragment_to_updateFragment"
+            app:destination="@id/updateFragment"
+            app:enterAnim="@anim/animation_from_left"
+            app:exitAnim="@anim/animation_to_right"
+            app:popEnterAnim="@anim/animation_from_right"
+            app:popExitAnim="@anim/animation_to_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.anibalventura.anothernote.ui.add.AddFragment"
+        android:label="@string/title_add_note"
+        tools:layout="@layout/fragment_add">
+        <action
+            android:id="@+id/action_addFragment_to_listFragment"
+            app:destination="@id/listFragment"
+            app:enterAnim="@anim/animation_from_left"
+            app:exitAnim="@anim/animation_to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateFragment"
+        android:name="com.anibalventura.anothernote.ui.update.UpdateFragment"
+        android:label="@string/title_update_note"
+        tools:layout="@layout/fragment_update">
+        <action
+            android:id="@+id/action_updateFragment_to_listFragment"
+            app:destination="@id/listFragment"
+            app:enterAnim="@anim/animation_from_right"
+            app:exitAnim="@anim/animation_to_left" />
+    </fragment>
+</navigation>
