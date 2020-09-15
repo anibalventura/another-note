@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme"
         android:versionCode="1"
         android:versionName="1.0.0">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

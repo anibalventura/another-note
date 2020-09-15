@@ -46,5 +46,8 @@
             app:destination="@id/listFragment"
             app:enterAnim="@anim/animation_from_right"
             app:exitAnim="@anim/animation_to_left" />
+        <argument
+            android:name="currentItem"
+            app:argType="com.anibalventura.anothernote.data.models.NoteData" />
     </fragment>
 </navigation>

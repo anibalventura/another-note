@@ -9,12 +9,13 @@
     <string name="add_description">Description</string>
     <string name="list_menu_search">Search</string>
     <string name="list_menu_sort_by">Sort By</string>
-    <string name="list_menu_priority_high">Priority High</string>
-    <string name="list_menu_priority_low">Priority Low</string>
+    <string name="list_menu_priority_high">High Priority</string>
+    <string name="list_menu_priority_low">Low Priority</string>
     <string name="list_menu_delete_all">Delete All</string>
     <string name="add_menu_check">Save</string>
     <string name="update_menu_save">Save</string>
     <string name="update_menu_delete">Delete</string>
+    <string name="list_menu_priority_medium">Medium Priority</string>
 
     <string-array name="priority">
         <item>High Priority</item>

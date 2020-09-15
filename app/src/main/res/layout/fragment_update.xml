@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etUpdateTitle" />
 
     <EditText
-        android:id="@+id/etUpdateNote"
+        android:id="@+id/etUpdateDescription"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
