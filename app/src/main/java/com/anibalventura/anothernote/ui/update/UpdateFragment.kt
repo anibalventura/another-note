@@ -12,8 +12,8 @@ import com.anibalventura.anothernote.Utils
 import com.anibalventura.anothernote.data.models.NoteData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
+import com.anibalventura.anothernote.databinding.FragmentUpdateBinding
 import kotlinx.android.synthetic.main.fragment_update.*
-import kotlinx.android.synthetic.main.fragment_update.view.*
 
 class UpdateFragment : Fragment() {
 
@@ -22,24 +22,25 @@ class UpdateFragment : Fragment() {
     private val sharedViewModel: SharedViewModel by viewModels()
     private val noteViewModel: NoteViewModel by viewModels()
 
+    private var _binding: FragmentUpdateBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_update, container, false)
+        // DataBinding.
+        _binding = FragmentUpdateBinding.inflate(inflater, container, false)
+        binding.args = args
 
         // Set menu.
         setHasOptionsMenu(true)
 
-        view.etUpdateTitle.setText(args.currentItem.title)
-        view.spinnerUpdatePriority.setSelection(sharedViewModel.parsePriorityToInt(args.currentItem.priority))
-        view.spinnerUpdatePriority.onItemSelectedListener = sharedViewModel.listener
-        view.etUpdateDescription.setText(args.currentItem.description)
+        // Spinner selected item.
+        binding.spinnerUpdatePriority.onItemSelectedListener = sharedViewModel.listener
 
-        return view
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -89,5 +90,11 @@ class UpdateFragment : Fragment() {
         }
         dialogBuilder.setNegativeButton("No") { _, _ -> }
         dialogBuilder.show()
+    }
+
+    // Destroy all references of the fragment to avoid memory leak.
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

@@ -14,14 +14,14 @@ import com.anibalventura.anothernote.data.models.Priority
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
+    /** ============================= ListFragment ============================= **/
     val emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(true)
 
     fun checkIfDatabaseIsEmpty(noteData: List<NoteData>) {
         emptyDatabase.value = noteData.isEmpty()
     }
 
-//    private val utils = Utils.resourses!!
-
+    /** ============================= Add/UpdateFragment ============================= **/
     // Set color of priority.
     val listener: AdapterView.OnItemSelectedListener = object :
         AdapterView.OnItemSelectedListener {
@@ -69,14 +69,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             "Medium Priority" -> Priority.MEDIUM
             "Low Priority" -> Priority.LOW
             else -> Priority.LOW
-        }
-    }
-
-    fun parsePriorityToInt(priority: Priority): Int {
-        return when (priority) {
-            Priority.HIGH -> 0
-            Priority.MEDIUM -> 1
-            Priority.LOW -> 2
         }
     }
 }
