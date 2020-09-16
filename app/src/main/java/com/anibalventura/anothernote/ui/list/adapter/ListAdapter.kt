@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote.ui.list
+package com.anibalventura.anothernote.ui.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import com.anibalventura.anothernote.databinding.RecyclerviewRowBinding
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
-    private var dataList = emptyList<NoteData>()
+    var dataList = emptyList<NoteData>()
 
     class MyViewHolder(private val binding: RecyclerviewRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
