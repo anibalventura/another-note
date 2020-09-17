@@ -8,11 +8,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.anibalventura.anothernote.R
-import com.anibalventura.anothernote.Utils
 import com.anibalventura.anothernote.data.models.NoteData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentUpdateBinding
+import com.anibalventura.anothernote.showToast
 import kotlinx.android.synthetic.main.fragment_update.*
 
 class UpdateFragment : Fragment() {
@@ -70,11 +70,11 @@ class UpdateFragment : Fragment() {
                     description
                 )
                 noteViewModel.updateData(updatedItem)
-                Utils.showToast(requireContext(), "Successfully Updated")
+                showToast(requireContext(), "Successfully Updated")
                 // Navigate back.
                 findNavController().navigate(R.id.action_updateFragment_to_listFragment)
             }
-            else -> Utils.showToast(requireContext(), "Please fill out all the fields.")
+            else -> showToast(requireContext(), "Please fill out all the fields.")
         }
     }
 
@@ -85,7 +85,7 @@ class UpdateFragment : Fragment() {
         dialogBuilder.setMessage("Are you sure you want to delete \"${args.currentItem.title}\"?")
         dialogBuilder.setPositiveButton("Yes") { _, _ ->
             noteViewModel.deleteItem(args.currentItem)
-            Utils.showToast(requireContext(), "Successfully deleted \"${args.currentItem.title}\"")
+            showToast(requireContext(), "Successfully deleted \"${args.currentItem.title}\"")
             findNavController().navigate(R.id.action_updateFragment_to_listFragment)
         }
         dialogBuilder.setNegativeButton("No") { _, _ -> }

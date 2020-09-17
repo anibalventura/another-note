@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.anibalventura.anothernote.R
-import com.anibalventura.anothernote.Utils
 import com.anibalventura.anothernote.data.models.NoteData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
+import com.anibalventura.anothernote.showToast
 import kotlinx.android.synthetic.main.fragment_add.*
 import kotlinx.android.synthetic.main.fragment_add.view.*
 
@@ -57,11 +57,11 @@ class AddFragment : Fragment() {
                 val newData =
                     NoteData(0, title, sharedViewModel.parsePriority(priority), description)
                 noteViewModel.insertData(newData)
-                Utils.showToast(requireContext(), "Note added.")
+                showToast(requireContext(), "Note added.")
                 // Navigate back.
                 findNavController().navigate(R.id.action_addFragment_to_listFragment)
             }
-            else -> Utils.showToast(requireContext(), "Please fill out all fields.")
+            else -> showToast(requireContext(), "Please fill out all fields.")
         }
     }
 }

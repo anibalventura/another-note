@@ -15,7 +15,7 @@ import com.anibalventura.anothernote.data.models.Priority
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
     /** ============================= ListFragment ============================= **/
-    val emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(true)
+    val emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun checkIfDatabaseIsEmpty(noteData: List<NoteData>) {
         emptyDatabase.value = noteData.isEmpty()

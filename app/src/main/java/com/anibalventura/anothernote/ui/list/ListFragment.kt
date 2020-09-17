@@ -3,21 +3,24 @@ package com.anibalventura.anothernote.ui.list
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.anibalventura.anothernote.R
-import com.anibalventura.anothernote.Utils
 import com.anibalventura.anothernote.data.models.NoteData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentListBinding
+import com.anibalventura.anothernote.hideKeyboard
+import com.anibalventura.anothernote.showToast
 import com.anibalventura.anothernote.ui.list.adapter.ListAdapter
 import com.google.android.material.snackbar.Snackbar
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val noteViewModel: NoteViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
@@ -49,13 +52,21 @@ class ListFragment : Fragment() {
         // Set menu.
         setHasOptionsMenu(true)
 
+        // Hide soft keyboard.
+        hideKeyboard(requireActivity())
+
         return binding.root
     }
 
     private fun setupRecyclerView() {
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+//        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        recyclerView.itemAnimator = SlideInUpAnimator().apply {
+            addDuration = 300 // Milliseconds
+        }
 
         // Swipe to delete.
         swipeToDelete(recyclerView)
@@ -71,30 +82,62 @@ class ListFragment : Fragment() {
                 adapter.notifyItemRemoved(viewHolder.adapterPosition)
 
                 // Restore deleted data.
-                restoreDeletedItem(viewHolder.itemView, deletedItem, viewHolder.adapterPosition)
+                restoreDeletedItem(viewHolder.itemView, deletedItem)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeTODeleteCallBack)
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun restoreDeletedItem(view: View, deletedItem: NoteData, position: Int) {
+    private fun restoreDeletedItem(view: View, deletedItem: NoteData) {
         val snackBar = Snackbar.make(view, "Deleted \"${deletedItem.title}\"", Snackbar.LENGTH_LONG)
         snackBar.setAction("Undo") {
             noteViewModel.insertData(deletedItem)
-            adapter.notifyItemChanged(position)
         }.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_list, menu)
+
+        val search = menu.findItem(R.id.list_menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.list_menu_delete_all -> confirmDeleteAll()
+            R.id.list_menu_priority_high -> noteViewModel.sortByHighPriority.observe(this, {
+                adapter.setData(it)
+            })
+            R.id.list_menu_priority_low -> noteViewModel.sortByLowPriority.observe(this, {
+                adapter.setData(it)
+            })
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            searchTroughDatabase(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        if (query != null) {
+            searchTroughDatabase(query)
+        }
+        return true
+    }
+
+    private fun searchTroughDatabase(query: String) {
+        noteViewModel.searchDatabase("%$query%").observe(this, { list ->
+            list?.let {
+                adapter.setData(it)
+            }
+        })
     }
 
     private fun confirmDeleteAll() {
@@ -103,7 +146,7 @@ class ListFragment : Fragment() {
         dialogBuilder.setMessage("Are you sure you want to delete everything?")
         dialogBuilder.setPositiveButton("Yes") { _, _ ->
             noteViewModel.deleteAll()
-            Utils.showToast(requireContext(), "Successfully Deleted Everything.")
+            showToast(requireContext(), "Successfully Deleted Everything.")
         }
         dialogBuilder.setNegativeButton("No") { _, _ -> }
         dialogBuilder.show()

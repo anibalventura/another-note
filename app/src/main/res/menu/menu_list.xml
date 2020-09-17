@@ -5,8 +5,8 @@
         android:id="@+id/list_menu_search"
         android:icon="@drawable/ic_search"
         android:title="@string/list_menu_search"
-        app:actionProviderClass="android.widget.ShareActionProvider"
-        app:actionViewClass="android.widget.SearchView"
+        app:actionProviderClass="androidx.appcompat.widget.ShareActionProvider"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom" />
 
     <group android:checkableBehavior="single">

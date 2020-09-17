@@ -2,6 +2,7 @@ package com.anibalventura.anothernote.ui.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.anibalventura.anothernote.data.models.NoteData
 import com.anibalventura.anothernote.databinding.RecyclerviewRowBinding
@@ -41,7 +42,9 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     }
 
     fun setData(noteData: List<NoteData>) {
+        val noteDiffUtil = NoteDiffUtil(dataList, noteData)
+        val noteDiffUtilResult = DiffUtil.calculateDiff(noteDiffUtil)
         this.dataList = noteData
-        notifyDataSetChanged()
+        noteDiffUtilResult.dispatchUpdatesTo(this)
     }
 }
