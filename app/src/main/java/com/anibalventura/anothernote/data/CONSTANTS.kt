@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote
+package com.anibalventura.anothernote.data
 
 class CONST {
     companion object {
@@ -6,7 +6,6 @@ class CONST {
         const val SHOW_ACT = "show_act"
 
         // Preferences.
-        const val USER_NAME = "user_name"
         const val THEME = "theme"
     }
 }

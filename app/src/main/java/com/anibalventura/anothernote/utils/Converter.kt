@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote.data.db
+package com.anibalventura.anothernote.utils
 
 import androidx.room.TypeConverter
 import com.anibalventura.anothernote.data.models.Priority

@@ -27,8 +27,10 @@
             android:focusable="true"
             android:navigateToAddFragment="@{true}"
             android:src="@drawable/ic_add"
+            app:backgroundTint="@color/primaryColor"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@android:color/white" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

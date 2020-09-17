@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote.ui
+package com.anibalventura.anothernote.adapters
 
 import android.os.Build
 import android.view.View

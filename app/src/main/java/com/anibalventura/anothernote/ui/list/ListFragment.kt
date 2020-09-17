@@ -14,17 +14,19 @@ import com.anibalventura.anothernote.data.models.NoteData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentListBinding
-import com.anibalventura.anothernote.hideKeyboard
-import com.anibalventura.anothernote.showToast
 import com.anibalventura.anothernote.ui.list.adapter.ListAdapter
+import com.anibalventura.anothernote.utils.hideKeyboard
+import com.anibalventura.anothernote.utils.showToast
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
+    // ViewModels
     private val noteViewModel: NoteViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
 
+    // DataBinding.
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
 

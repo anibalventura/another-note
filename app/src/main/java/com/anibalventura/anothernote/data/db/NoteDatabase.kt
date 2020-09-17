@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.anibalventura.anothernote.data.models.NoteData
+import com.anibalventura.anothernote.utils.Converter
 
 @Database(entities = [NoteData::class], version = 1, exportSchema = false)
 @TypeConverters(Converter::class)

@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote
+package com.anibalventura.anothernote.utils
 
 import android.app.Activity
 import android.app.Application
@@ -10,6 +10,7 @@ import android.preference.PreferenceManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import com.anibalventura.anothernote.data.CONST
 import kotlinx.coroutines.Dispatchers
 
 class Utils : Application() {
