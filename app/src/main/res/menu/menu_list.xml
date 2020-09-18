@@ -15,11 +15,8 @@
             android:title="@string/list_menu_sort_by">
             <menu>
                 <item
-                    android:id="@+id/list_menu_priority_high"
-                    android:title="@string/list_menu_priority_high" />
-                <item
-                    android:id="@+id/list_menu_priority_low"
-                    android:title="@string/list_menu_priority_low" />
+                    android:id="@+id/list_menu_title"
+                    android:title="@string/list_menu_title" />
             </menu>
         </item>
     </group>

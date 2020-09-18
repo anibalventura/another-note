@@ -17,15 +17,13 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     val getAllData: LiveData<List<NoteData>>
 
-    val sortByHighPriority: LiveData<List<NoteData>>
-    val sortByLowPriority: LiveData<List<NoteData>>
+    val sortByTitle: LiveData<List<NoteData>>
 
     init {
         repository = NoteRepository(noteDao)
         getAllData = repository.getAllData
 
-        sortByHighPriority = repository.sortByHighPriority
-        sortByLowPriority = repository.sortByLowPriority
+        sortByTitle = repository.sortByTitle
     }
 
     fun insertData(noteData: NoteData) {

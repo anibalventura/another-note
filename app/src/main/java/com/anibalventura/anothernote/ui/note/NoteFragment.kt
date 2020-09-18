@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote.ui.list
+package com.anibalventura.anothernote.ui.note
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -13,24 +13,25 @@ import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.data.models.NoteData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
-import com.anibalventura.anothernote.databinding.FragmentListBinding
-import com.anibalventura.anothernote.ui.list.adapter.ListAdapter
+import com.anibalventura.anothernote.databinding.FragmentNoteBinding
+import com.anibalventura.anothernote.ui.note.adapter.NoteAdapter
+import com.anibalventura.anothernote.utils.SwipeToDelete
 import com.anibalventura.anothernote.utils.hideKeyboard
 import com.anibalventura.anothernote.utils.showToast
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
-class ListFragment : Fragment(), SearchView.OnQueryTextListener {
+class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
 
     // ViewModels
     private val noteViewModel: NoteViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
 
     // DataBinding.
-    private var _binding: FragmentListBinding? = null
+    private var _binding: FragmentNoteBinding? = null
     private val binding get() = _binding!!
 
-    private val adapter: ListAdapter by lazy { ListAdapter() }
+    private val adapter: NoteAdapter by lazy { NoteAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +39,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     ): View? {
 
         // DataBinding.
-        _binding = FragmentListBinding.inflate(inflater, container, false)
+        _binding = FragmentNoteBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.sharedViewModel = sharedViewModel
 
@@ -110,10 +111,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.list_menu_delete_all -> confirmDeleteAll()
-            R.id.list_menu_priority_high -> noteViewModel.sortByHighPriority.observe(this, {
-                adapter.setData(it)
-            })
-            R.id.list_menu_priority_low -> noteViewModel.sortByLowPriority.observe(this, {
+            R.id.list_menu_title -> noteViewModel.sortByTitle.observe(this, {
                 adapter.setData(it)
             })
         }

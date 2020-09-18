@@ -37,9 +37,6 @@ class UpdateFragment : Fragment() {
         // Set menu.
         setHasOptionsMenu(true)
 
-        // Spinner selected item.
-        binding.spinnerUpdatePriority.onItemSelectedListener = sharedViewModel.listener
-
         return binding.root
     }
 
@@ -57,18 +54,12 @@ class UpdateFragment : Fragment() {
 
     private fun updateItem() {
         val title = etUpdateTitle.text.toString()
-        val priority = spinnerUpdatePriority.selectedItem.toString()
         val description = etUpdateDescription.text.toString()
 
         when (sharedViewModel.verifyData(title, description)) {
             true -> {
                 // Update current item.
-                val updatedItem = NoteData(
-                    args.currentItem.id,
-                    title,
-                    sharedViewModel.parsePriority(priority),
-                    description
-                )
+                val updatedItem = NoteData(args.currentItem.id, title, description)
                 noteViewModel.updateData(updatedItem)
                 showToast(requireContext(), "Successfully Updated")
                 // Navigate back.

@@ -13,48 +13,32 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="24dp"
         tools:context=".ui.update.UpdateFragment">
 
         <EditText
             android:id="@+id/etUpdateTitle"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:autofillHints=""
             android:background="@drawable/bg_input"
-            android:ems="10"
             android:hint="@string/add_title"
             android:inputType="textPersonName"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
             android:text="@{args.currentItem.title}"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <Spinner
-            android:id="@+id/spinnerUpdatePriority"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_input"
-            android:entries="@array/priority"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:parsePriorityToInt="@{args.currentItem.priority}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etUpdateTitle" />
 
         <EditText
             android:id="@+id/etUpdateDescription"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             android:autofillHints="false"
             android:background="@drawable/bg_input"
-            android:ems="10"
             android:gravity="top|start"
             android:hint="@string/add_description"
             android:inputType="textMultiLine"
@@ -62,11 +46,25 @@
             android:paddingTop="16dp"
             android:paddingEnd="24dp"
             android:text="@{args.currentItem.description}"
+            android:textAlignment="textStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerUpdatePriority" />
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="#4D000000"
+            app:layout_constraintBottom_toTopOf="@+id/etUpdateDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etUpdateTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

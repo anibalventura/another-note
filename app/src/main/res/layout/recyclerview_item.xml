@@ -28,18 +28,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvPriorityIndicator"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:parsePriorityColor="@{noteData.priority}"
-                app:cardCornerRadius="100dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:cardBackgroundColor="@color/priorityHigh" />
-
             <TextView
                 android:id="@+id/tvListTitle"
                 android:layout_width="0dp"
@@ -48,9 +36,9 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@{noteData.title}"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/cvPriorityIndicator"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Title" />
@@ -65,6 +53,7 @@
                 android:maxLength="300"
                 android:maxLines="5"
                 android:text="@{noteData.description}"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

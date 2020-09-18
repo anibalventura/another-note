@@ -11,7 +11,6 @@ import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.utils.showToast
 import kotlinx.android.synthetic.main.fragment_add.*
-import kotlinx.android.synthetic.main.fragment_add.view.*
 
 class AddFragment : Fragment() {
 
@@ -29,9 +28,6 @@ class AddFragment : Fragment() {
         // Set menu.
         setHasOptionsMenu(true)
 
-        // Set color of priority.
-        view.spinnerAddPriority.onItemSelectedListener = sharedViewModel.listener
-
         return view
     }
 
@@ -48,14 +44,13 @@ class AddFragment : Fragment() {
 
     private fun insertDataToDb() {
         val title = tvAddTitle.text.toString()
-        val priority = spinnerAddPriority.selectedItem.toString()
         val description = etAddNote.text.toString()
 
         when (sharedViewModel.verifyData(title, description)) {
             true -> {
                 // Insert data to database.
                 val newData =
-                    NoteData(0, title, sharedViewModel.parsePriority(priority), description)
+                    NoteData(0, title, description)
                 noteViewModel.insertData(newData)
                 showToast(requireContext(), "Note added.")
                 // Navigate back.

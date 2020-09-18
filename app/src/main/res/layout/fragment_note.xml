@@ -14,7 +14,9 @@
         android:id="@+id/listLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.list.ListFragment">
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        tools:context=".ui.note.NoteFragment">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
@@ -45,12 +47,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/ivNoData"
+            android:id="@+id/ivNoNotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/list_image_no_date"
+            android:contentDescription="@string/list_image_no_data"
             android:emptyDatabase="@{sharedViewModel.emptyDatabase}"
-            android:src="@drawable/ic_no_data"
+            android:src="@drawable/ic_no_notes"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,15 +61,15 @@
             app:layout_constraintVertical_bias="0.35000002" />
 
         <TextView
-            android:id="@+id/tvNoData"
-            android:layout_width="53dp"
-            android:layout_height="17dp"
+            android:id="@+id/tvNoNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="12dp"
             android:emptyDatabase="@{sharedViewModel.emptyDatabase}"
-            android:text="@string/list_no_data"
+            android:text="@string/list_no_notes"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivNoData" />
+            app:layout_constraintTop_toBottomOf="@+id/ivNoNotes" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

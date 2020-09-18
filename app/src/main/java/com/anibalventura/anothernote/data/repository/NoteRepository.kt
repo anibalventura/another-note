@@ -8,8 +8,7 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     val getAllData: LiveData<List<NoteData>> = noteDao.getAllData()
 
-    val sortByHighPriority: LiveData<List<NoteData>> = noteDao.sortByHighPriority()
-    val sortByLowPriority: LiveData<List<NoteData>> = noteDao.sortByLowPriority()
+    val sortByTitle: LiveData<List<NoteData>> = noteDao.sortByTitle()
 
     suspend fun insertData(noteData: NoteData) {
         noteDao.insertData(noteData)

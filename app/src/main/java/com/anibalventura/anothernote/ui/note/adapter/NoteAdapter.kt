@@ -1,17 +1,17 @@
-package com.anibalventura.anothernote.ui.list.adapter
+package com.anibalventura.anothernote.ui.note.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.anibalventura.anothernote.data.models.NoteData
-import com.anibalventura.anothernote.databinding.RecyclerviewRowBinding
+import com.anibalventura.anothernote.databinding.RecyclerviewItemBinding
 
-class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
+class NoteAdapter : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
 
     var dataList = emptyList<NoteData>()
 
-    class MyViewHolder(private val binding: RecyclerviewRowBinding) :
+    class MyViewHolder(private val binding: RecyclerviewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(noteData: NoteData) {
@@ -22,7 +22,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         companion object {
             fun from(parent: ViewGroup): MyViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = RecyclerviewRowBinding.inflate(layoutInflater, parent, false)
+                val binding = RecyclerviewItemBinding.inflate(layoutInflater, parent, false)
                 return MyViewHolder(binding)
             }
         }
