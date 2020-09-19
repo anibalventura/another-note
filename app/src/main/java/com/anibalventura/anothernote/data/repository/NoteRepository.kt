@@ -1,7 +1,7 @@
 package com.anibalventura.anothernote.data.repository
 
 import androidx.lifecycle.LiveData
-import com.anibalventura.anothernote.data.db.NoteDao
+import com.anibalventura.anothernote.data.db.note.NoteDao
 import com.anibalventura.anothernote.data.models.NoteData
 
 class NoteRepository(private val noteDao: NoteDao) {

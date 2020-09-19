@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/update_menu_save"
         android:icon="@drawable/ic_save"
         android:title="@string/update_menu_save"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/update_menu_archive"
+        android:icon="@drawable/ic_archive"
+        android:title="@string/update_menu_archive"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/update_menu_delete"

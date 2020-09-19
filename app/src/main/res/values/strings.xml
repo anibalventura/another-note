@@ -33,4 +33,11 @@
         https://play.google.com/store/apps/details?id=com.anibalventura.anothernote</string>
     <string name="menu_archive">Archive</string>
     <string name="list_menu_title">Title</string>
+    <string name="view_trash_menu_restore">Restore</string>
+    <string name="view_trash_menu_delete">Delete forever</string>
+    <string name="update_menu_archive">Archive</string>
+    <string name="archive_menu_search">Search</string>
+    <string name="archive_menu_delete_all">Delete all</string>
+    <string name="archive_update_menu_delete">Delete</string>
+    <string name="archive_update_menu_save">Save</string>
 </resources>

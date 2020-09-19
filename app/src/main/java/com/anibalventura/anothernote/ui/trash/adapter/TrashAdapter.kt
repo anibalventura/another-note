@@ -1,28 +1,28 @@
-package com.anibalventura.anothernote.ui.note.adapter
+package com.anibalventura.anothernote.ui.trash.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.anibalventura.anothernote.data.models.NoteData
-import com.anibalventura.anothernote.databinding.RecyclerviewNoteBinding
+import com.anibalventura.anothernote.data.models.TrashData
+import com.anibalventura.anothernote.databinding.RecyclerviewTrashBinding
 
-class NoteAdapter : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
+class TrashAdapter : RecyclerView.Adapter<TrashAdapter.MyViewHolder>() {
 
-    var dataList = emptyList<NoteData>()
+    private var dataList = emptyList<TrashData>()
 
-    class MyViewHolder(private val binding: RecyclerviewNoteBinding) :
+    class MyViewHolder(private val binding: RecyclerviewTrashBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(noteData: NoteData) {
-            binding.noteData = noteData
+        fun bind(trashData: TrashData) {
+            binding.trashData = trashData
             binding.executePendingBindings()
         }
 
         companion object {
             fun from(parent: ViewGroup): MyViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = RecyclerviewNoteBinding.inflate(layoutInflater, parent, false)
+                val binding = RecyclerviewTrashBinding.inflate(layoutInflater, parent, false)
                 return MyViewHolder(binding)
             }
         }
@@ -41,10 +41,10 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
         holder.bind(currentItem)
     }
 
-    fun setData(noteData: List<NoteData>) {
-        val noteDiffUtil = NoteDiffUtil(dataList, noteData)
-        val noteDiffUtilResult = DiffUtil.calculateDiff(noteDiffUtil)
-        this.dataList = noteData
-        noteDiffUtilResult.dispatchUpdatesTo(this)
+    fun setData(trashData: List<TrashData>) {
+        val trashDiffUtil = TrashDiffUtil(dataList, trashData)
+        val trashDiffUtilResult = DiffUtil.calculateDiff(trashDiffUtil)
+        this.dataList = trashData
+        trashDiffUtilResult.dispatchUpdatesTo(this)
     }
 }

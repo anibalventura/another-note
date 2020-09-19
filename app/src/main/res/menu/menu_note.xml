@@ -12,7 +12,9 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/list_menu_sort_by"
-            android:title="@string/list_menu_sort_by">
+            android:icon="@drawable/ic_sort"
+            android:title="@string/list_menu_sort_by"
+            app:showAsAction="ifRoom">
             <menu>
                 <item
                     android:id="@+id/list_menu_title"

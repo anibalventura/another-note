@@ -1,28 +1,28 @@
-package com.anibalventura.anothernote.ui.note.adapter
+package com.anibalventura.anothernote.ui.archive.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.anibalventura.anothernote.data.models.NoteData
-import com.anibalventura.anothernote.databinding.RecyclerviewNoteBinding
+import com.anibalventura.anothernote.data.models.ArchiveData
+import com.anibalventura.anothernote.databinding.RecyclerviewArchiveBinding
 
-class NoteAdapter : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
+class ArchiveAdapter : RecyclerView.Adapter<ArchiveAdapter.MyViewHolder>() {
 
-    var dataList = emptyList<NoteData>()
+    var dataList = emptyList<ArchiveData>()
 
-    class MyViewHolder(private val binding: RecyclerviewNoteBinding) :
+    class MyViewHolder(private val binding: RecyclerviewArchiveBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(noteData: NoteData) {
-            binding.noteData = noteData
+        fun bind(archiveData: ArchiveData) {
+            binding.archiveData = archiveData
             binding.executePendingBindings()
         }
 
         companion object {
             fun from(parent: ViewGroup): MyViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = RecyclerviewNoteBinding.inflate(layoutInflater, parent, false)
+                val binding = RecyclerviewArchiveBinding.inflate(layoutInflater, parent, false)
                 return MyViewHolder(binding)
             }
         }
@@ -41,10 +41,10 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
         holder.bind(currentItem)
     }
 
-    fun setData(noteData: List<NoteData>) {
-        val noteDiffUtil = NoteDiffUtil(dataList, noteData)
-        val noteDiffUtilResult = DiffUtil.calculateDiff(noteDiffUtil)
-        this.dataList = noteData
-        noteDiffUtilResult.dispatchUpdatesTo(this)
+    fun setData(archiveData: List<ArchiveData>) {
+        val archiveDiffUtil = ArchiveDiffUtil(dataList, archiveData)
+        val archiveDiffUtilResult = DiffUtil.calculateDiff(archiveDiffUtil)
+        this.dataList = archiveData
+        archiveDiffUtilResult.dispatchUpdatesTo(this)
     }
 }

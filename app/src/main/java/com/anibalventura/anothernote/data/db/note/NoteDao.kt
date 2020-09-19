@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote.data.db
+package com.anibalventura.anothernote.data.db.note
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

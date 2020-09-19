@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote.ui.update
+package com.anibalventura.anothernote.ui.viewtrash
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -13,19 +13,19 @@ import com.anibalventura.anothernote.data.models.TrashData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
-import com.anibalventura.anothernote.databinding.FragmentUpdateBinding
+import com.anibalventura.anothernote.databinding.FragmentViewTrashBinding
 import com.anibalventura.anothernote.utils.showToast
-import kotlinx.android.synthetic.main.fragment_update.*
+import kotlinx.android.synthetic.main.fragment_view_trash.*
 
-class UpdateFragment : Fragment() {
+class ViewTrashFragment : Fragment() {
 
-    private val args by navArgs<UpdateFragmentArgs>()
+    private val args by navArgs<ViewTrashFragmentArgs>()
 
     private val sharedViewModel: SharedViewModel by viewModels()
     private val noteViewModel: NoteViewModel by viewModels()
     private val trashViewModel: TrashViewModel by viewModels()
 
-    private var _binding: FragmentUpdateBinding? = null
+    private var _binding: FragmentViewTrashBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class UpdateFragment : Fragment() {
     ): View? {
 
         // DataBinding.
-        _binding = FragmentUpdateBinding.inflate(inflater, container, false)
+        _binding = FragmentViewTrashBinding.inflate(inflater, container, false)
         binding.args = args
 
         // Set menu.
@@ -44,48 +44,49 @@ class UpdateFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_update, menu)
+        inflater.inflate(R.menu.menu_view_trash, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.update_menu_save -> updateItem()
-            R.id.update_menu_delete -> confirmDeleteItem()
+            R.id.view_trash_menu_restore -> restoreItem()
+            R.id.view_trash_menu_delete -> deleteForever()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun updateItem() {
-        val title = etUpdateTitle.text.toString()
-        val description = etUpdateDescription.text.toString()
+    private fun restoreItem() {
+        val title = etViewTrashTitle.text.toString()
+        val description = etViewTrashDescription.text.toString()
 
         when (sharedViewModel.verifyData(title, description)) {
             true -> {
                 // Update current item.
-                val updatedItem = NoteData(args.currentItem.id, title, description)
-                noteViewModel.updateData(updatedItem)
-                showToast(requireContext(), "Successfully Updated")
+                val restoreItem = NoteData(args.currentItem.id, title, description)
+                val deletedItem = TrashData(args.currentItem.id, title, description)
+
+                trashViewModel.deleteItem(deletedItem)
+                noteViewModel.insertData(restoreItem)
+                showToast(requireContext(), "Successfully Restored")
                 // Navigate back.
-                findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+                findNavController().navigate(R.id.action_viewTrashFragment_to_trashFragment)
             }
-            else -> showToast(requireContext(), "Please fill out all the fields.")
         }
     }
 
     // Show dialog to confirm delete item.
-    private fun confirmDeleteItem() {
+    private fun deleteForever() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setTitle("Delete Note")
-        dialogBuilder.setMessage("Are you sure you want to delete \"${args.currentItem.title}\"?")
+        dialogBuilder.setTitle("Delete Forever")
+        dialogBuilder.setMessage("Are you sure you want to delete \"${args.currentItem.title}\" forever?")
         dialogBuilder.setPositiveButton("Yes") { _, _ ->
 
             val trashItem =
                 TrashData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
 
-            trashViewModel.insertData(trashItem)
-            noteViewModel.deleteItem(args.currentItem)
-            showToast(requireContext(), "Successfully deleted \"${args.currentItem.title}\"")
-            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            trashViewModel.deleteItem(trashItem)
+            showToast(requireContext(), "Successfully deleted forever\"${args.currentItem.title}\"")
+            findNavController().navigate(R.id.action_viewTrashFragment_to_trashFragment)
         }
         dialogBuilder.setNegativeButton("No") { _, _ -> }
         dialogBuilder.show()
