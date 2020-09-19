@@ -5,6 +5,16 @@
     <color name="accentColor">#FEBD02</color>
     <color name="primaryTextColor">#FFFFFF</color>
     <color name="secondaryTextColor">#000000</color>
-    <color name="iconColor">#44433F</color>
+    <color name="navDrawerMenuIconColor">#44433F</color>
     <color name="splash">#FFFFFF</color>
+
+
+    <color name="state">
+        <selector xmlns:android="http://schemas.android.com/apk/res/android">
+            <!-- This is used when the Navigation Item is checked -->
+            <item android:color="#009688" android:state_checked="true" />
+            <!-- This is the default text color -->
+            <item android:color="#FEBD02" />
+        </selector>
+    </color>
 </resources>

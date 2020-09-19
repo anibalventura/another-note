@@ -69,7 +69,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun setupRecyclerView() {
-        val recyclerView = binding.recyclerView
+        val recyclerView = binding.noteRecyclerView
         recyclerView.adapter = adapter
 //        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.layoutManager =
