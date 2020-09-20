@@ -81,7 +81,7 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.list_menu_delete_all -> confirmDeleteAll()
+            R.id.note_menu_delete_all -> confirmDeleteAll()
         }
         return super.onOptionsItemSelected(item)
     }

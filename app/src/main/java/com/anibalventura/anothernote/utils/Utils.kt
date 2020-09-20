@@ -1,36 +1,15 @@
 package com.anibalventura.anothernote.utils
 
 import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Resources
 import android.preference.PreferenceManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import com.anibalventura.anothernote.data.CONST
 import kotlinx.coroutines.Dispatchers
-
-class Utils : Application() {
-
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
-        resourses = resources
-    }
-
-    companion object {
-        /*
-         * Get app resources anywhere in the app.
-         */
-        var instance: Utils? = null
-            private set
-        var resourses: Resources? = null
-            private set
-    }
-}
 
 /*
 * SharedPreferences.
