@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote.ui.update
+package com.anibalventura.anothernote.ui.note
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -13,19 +13,19 @@ import com.anibalventura.anothernote.data.models.TrashData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
-import com.anibalventura.anothernote.databinding.FragmentUpdateBinding
+import com.anibalventura.anothernote.databinding.FragmentNoteUpdateBinding
 import com.anibalventura.anothernote.utils.showToast
-import kotlinx.android.synthetic.main.fragment_update.*
+import kotlinx.android.synthetic.main.fragment_note_update.*
 
-class UpdateFragment : Fragment() {
+class NoteUpdateFragment : Fragment() {
 
-    private val args by navArgs<UpdateFragmentArgs>()
+    private val args by navArgs<NoteUpdateFragmentArgs>()
 
     private val sharedViewModel: SharedViewModel by viewModels()
     private val noteViewModel: NoteViewModel by viewModels()
     private val trashViewModel: TrashViewModel by viewModels()
 
-    private var _binding: FragmentUpdateBinding? = null
+    private var _binding: FragmentNoteUpdateBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class UpdateFragment : Fragment() {
     ): View? {
 
         // DataBinding.
-        _binding = FragmentUpdateBinding.inflate(inflater, container, false)
+        _binding = FragmentNoteUpdateBinding.inflate(inflater, container, false)
         binding.args = args
 
         // Set menu.
@@ -44,13 +44,13 @@ class UpdateFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_update, menu)
+        inflater.inflate(R.menu.menu_note_update, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.update_menu_save -> updateItem()
-            R.id.update_menu_delete -> confirmDeleteItem()
+            R.id.archive_update_menu_delete -> confirmDeleteItem()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -61,7 +61,7 @@ class UpdateFragment : Fragment() {
 
         when (sharedViewModel.verifyData(title, description)) {
             true -> {
-                // Update current item.
+                // Update current navdrawer_selector.
                 val updatedItem = NoteData(args.currentItem.id, title, description)
                 noteViewModel.updateData(updatedItem)
                 showToast(requireContext(), "Successfully Updated")
@@ -72,7 +72,7 @@ class UpdateFragment : Fragment() {
         }
     }
 
-    // Show dialog to confirm delete item.
+    // Show dialog to confirm delete navdrawer_selector.
     private fun confirmDeleteItem() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setTitle("Delete Note")

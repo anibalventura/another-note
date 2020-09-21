@@ -4,19 +4,16 @@
     <item
         android:id="@+id/noteFragment"
         android:icon="@drawable/ic_note"
-        android:tint="@color/navDrawerMenuIconColor"
         android:title="@string/menu_notes" />
 
     <item
         android:id="@+id/archiveFragment"
         android:icon="@drawable/ic_archive"
-        android:tint="@color/navDrawerMenuIconColor"
         android:title="@string/menu_archive" />
 
     <item
         android:id="@+id/trashFragment"
         android:icon="@drawable/ic_trash"
-        android:tint="@color/navDrawerMenuIconColor"
         android:title="@string/menu_trash" />
 
     <item android:title="@string/menu_group_app">
@@ -24,17 +21,14 @@
             <item
                 android:id="@+id/shareAppFragment"
                 android:icon="@drawable/ic_share_app"
-                android:tint="@color/navDrawerMenuIconColor"
                 android:title="@string/menu_share" />
             <item
                 android:id="@+id/aboutFragment"
                 android:icon="@drawable/ic_about"
-                android:tint="@color/navDrawerMenuIconColor"
                 android:title="@string/menu_about" />
             <item
                 android:id="@+id/settingsActivity"
                 android:icon="@drawable/ic_settings"
-                android:tint="@color/navDrawerMenuIconColor"
                 android:title="@string/menu_settings" />
         </menu>
     </item>

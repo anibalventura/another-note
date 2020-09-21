@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote.ui.add
+package com.anibalventura.anothernote.ui.note
 
 import android.os.Bundle
 import android.view.*
@@ -10,9 +10,9 @@ import com.anibalventura.anothernote.data.models.NoteData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.utils.showToast
-import kotlinx.android.synthetic.main.fragment_add.*
+import kotlinx.android.synthetic.main.fragment_note_add.*
 
-class AddFragment : Fragment() {
+class NoteAddFragment : Fragment() {
 
     private val noteViewModel: NoteViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
@@ -23,7 +23,7 @@ class AddFragment : Fragment() {
     ): View? {
 
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_add, container, false)
+        val view = inflater.inflate(R.layout.fragment_note_add, container, false)
 
         // Set menu.
         setHasOptionsMenu(true)
@@ -32,7 +32,7 @@ class AddFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_add, menu)
+        inflater.inflate(R.menu.menu_note_add, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

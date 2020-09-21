@@ -7,23 +7,24 @@
 
         <variable
             name="args"
-            type="com.anibalventura.anothernote.ui.update.UpdateFragmentArgs" />
+            type="com.anibalventura.anothernote.ui.trash.TrashLookFragmentArgs" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.update.UpdateFragment">
+        tools:context=".ui.note.NoteUpdateFragment">
 
         <EditText
-            android:id="@+id/etUpdateTitle"
+            android:id="@+id/etViewTrashTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:autofillHints=""
             android:background="@drawable/bg_input"
-            android:hint="@string/add_title"
-            android:inputType="textPersonName"
+            android:focusable="auto"
+            android:focusableInTouchMode="false"
+            android:hint="@string/note_add_title"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
             android:text="@{args.currentItem.title}"
@@ -31,17 +32,18 @@
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:inputType="none" />
 
         <EditText
-            android:id="@+id/etUpdateDescription"
+            android:id="@+id/etViewTrashDescription"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autofillHints="false"
             android:background="@drawable/bg_input"
+            android:focusableInTouchMode="false"
             android:gravity="top|start"
-            android:hint="@string/add_description"
-            android:inputType="textMultiLine"
+            android:hint="@string/note_add_description"
             android:paddingStart="24dp"
             android:paddingTop="16dp"
             android:paddingEnd="24dp"
@@ -51,7 +53,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            android:inputType="none" />
 
         <View
             android:id="@+id/view"
@@ -61,10 +64,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:background="#4D000000"
-            app:layout_constraintBottom_toTopOf="@+id/etUpdateDescription"
+            app:layout_constraintBottom_toTopOf="@+id/etViewTrashDescription"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etUpdateTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/etViewTrashTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -34,7 +34,7 @@
             android:id="@+id/ivNoNotes"
             android:layout_width="120dp"
             android:layout_height="140dp"
-            android:contentDescription="@string/list_image_no_data"
+            android:contentDescription="@string/no_data"
             android:emptyDatabase="@{sharedViewModel.emptyDatabase}"
             android:src="@drawable/ic_trash"
             android:visibility="invisible"

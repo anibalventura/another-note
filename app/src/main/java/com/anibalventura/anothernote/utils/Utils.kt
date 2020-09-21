@@ -4,11 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
-import com.anibalventura.anothernote.data.CONST
+import androidx.preference.PreferenceManager
+import com.anibalventura.anothernote.CONST
 import kotlinx.coroutines.Dispatchers
 
 /*

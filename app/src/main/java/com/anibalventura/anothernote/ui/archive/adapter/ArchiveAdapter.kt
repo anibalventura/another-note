@@ -9,7 +9,7 @@ import com.anibalventura.anothernote.databinding.RecyclerviewArchiveBinding
 
 class ArchiveAdapter : RecyclerView.Adapter<ArchiveAdapter.MyViewHolder>() {
 
-    var dataList = emptyList<ArchiveData>()
+    private var dataList = emptyList<ArchiveData>()
 
     class MyViewHolder(private val binding: RecyclerviewArchiveBinding) :
         RecyclerView.ViewHolder(binding.root) {

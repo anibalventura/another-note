@@ -10,7 +10,6 @@ import com.anibalventura.anothernote.data.models.TrashData
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
-    /** ============================= ListFragment ============================= **/
     val emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun checkIfNoteIsEmpty(noteData: List<NoteData>) {

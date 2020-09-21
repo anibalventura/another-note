@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote.ui.archiveupdate
+package com.anibalventura.anothernote.ui.archive
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -62,7 +62,7 @@ class ArchiveUpdateFragment : Fragment() {
 
         when (sharedViewModel.verifyData(title, description)) {
             true -> {
-                // Update current item.
+                // Update current navdrawer_selector.
                 val updatedItem = ArchiveData(args.currentItem.id, title, description)
                 archiveViewModel.updateData(updatedItem)
                 showToast(requireContext(), "Successfully Updated")
@@ -79,7 +79,7 @@ class ArchiveUpdateFragment : Fragment() {
 
         when (sharedViewModel.verifyData(title, description)) {
             true -> {
-                // Update current item.
+                // Update current navdrawer_selector.
                 val unarchiveItem = NoteData(args.currentItem.id, title, description)
                 val deletedItem = ArchiveData(args.currentItem.id, title, description)
 
@@ -92,7 +92,7 @@ class ArchiveUpdateFragment : Fragment() {
         }
     }
 
-    // Show dialog to confirm delete item.
+    // Show dialog to confirm delete navdrawer_selector.
     private fun confirmDeleteItem() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setTitle("Delete Note")

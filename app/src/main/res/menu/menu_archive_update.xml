@@ -10,7 +10,7 @@
     <item
         android:id="@+id/archive_update_menu_unarchive"
         android:icon="@drawable/ic_unarchive"
-        android:title="@string/view_trash_menu_restore"
+        android:title="@string/trash_look_menu_restore"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/archive_update_menu_delete"

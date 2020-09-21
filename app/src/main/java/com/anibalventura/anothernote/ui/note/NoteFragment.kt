@@ -7,15 +7,16 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.invalidateOptionsMenu
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.anibalventura.anothernote.CONST
 import com.anibalventura.anothernote.R
-import com.anibalventura.anothernote.data.CONST
 import com.anibalventura.anothernote.data.models.ArchiveData
 import com.anibalventura.anothernote.data.models.NoteData
 import com.anibalventura.anothernote.data.models.TrashData
@@ -45,7 +46,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
     private val binding get() = _binding!!
 
     // Adapter.
-    private val adapter: NoteAdapter by lazy { NoteAdapter("note") }
+    private val adapter: NoteAdapter by lazy { NoteAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -103,11 +104,11 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         when (direction) {
             CONST.DELETE_ITEM -> {
                 background = ColorDrawable(Color.RED)
-                icon = resources.getDrawable(R.drawable.ic_trash)
+                icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_trash, null)!!
             }
             CONST.ARCHIVE_ITEM -> {
                 background = ColorDrawable(Color.GREEN)
-                icon = resources.getDrawable(R.drawable.ic_archive)
+                icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_archive, null)!!
             }
         }
 
@@ -125,24 +126,17 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
                     adapter.dataList[viewHolder.adapterPosition].title,
                     adapter.dataList[viewHolder.adapterPosition].description
                 )
+
                 when (direction) {
-                    CONST.DELETE_ITEM -> {
-                        // Send item to trash.
-                        trashViewModel.insertData(trashItem)
-
-                        // Delete item.
-                        noteViewModel.deleteItem(deletedItem)
-                        adapter.notifyItemRemoved(viewHolder.adapterPosition)
-                    }
-                    CONST.ARCHIVE_ITEM -> {
-                        // Send item to archive.
-                        archiveViewModel.insertData(archiveItem)
-
-                        // Delete item.
-                        noteViewModel.deleteItem(deletedItem)
-                        adapter.notifyItemRemoved(viewHolder.adapterPosition)
-                    }
+                    // Send navdrawer_selector to trash.
+                    CONST.DELETE_ITEM -> trashViewModel.insertData(trashItem)
+                    // Send navdrawer_selector to archive.
+                    CONST.ARCHIVE_ITEM -> archiveViewModel.insertData(archiveItem)
                 }
+
+                // Delete navdrawer_selector.
+                noteViewModel.deleteItem(deletedItem)
+                adapter.notifyItemRemoved(viewHolder.adapterPosition)
 
                 // Restore data.
                 restoreItem(direction, viewHolder.itemView, deletedItem, archiveItem, trashItem)
@@ -164,22 +158,18 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         trashItem: TrashData
     ) {
         when (direction) {
-            CONST.DELETE_ITEM -> {
-                val snackBar =
-                    Snackbar.make(view, "Deleted \"${deletedItem.title}\"", Snackbar.LENGTH_LONG)
-                snackBar.setAction("Undo") {
-                    noteViewModel.insertData(deletedItem)
-                    trashViewModel.deleteItem(trashItem)
-                }.show()
-            }
-            CONST.ARCHIVE_ITEM -> {
-                val snackBar =
-                    Snackbar.make(view, "Archive \"${deletedItem.title}\"", Snackbar.LENGTH_LONG)
-                snackBar.setAction("Undo") {
-                    noteViewModel.insertData(deletedItem)
-                    archiveViewModel.deleteItem(archiveItem)
-                }.show()
-            }
+            CONST.DELETE_ITEM ->
+                Snackbar.make(view, "Archive \"${deletedItem.title}\"", Snackbar.LENGTH_LONG)
+                    .setAction("Undo") {
+                        noteViewModel.insertData(deletedItem)
+                        trashViewModel.deleteItem(trashItem)
+                    }.show()
+            CONST.ARCHIVE_ITEM ->
+                Snackbar.make(view, "Archive \"${deletedItem.title}\"", Snackbar.LENGTH_LONG)
+                    .setAction("Undo") {
+                        noteViewModel.insertData(deletedItem)
+                        archiveViewModel.deleteItem(archiveItem)
+                    }.show()
         }
     }
 
@@ -222,11 +212,12 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         return super.onOptionsItemSelected(item)
     }
 
+    @Suppress("DEPRECATION")
     private fun changeNoteView(change: Boolean) {
         sharedPref(requireContext()).edit().putBoolean(CONST.NOTE_VIEW, change).apply()
         adapter.notifyDataSetChanged()
         setupRecyclerView()
-        ActivityCompat.invalidateOptionsMenu(requireActivity())
+        invalidateOptionsMenu(requireActivity())
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

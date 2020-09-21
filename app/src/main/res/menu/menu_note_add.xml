@@ -5,6 +5,6 @@
     <item
         android:id="@+id/add_menu_check"
         android:icon="@drawable/ic_check"
-        android:title="@string/add_menu_check"
+        android:title="@string/note_add_menu_check"
         app:showAsAction="always" />
 </menu>

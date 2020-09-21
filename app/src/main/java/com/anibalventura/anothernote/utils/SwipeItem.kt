@@ -31,35 +31,18 @@ abstract class SwipeItem(
         actionState: Int,
         isCurrentlyActive: Boolean
     ) {
-        // Draw the background.
-        drawSwipeBackground(background, direction, viewHolder, canvas, dX)
-
-        // Draw icon.
-        drawIcon(icon, direction, viewHolder, canvas)
-
-        super.onChildDraw(
-            canvas,
-            recyclerView,
-            viewHolder,
-            dX,
-            dY,
-            actionState,
-            isCurrentlyActive
-        )
-    }
-
-    /*
-     * Draw the background for swipe item.
-     */
-    private fun drawSwipeBackground(
-        background: ColorDrawable,
-        direction: Int,
-        viewHolder: RecyclerView.ViewHolder,
-        canvas: Canvas,
-        dX: Float
-    ) {
         val itemView = viewHolder.itemView
 
+        // Calculate icon position.
+        val itemHeight = itemView.bottom - itemView.top
+        val iconMargin = (itemHeight - icon.intrinsicHeight) / 2
+        val iconTop = itemView.top + (itemHeight - icon.intrinsicHeight) / 2
+        val iconBottom = iconTop + icon.intrinsicHeight
+
+
+        /*
+         * Draw background.
+         */
         when (direction) {
             ItemTouchHelper.LEFT -> background.setBounds(
                 itemView.right + dX.toInt(),
@@ -74,28 +57,11 @@ abstract class SwipeItem(
                 itemView.bottom
             )
         }
-
         background.draw(canvas)
-    }
 
-    /*
-     * Calculate and draw icon for swipe item.
-     */
-    private fun drawIcon(
-        icon: Drawable,
-        direction: Int,
-        viewHolder: RecyclerView.ViewHolder,
-        canvas: Canvas
-    ) {
-        // Item.
-        val itemView = viewHolder.itemView
-        val itemHeight = itemView.bottom - itemView.top
-
-        // Icon position.
-        val iconMargin = (itemHeight - icon.intrinsicHeight) / 2
-        val iconTop = itemView.top + (itemHeight - icon.intrinsicHeight) / 2
-        val iconBottom = iconTop + icon.intrinsicHeight
-
+        /*
+         * Draw icon.
+         */
         when (direction) {
             ItemTouchHelper.LEFT -> {
                 val iconLeft = itemView.right - iconMargin - icon.intrinsicWidth
@@ -107,7 +73,16 @@ abstract class SwipeItem(
                 icon.setBounds(iconMargin, iconTop, iconRight, iconBottom)
             }
         }
-
         icon.draw(canvas)
+
+        super.onChildDraw(
+            canvas,
+            recyclerView,
+            viewHolder,
+            dX,
+            dY,
+            actionState,
+            isCurrentlyActive
+        )
     }
 }

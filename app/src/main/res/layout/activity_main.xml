@@ -38,8 +38,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:headerLayout="@layout/nav_header"
-            app:itemTextColor="@color/secondaryTextColor"
+            app:headerLayout="@layout/navdrawer_header"
+            app:itemIconTint="@color/navdrawer_selector"
+            app:itemTextColor="@color/navdrawer_selector"
             app:menu="@menu/navdrawer_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

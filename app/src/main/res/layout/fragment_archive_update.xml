@@ -7,13 +7,13 @@
 
         <variable
             name="args"
-            type="com.anibalventura.anothernote.ui.archiveupdate.ArchiveUpdateFragmentArgs" />
+            type="com.anibalventura.anothernote.ui.archive.ArchiveUpdateFragmentArgs" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.update.UpdateFragment">
+        tools:context=".ui.note.NoteUpdateFragment">
 
         <EditText
             android:id="@+id/etArchiveUpdateTitle"
@@ -22,7 +22,7 @@
             android:layout_marginTop="16dp"
             android:autofillHints=""
             android:background="@drawable/bg_input"
-            android:hint="@string/add_title"
+            android:hint="@string/note_add_title"
             android:inputType="textPersonName"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
@@ -40,7 +40,7 @@
             android:autofillHints="false"
             android:background="@drawable/bg_input"
             android:gravity="top|start"
-            android:hint="@string/add_description"
+            android:hint="@string/note_add_description"
             android:inputType="textMultiLine"
             android:paddingStart="24dp"
             android:paddingTop="16dp"

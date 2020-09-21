@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote.ui.viewtrash
+package com.anibalventura.anothernote.ui.trash
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -13,19 +13,19 @@ import com.anibalventura.anothernote.data.models.TrashData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
-import com.anibalventura.anothernote.databinding.FragmentViewTrashBinding
+import com.anibalventura.anothernote.databinding.FragmentTrashLookBinding
 import com.anibalventura.anothernote.utils.showToast
-import kotlinx.android.synthetic.main.fragment_view_trash.*
+import kotlinx.android.synthetic.main.fragment_trash_look.*
 
-class ViewTrashFragment : Fragment() {
+class TrashLookFragment : Fragment() {
 
-    private val args by navArgs<ViewTrashFragmentArgs>()
+    private val args by navArgs<TrashLookFragmentArgs>()
 
     private val sharedViewModel: SharedViewModel by viewModels()
     private val noteViewModel: NoteViewModel by viewModels()
     private val trashViewModel: TrashViewModel by viewModels()
 
-    private var _binding: FragmentViewTrashBinding? = null
+    private var _binding: FragmentTrashLookBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class ViewTrashFragment : Fragment() {
     ): View? {
 
         // DataBinding.
-        _binding = FragmentViewTrashBinding.inflate(inflater, container, false)
+        _binding = FragmentTrashLookBinding.inflate(inflater, container, false)
         binding.args = args
 
         // Set menu.
@@ -44,7 +44,7 @@ class ViewTrashFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_view_trash, menu)
+        inflater.inflate(R.menu.menu_trash_look, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -61,7 +61,7 @@ class ViewTrashFragment : Fragment() {
 
         when (sharedViewModel.verifyData(title, description)) {
             true -> {
-                // Update current item.
+                // Update current navdrawer_selector.
                 val restoreItem = NoteData(args.currentItem.id, title, description)
                 val deletedItem = TrashData(args.currentItem.id, title, description)
 
@@ -74,7 +74,7 @@ class ViewTrashFragment : Fragment() {
         }
     }
 
-    // Show dialog to confirm delete item.
+    // Show dialog to confirm delete navdrawer_selector.
     private fun deleteForever() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setTitle("Delete Forever")
