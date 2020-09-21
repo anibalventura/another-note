@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/noteFragment"
-        android:icon="@drawable/ic_note"
-        android:title="@string/menu_notes" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/noteFragment"
+            android:icon="@drawable/ic_note"
+            android:title="@string/menu_notes" />
 
-    <item
-        android:id="@+id/archiveFragment"
-        android:icon="@drawable/ic_archive"
-        android:title="@string/menu_archive" />
+        <item
+            android:id="@+id/archiveFragment"
+            android:icon="@drawable/ic_archive"
+            android:title="@string/menu_archive" />
 
-    <item
-        android:id="@+id/trashFragment"
-        android:icon="@drawable/ic_trash"
-        android:title="@string/menu_trash" />
+        <item
+            android:id="@+id/trashFragment"
+            android:icon="@drawable/ic_trash"
+            android:title="@string/menu_trash" />
+    </group>
 
     <item android:title="@string/menu_group_app">
         <menu>

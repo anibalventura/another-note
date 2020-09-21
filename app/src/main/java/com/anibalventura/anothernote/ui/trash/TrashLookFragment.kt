@@ -61,7 +61,7 @@ class TrashLookFragment : Fragment() {
 
         when (sharedViewModel.verifyData(title, description)) {
             true -> {
-                // Update current navdrawer_selector.
+                // Update current note.
                 val restoreItem = NoteData(args.currentItem.id, title, description)
                 val deletedItem = TrashData(args.currentItem.id, title, description)
 
@@ -74,7 +74,7 @@ class TrashLookFragment : Fragment() {
         }
     }
 
-    // Show dialog to confirm delete navdrawer_selector.
+    // Show dialog to confirm delete note.
     private fun deleteForever() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setTitle("Delete Forever")

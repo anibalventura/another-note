@@ -1,11 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/accentColor</item>
         <item name="android:navigationBarColor">@color/primaryColor</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+        <!-- Navdrawer Menu -->
+        <item name="colorNavigationItem">@color/bg_navdrawer_item_color_state</item>
+        <item name="colorNavigationItemSelected">@color/navDrawerSelectedColor</item>
+        <item name="drawableNavigationItemBackground">@drawable/bg_navdrawer_item_state</item>
     </style>
 
     <style name="ToolbarTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -33,6 +37,12 @@
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorControlActivated">@color/accentColor</item>
         <item name="android:navigationBarColor">@color/primaryColor</item>
+    </style>
+
+    <style name="Widget.Custom.NavigationView" parent="Widget.Design.NavigationView">
+        <item name="itemIconTint">?attr/colorNavigationItem</item>
+        <item name="itemTextColor">?attr/colorNavigationItem</item>
+        <item name="itemBackground">?attr/drawableNavigationItemBackground</item>
     </style>
 
 </resources>

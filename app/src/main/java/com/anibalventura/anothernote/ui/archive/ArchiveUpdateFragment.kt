@@ -62,7 +62,7 @@ class ArchiveUpdateFragment : Fragment() {
 
         when (sharedViewModel.verifyData(title, description)) {
             true -> {
-                // Update current navdrawer_selector.
+                // Update current note.
                 val updatedItem = ArchiveData(args.currentItem.id, title, description)
                 archiveViewModel.updateData(updatedItem)
                 showToast(requireContext(), "Successfully Updated")
@@ -79,10 +79,9 @@ class ArchiveUpdateFragment : Fragment() {
 
         when (sharedViewModel.verifyData(title, description)) {
             true -> {
-                // Update current navdrawer_selector.
+                // Update current note.
                 val unarchiveItem = NoteData(args.currentItem.id, title, description)
                 val deletedItem = ArchiveData(args.currentItem.id, title, description)
-
                 archiveViewModel.deleteItem(deletedItem)
                 noteViewModel.insertData(unarchiveItem)
                 showToast(requireContext(), "Successfully Unarchive")
@@ -92,7 +91,7 @@ class ArchiveUpdateFragment : Fragment() {
         }
     }
 
-    // Show dialog to confirm delete navdrawer_selector.
+    // Show dialog to confirm delete note.
     private fun confirmDeleteItem() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setTitle("Delete Note")

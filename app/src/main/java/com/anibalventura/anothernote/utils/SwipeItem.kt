@@ -2,14 +2,13 @@ package com.anibalventura.anothernote.utils
 
 import android.annotation.SuppressLint
 import android.graphics.Canvas
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class SwipeItem(
     private val direction: Int,
-    private val background: ColorDrawable,
+    private val background: Drawable,
     private val icon: Drawable
 ) : ItemTouchHelper.SimpleCallback(0, direction) {
 
@@ -35,25 +34,24 @@ abstract class SwipeItem(
 
         // Calculate icon position.
         val itemHeight = itemView.bottom - itemView.top
-        val iconMargin = (itemHeight - icon.intrinsicHeight) / 2
+        val iconMargin = 55
         val iconTop = itemView.top + (itemHeight - icon.intrinsicHeight) / 2
         val iconBottom = iconTop + icon.intrinsicHeight
-
 
         /*
          * Draw background.
          */
         when (direction) {
             ItemTouchHelper.LEFT -> background.setBounds(
-                itemView.right + dX.toInt(),
+                itemView.left + dX.toInt(),
                 itemView.top,
                 itemView.right,
                 itemView.bottom
             )
             ItemTouchHelper.RIGHT -> background.setBounds(
-                itemView.left + dX.toInt(),
-                itemView.top,
                 itemView.left,
+                itemView.top,
+                itemView.right + dX.toInt(),
                 itemView.bottom
             )
         }

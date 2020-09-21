@@ -2,6 +2,7 @@ package com.anibalventura.anothernote.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -58,5 +59,14 @@ class MainActivity : AppCompatActivity() {
 
         // Setup the left drawer (called a NavigationView).
         binding.navigationView.setupWithNavController(navController)
+    }
+
+    override fun onBackPressed() {
+        // When drawer is open and press back button, close the drawer instead of close the app.
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 }

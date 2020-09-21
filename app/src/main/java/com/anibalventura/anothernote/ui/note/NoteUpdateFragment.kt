@@ -61,7 +61,7 @@ class NoteUpdateFragment : Fragment() {
 
         when (sharedViewModel.verifyData(title, description)) {
             true -> {
-                // Update current navdrawer_selector.
+                // Update current note.
                 val updatedItem = NoteData(args.currentItem.id, title, description)
                 noteViewModel.updateData(updatedItem)
                 showToast(requireContext(), "Successfully Updated")
@@ -72,7 +72,7 @@ class NoteUpdateFragment : Fragment() {
         }
     }
 
-    // Show dialog to confirm delete navdrawer_selector.
+    // Show dialog to confirm delete note.
     private fun confirmDeleteItem() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setTitle("Delete Note")

@@ -36,6 +36,6 @@
     <string name="archive_update_menu_delete">Delete</string>
     <string name="archive_update_menu_save">Save</string>
     <string name="archive_no_notes">Your archived noted appear here.</string>
-    <string name="trash_no_notes">No notes in Trash</string>
+    <string name="trash_no_notes">No notes in Trash.</string>
     <string name="note_menu_change_view">Change View</string>
 </resources>

@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#FEBD02</color>
-    <color name="primaryDarkColor">#FEBD02</color>
-    <color name="accentColor">#FEBD02</color>
+    <!-- App -->
+    <color name="primaryColor">#FFCB35</color>
+    <color name="primaryDarkColor">@color/primaryColor</color>
+    <color name="accentColor">@color/primaryColor</color>
     <color name="primaryTextColor">#FFFFFF</color>
     <color name="secondaryTextColor">#000000</color>
-    <color name="navDrawerMenuIconColor">#443F3F</color>
-    <color name="settingsIconColor">#443F3F</color>
     <color name="splash">#FFFFFF</color>
+
+    <!-- Swipe -->
+    <color name="swipeDeleteColor">#FF3535</color>
+    <color name="swipeArchiveColor">#3EB623</color>
+
+    <!-- NavDrawer -->
+    <color name="navDrawerSelectedColor">#000000</color>
+    <color name="navDrawerSelectedBackground">#51FFBF00</color>
+    <color name="navDrawerUnselectedColor">#444444</color>
+
+    <!-- Settings -->
+    <color name="settingsIconColor">#3B3B3B</color>
 </resources>

@@ -1,8 +1,6 @@
 package com.anibalventura.anothernote.ui.note
 
 import android.app.AlertDialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
@@ -90,24 +88,26 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
             addDuration = 300 // Milliseconds
         }
 
-        // Swipe to archive.
-        swipeToArchiveOrDelete(CONST.ARCHIVE_ITEM, recyclerView)
-
         // Swipe to delete.
         swipeToArchiveOrDelete(CONST.DELETE_ITEM, recyclerView)
+
+        // Swipe to archive.
+        swipeToArchiveOrDelete(CONST.ARCHIVE_ITEM, recyclerView)
     }
 
     private fun swipeToArchiveOrDelete(direction: Int, recyclerView: RecyclerView) {
-        lateinit var background: ColorDrawable
+        lateinit var background: Drawable
         lateinit var icon: Drawable
 
         when (direction) {
             CONST.DELETE_ITEM -> {
-                background = ColorDrawable(Color.RED)
+                background =
+                    ResourcesCompat.getDrawable(resources, R.drawable.bg_swipe_delete, null)!!
                 icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_trash, null)!!
             }
             CONST.ARCHIVE_ITEM -> {
-                background = ColorDrawable(Color.GREEN)
+                background =
+                    ResourcesCompat.getDrawable(resources, R.drawable.bg_swipe_archive, null)!!
                 icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_archive, null)!!
             }
         }
@@ -128,13 +128,13 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
                 )
 
                 when (direction) {
-                    // Send navdrawer_selector to trash.
+                    // Send note to trash.
                     CONST.DELETE_ITEM -> trashViewModel.insertData(trashItem)
-                    // Send navdrawer_selector to archive.
+                    // Send note to archive.
                     CONST.ARCHIVE_ITEM -> archiveViewModel.insertData(archiveItem)
                 }
 
-                // Delete navdrawer_selector.
+                // Delete note.
                 noteViewModel.deleteItem(deletedItem)
                 adapter.notifyItemRemoved(viewHolder.adapterPosition)
 
