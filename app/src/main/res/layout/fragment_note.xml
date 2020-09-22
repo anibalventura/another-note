@@ -27,7 +27,7 @@
             android:layout_marginBottom="24dp"
             android:clickable="true"
             android:focusable="true"
-            android:navigateToAddFragment="@{true}"
+            android:navigateToNoteAddFragment="@{true}"
             android:src="@drawable/ic_add"
             app:backgroundTint="@color/primaryColor"
             app:layout_constraintBottom_toBottomOf="parent"

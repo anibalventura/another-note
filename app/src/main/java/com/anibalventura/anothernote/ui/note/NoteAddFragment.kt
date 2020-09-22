@@ -32,12 +32,14 @@ class NoteAddFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_note_add, menu)
+        inflater.inflate(R.menu.menu_note, menu)
+        // Enable required options.
+        menu.findItem(R.id.menu_note_save).setEnabled(true).isVisible = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.add_menu_check -> insertDataToDb()
+            R.id.menu_note_save -> insertDataToDb()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -54,7 +56,7 @@ class NoteAddFragment : Fragment() {
                 noteViewModel.insertData(newData)
                 showToast(requireContext(), "Note added.")
                 // Navigate back.
-                findNavController().navigate(R.id.action_addFragment_to_listFragment)
+                findNavController().navigate(R.id.action_noteAddFragment_to_noteFragment)
             }
             else -> showToast(requireContext(), "Please fill out all fields.")
         }

@@ -13,19 +13,19 @@ import com.anibalventura.anothernote.data.models.TrashData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
-import com.anibalventura.anothernote.databinding.FragmentTrashLookBinding
+import com.anibalventura.anothernote.databinding.FragmentTrashUpdateBinding
 import com.anibalventura.anothernote.utils.showToast
-import kotlinx.android.synthetic.main.fragment_trash_look.*
+import kotlinx.android.synthetic.main.fragment_trash_update.*
 
-class TrashLookFragment : Fragment() {
+class TrashUpdateFragment : Fragment() {
 
-    private val args by navArgs<TrashLookFragmentArgs>()
+    private val args by navArgs<TrashUpdateFragmentArgs>()
 
     private val sharedViewModel: SharedViewModel by viewModels()
     private val noteViewModel: NoteViewModel by viewModels()
     private val trashViewModel: TrashViewModel by viewModels()
 
-    private var _binding: FragmentTrashLookBinding? = null
+    private var _binding: FragmentTrashUpdateBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class TrashLookFragment : Fragment() {
     ): View? {
 
         // DataBinding.
-        _binding = FragmentTrashLookBinding.inflate(inflater, container, false)
+        _binding = FragmentTrashUpdateBinding.inflate(inflater, container, false)
         binding.args = args
 
         // Set menu.
@@ -44,13 +44,16 @@ class TrashLookFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_trash_look, menu)
+        inflater.inflate(R.menu.menu_note, menu)
+        // Enable required options.
+        menu.findItem(R.id.menu_note_restore).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_note_delete_forever).setEnabled(true).isVisible = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.view_trash_menu_restore -> restoreItem()
-            R.id.view_trash_menu_delete -> deleteForever()
+            R.id.menu_note_restore -> restoreItem()
+            R.id.menu_note_delete_forever -> deleteForever()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -69,7 +72,7 @@ class TrashLookFragment : Fragment() {
                 noteViewModel.insertData(restoreItem)
                 showToast(requireContext(), getString(R.string.successfully_restore))
                 // Navigate back.
-                findNavController().navigate(R.id.action_viewTrashFragment_to_trashFragment)
+                findNavController().navigate(R.id.action_trashUpdateFragment_to_trashFragment)
             }
         }
     }
@@ -86,7 +89,7 @@ class TrashLookFragment : Fragment() {
 
             trashViewModel.deleteItem(trashItem)
             showToast(requireContext(), getString(R.string.successfully_deleted_forever))
-            findNavController().navigate(R.id.action_viewTrashFragment_to_trashFragment)
+            findNavController().navigate(R.id.action_trashUpdateFragment_to_trashFragment)
         }
         dialogBuilder.setNegativeButton(getString(R.string.dialog_negative)) { _, _ -> }
         dialogBuilder.show()

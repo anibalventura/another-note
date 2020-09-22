@@ -22,7 +22,7 @@
         <menu>
             <item
                 android:id="@+id/shareAppFragment"
-                android:icon="@drawable/ic_share_app"
+                android:icon="@drawable/ic_share"
                 android:title="@string/menu_share" />
             <item
                 android:id="@+id/aboutFragment"

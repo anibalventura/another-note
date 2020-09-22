@@ -17,7 +17,7 @@ import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
 import com.anibalventura.anothernote.databinding.FragmentNoteUpdateBinding
-import com.anibalventura.anothernote.ui.note.adapter.NoteAdapter
+import com.anibalventura.anothernote.ui.note.adapter.NoteRecyclerViewAdapter
 import com.anibalventura.anothernote.utils.showToast
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_note_update.*
@@ -37,7 +37,7 @@ class NoteUpdateFragment : Fragment() {
     private val trashViewModel: TrashViewModel by viewModels()
 
     // Adapter.
-    private val adapter: NoteAdapter by lazy { NoteAdapter() }
+    private val adapter: NoteRecyclerViewAdapter by lazy { NoteRecyclerViewAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,7 +61,11 @@ class NoteUpdateFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_note_update, menu)
+        inflater.inflate(R.menu.menu_note, menu)
+        // Enable required options.
+        menu.findItem(R.id.menu_note_update).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_note_archive).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_note_delete).setEnabled(true).isVisible = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -73,15 +77,15 @@ class NoteUpdateFragment : Fragment() {
             TrashData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
 
         when (item.itemId) {
-            R.id.note_update_menu_save -> updateNote()
-            R.id.note_update_menu_archive ->
+            R.id.menu_note_update -> updateNote()
+            R.id.menu_note_archive ->
                 archiveOrDeleteNote(
                     ARCHIVE_NOTE,
                     noteItem,
                     archiveItem,
                     trashItem
                 )
-            R.id.note_update_menu_delete -> archiveOrDeleteNote(
+            R.id.menu_note_delete -> archiveOrDeleteNote(
                 DELETE_NOTE,
                 noteItem,
                 archiveItem,
@@ -102,7 +106,7 @@ class NoteUpdateFragment : Fragment() {
                 noteViewModel.updateData(updatedItem)
                 showToast(requireContext(), getString(R.string.update_successful))
                 // Navigate back.
-                findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+                findNavController().navigate(R.id.action_noteUpdateFragment_to_noteFragment)
             }
             else -> showToast(requireContext(), getString(R.string.update_fill_fields))
         }
@@ -119,7 +123,7 @@ class NoteUpdateFragment : Fragment() {
             DELETE_NOTE -> {
                 trashViewModel.insertData(trashItem)
                 noteViewModel.deleteItem(noteItem)
-                findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+                findNavController().navigate(R.id.action_noteUpdateFragment_to_noteFragment)
                 Snackbar.make(
                     requireView(),
                     getString(R.string.snack_moved_trash),
@@ -134,7 +138,7 @@ class NoteUpdateFragment : Fragment() {
             ARCHIVE_NOTE -> {
                 archiveViewModel.insertData(archiveItem)
                 noteViewModel.deleteItem(noteItem)
-                findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+                findNavController().navigate(R.id.action_noteUpdateFragment_to_noteFragment)
                 Snackbar.make(
                     requireView(),
                     getString(R.string.snack_note_archived),

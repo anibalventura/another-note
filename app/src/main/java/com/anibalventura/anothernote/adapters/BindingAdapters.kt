@@ -29,41 +29,42 @@ class BindingAdapters {
 
         /** ============================= NoteFragment ============================= **/
         @JvmStatic
-        @BindingAdapter("android:navigateToAddFragment")
-        fun navigateToAddFragment(view: FloatingActionButton, navigate: Boolean) {
+        @BindingAdapter("android:navigateToNoteAddFragment")
+        fun navigateToNoteAddFragment(view: FloatingActionButton, navigate: Boolean) {
             view.setOnClickListener {
                 if (navigate) {
-                    view.findNavController().navigate(R.id.action_listFragment_to_addFragment)
+                    view.findNavController().navigate(R.id.action_noteFragment_to_noteAddFragment)
                 }
             }
         }
 
         @JvmStatic
-        @BindingAdapter("android:sendDataToUpdateFragment")
-        fun sendDataToUpdateFragment(view: ConstraintLayout, currentItem: NoteData) {
+        @BindingAdapter("android:sendDataToNoteUpdateFragment")
+        fun sendDataToNoteUpdateFragment(view: ConstraintLayout, currentItem: NoteData) {
             view.setOnClickListener {
-                val action = NoteFragmentDirections.actionListFragmentToUpdateFragment(currentItem)
+                val action =
+                    NoteFragmentDirections.actionNoteFragmentToNoteUpdateFragment(currentItem)
                 view.findNavController().navigate(action)
             }
         }
 
         /** ============================= TrashFragment ============================= **/
         @JvmStatic
-        @BindingAdapter("android:sendDataToViewTrashFragment")
-        fun sendDataToViewTrashFragment(view: ConstraintLayout, currentItem: TrashData) {
+        @BindingAdapter("android:sendDataToTrashUpdateFragment")
+        fun sendDataToTrashUpdateFragment(view: ConstraintLayout, currentItem: TrashData) {
             view.setOnClickListener {
                 val action =
-                    TrashFragmentDirections.actionTrashFragmentToViewTrashFragment(currentItem)
+                    TrashFragmentDirections.actionTrashFragmentToTrashUpdateFragment(currentItem)
                 view.findNavController().navigate(action)
             }
         }
 
         /** ============================= ArchiveFragment ============================= **/
         @JvmStatic
-        @BindingAdapter("android:sendDataToUpdateArchiveFragment")
-        fun sendDataToUpdateArchiveFragment(view: ConstraintLayout, currentItem: ArchiveData) {
+        @BindingAdapter("android:sendDataToArchiveUpdateFragment")
+        fun sendDataToArchiveUpdateFragment(view: ConstraintLayout, currentItem: ArchiveData) {
             view.setOnClickListener {
-                val action = ArchiveFragmentDirections.actionArchiveFragmentToUpdateArchiveFragment(
+                val action = ArchiveFragmentDirections.actionArchiveFragmentToArchiveUpdateFragment(
                     currentItem
                 )
                 view.findNavController().navigate(action)

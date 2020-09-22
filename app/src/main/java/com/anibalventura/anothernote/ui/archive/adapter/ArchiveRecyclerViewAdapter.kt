@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anibalventura.anothernote.data.models.ArchiveData
 import com.anibalventura.anothernote.databinding.RecyclerviewArchiveBinding
 
-class ArchiveAdapter : RecyclerView.Adapter<ArchiveAdapter.MyViewHolder>() {
+class ArchiveRecyclerViewAdapter : RecyclerView.Adapter<ArchiveRecyclerViewAdapter.MyViewHolder>() {
 
     private var dataList = emptyList<ArchiveData>()
 

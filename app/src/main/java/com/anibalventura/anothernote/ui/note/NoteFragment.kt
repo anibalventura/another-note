@@ -1,6 +1,5 @@
 package com.anibalventura.anothernote.ui.note
 
-import android.app.AlertDialog
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.anibalventura.anothernote.Constants.ARCHIVE_NOTE
 import com.anibalventura.anothernote.Constants.DELETE_NOTE
+import com.anibalventura.anothernote.Constants.NOTE
 import com.anibalventura.anothernote.Constants.NOTE_VIEW
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.data.models.ArchiveData
@@ -25,11 +25,10 @@ import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
 import com.anibalventura.anothernote.databinding.FragmentNoteBinding
-import com.anibalventura.anothernote.ui.note.adapter.NoteAdapter
+import com.anibalventura.anothernote.ui.note.adapter.NoteRecyclerViewAdapter
 import com.anibalventura.anothernote.utils.SwipeItem
 import com.anibalventura.anothernote.utils.hideKeyboard
 import com.anibalventura.anothernote.utils.sharedPref
-import com.anibalventura.anothernote.utils.showToast
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
@@ -46,7 +45,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
     private val binding get() = _binding!!
 
     // Adapter.
-    private val adapter: NoteAdapter by lazy { NoteAdapter() }
+    private val adapter: NoteRecyclerViewAdapter by lazy { NoteRecyclerViewAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -179,17 +178,23 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_note, menu)
-
-        val search = menu.findItem(R.id.note_menu_search)
-        val searchView = search.actionView as? SearchView
-        searchView?.isSubmitButtonEnabled = true
-        searchView?.setOnQueryTextListener(this)
+        inflater.inflate(R.menu.menu_main, menu)
+        // Enable required options.
+        menu.findItem(R.id.menu_main_search).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_main_list).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_main_grid).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_main_sort_by).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_main_sort_title).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_main_delete_all).setEnabled(true).isVisible = true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        val list = menu.findItem(R.id.note_menu_view_list)
-        val grid = menu.findItem(R.id.note_menu_view_grid)
+        val search = menu.findItem(R.id.menu_main_search).actionView as? SearchView
+        val list = menu.findItem(R.id.menu_main_list)
+        val grid = menu.findItem(R.id.menu_main_grid)
+
+        search?.isSubmitButtonEnabled = true
+        search?.setOnQueryTextListener(this)
 
         when (sharedPref(requireContext()).getBoolean(NOTE_VIEW, false)) {
             true -> {
@@ -207,10 +212,10 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.note_menu_delete_all -> confirmDeleteAll()
-            R.id.note_menu_view_list -> changeNoteView(true)
-            R.id.note_menu_view_grid -> changeNoteView(false)
-            R.id.note_menu_title -> noteViewModel.sortByTitle.observe(this, {
+            R.id.menu_main_list -> changeNoteView(true)
+            R.id.menu_main_grid -> changeNoteView(false)
+            R.id.menu_main_delete_all -> sharedViewModel.confirmDeleteAll(requireContext(), NOTE)
+            R.id.menu_main_sort_title -> noteViewModel.sortByTitle.observe(this, {
                 adapter.setData(it)
             })
         }
@@ -245,18 +250,6 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
                 adapter.setData(it)
             }
         })
-    }
-
-    private fun confirmDeleteAll() {
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setTitle(getString(R.string.dialog_delete_all))
-        dialogBuilder.setMessage(getString(R.string.dialog_delete_you_sure))
-        dialogBuilder.setPositiveButton(getString(R.string.dialog_confirmation)) { _, _ ->
-            noteViewModel.deleteAll()
-            showToast(requireContext(), getString(R.string.delete_all_successful))
-        }
-        dialogBuilder.setNegativeButton(getString(R.string.dialog_negative)) { _, _ -> }
-        dialogBuilder.show()
     }
 
     // Destroy all references of the fragment to avoid memory leak.

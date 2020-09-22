@@ -7,7 +7,7 @@
 
         <variable
             name="args"
-            type="com.anibalventura.anothernote.ui.trash.TrashLookFragmentArgs" />
+            type="com.anibalventura.anothernote.ui.trash.TrashUpdateFragmentArgs" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,7 +63,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:background="#4D000000"
+            android:background="@color/outlineColor"
             app:layout_constraintBottom_toTopOf="@+id/etViewTrashDescription"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

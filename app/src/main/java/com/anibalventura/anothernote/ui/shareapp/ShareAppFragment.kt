@@ -31,7 +31,7 @@ class ShareAppFragment : Fragment() {
         shareText(requireContext(), getString(R.string.share_app))
 
         // Go back to home.
-        findNavController().navigate(R.id.action_shareAppFragment_to_listFragment)
+        findNavController().navigate(R.id.action_shareAppFragment_to_noteFragment)
 
         return binding.root
     }
