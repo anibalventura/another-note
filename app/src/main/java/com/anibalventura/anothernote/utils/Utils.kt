@@ -8,8 +8,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
-import com.anibalventura.anothernote.CONST
+import com.anibalventura.anothernote.App
+import com.anibalventura.anothernote.Constants.THEME
 import kotlinx.coroutines.Dispatchers
+
+val app = App.resourses!!
 
 /*
 * SharedPreferences.
@@ -30,7 +33,7 @@ fun showToast(context: Context, msg: String) {
  */
 fun setupTheme(context: Context) {
     // Set the theme from the sharedPref value.
-    when (sharedPref(context).getString(CONST.THEME, "0")) {
+    when (sharedPref(context).getString(THEME, "0")) {
         "1" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         "2" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         "0" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)

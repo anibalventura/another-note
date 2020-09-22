@@ -12,7 +12,6 @@ abstract class TrashDatabase : RoomDatabase() {
     abstract fun trashDao(): TrashDao
 
     companion object {
-
         @Volatile
         private var INSTANCE: TrashDatabase? = null
 

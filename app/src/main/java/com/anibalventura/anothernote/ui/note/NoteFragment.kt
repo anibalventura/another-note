@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.anibalventura.anothernote.CONST
+import com.anibalventura.anothernote.Constants.ARCHIVE_NOTE
+import com.anibalventura.anothernote.Constants.DELETE_NOTE
+import com.anibalventura.anothernote.Constants.NOTE_VIEW
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.data.models.ArchiveData
 import com.anibalventura.anothernote.data.models.NoteData
@@ -33,7 +35,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
 
-    // ViewModels
+    // ViewModels.
     private val noteViewModel: NoteViewModel by viewModels()
     private val archiveViewModel: ArchiveViewModel by viewModels()
     private val trashViewModel: TrashViewModel by viewModels()
@@ -78,7 +80,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         val recyclerView = binding.noteRecyclerView
         recyclerView.adapter = adapter
 
-        when (sharedPref(requireContext()).getBoolean(CONST.NOTE_VIEW, false)) {
+        when (sharedPref(requireContext()).getBoolean(NOTE_VIEW, false)) {
             true -> recyclerView.layoutManager = LinearLayoutManager(requireActivity())
             false -> recyclerView.layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -89,33 +91,33 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         }
 
         // Swipe to delete.
-        swipeToArchiveOrDelete(CONST.DELETE_ITEM, recyclerView)
+        swipeToArchiveOrDelete(DELETE_NOTE, recyclerView)
 
         // Swipe to archive.
-        swipeToArchiveOrDelete(CONST.ARCHIVE_ITEM, recyclerView)
+        swipeToArchiveOrDelete(ARCHIVE_NOTE, recyclerView)
     }
 
-    private fun swipeToArchiveOrDelete(direction: Int, recyclerView: RecyclerView) {
+    private fun swipeToArchiveOrDelete(action: Int, recyclerView: RecyclerView) {
         lateinit var background: Drawable
         lateinit var icon: Drawable
 
-        when (direction) {
-            CONST.DELETE_ITEM -> {
+        when (action) {
+            DELETE_NOTE -> {
                 background =
                     ResourcesCompat.getDrawable(resources, R.drawable.bg_swipe_delete, null)!!
                 icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_trash, null)!!
             }
-            CONST.ARCHIVE_ITEM -> {
+            ARCHIVE_NOTE -> {
                 background =
                     ResourcesCompat.getDrawable(resources, R.drawable.bg_swipe_archive, null)!!
                 icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_archive, null)!!
             }
         }
 
-        val swipeToDeleteCallBack = object : SwipeItem(direction, background, icon) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        val swipeToDeleteCallBack = object : SwipeItem(action, background, icon) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, action: Int) {
 
-                val deletedItem = adapter.dataList[viewHolder.adapterPosition]
+                val noteItem = adapter.dataList[viewHolder.adapterPosition]
                 val archiveItem = ArchiveData(
                     adapter.dataList[viewHolder.adapterPosition].id,
                     adapter.dataList[viewHolder.adapterPosition].title,
@@ -127,19 +129,8 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
                     adapter.dataList[viewHolder.adapterPosition].description
                 )
 
-                when (direction) {
-                    // Send note to trash.
-                    CONST.DELETE_ITEM -> trashViewModel.insertData(trashItem)
-                    // Send note to archive.
-                    CONST.ARCHIVE_ITEM -> archiveViewModel.insertData(archiveItem)
-                }
-
-                // Delete note.
-                noteViewModel.deleteItem(deletedItem)
+                archiveOrDeleteNote(action, noteItem, archiveItem, trashItem)
                 adapter.notifyItemRemoved(viewHolder.adapterPosition)
-
-                // Restore data.
-                restoreItem(direction, viewHolder.itemView, deletedItem, archiveItem, trashItem)
             }
         }
 
@@ -150,27 +141,41 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
     /*
      * Restore data when archive or delete.
      */
-    private fun restoreItem(
-        direction: Int,
-        view: View,
+    private fun archiveOrDeleteNote(
+        action: Int,
         deletedItem: NoteData,
         archiveItem: ArchiveData,
         trashItem: TrashData
     ) {
-        when (direction) {
-            CONST.DELETE_ITEM ->
-                Snackbar.make(view, "Archive \"${deletedItem.title}\"", Snackbar.LENGTH_LONG)
-                    .setAction("Undo") {
+        when (action) {
+            DELETE_NOTE -> {
+                trashViewModel.insertData(trashItem)
+                Snackbar.make(
+                    requireView(),
+                    getString(R.string.snack_moved_trash),
+                    Snackbar.LENGTH_LONG
+                )
+                    .setAction(getString(R.string.snack_undo)) {
                         noteViewModel.insertData(deletedItem)
                         trashViewModel.deleteItem(trashItem)
                     }.show()
-            CONST.ARCHIVE_ITEM ->
-                Snackbar.make(view, "Archive \"${deletedItem.title}\"", Snackbar.LENGTH_LONG)
-                    .setAction("Undo") {
+            }
+            ARCHIVE_NOTE -> {
+                archiveViewModel.insertData(archiveItem)
+                Snackbar.make(
+                    requireView(),
+                    getString(R.string.snack_note_archived),
+                    Snackbar.LENGTH_LONG
+                )
+                    .setAction(getString(R.string.snack_undo)) {
                         noteViewModel.insertData(deletedItem)
                         archiveViewModel.deleteItem(archiveItem)
                     }.show()
+            }
         }
+
+        // Delete note.
+        noteViewModel.deleteItem(deletedItem)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -186,7 +191,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         val list = menu.findItem(R.id.note_menu_view_list)
         val grid = menu.findItem(R.id.note_menu_view_grid)
 
-        when (sharedPref(requireContext()).getBoolean(CONST.NOTE_VIEW, false)) {
+        when (sharedPref(requireContext()).getBoolean(NOTE_VIEW, false)) {
             true -> {
                 list.setEnabled(false).isVisible = false
                 grid.setEnabled(true).isVisible = true
@@ -214,7 +219,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
 
     @Suppress("DEPRECATION")
     private fun changeNoteView(change: Boolean) {
-        sharedPref(requireContext()).edit().putBoolean(CONST.NOTE_VIEW, change).apply()
+        sharedPref(requireContext()).edit().putBoolean(NOTE_VIEW, change).apply()
         adapter.notifyDataSetChanged()
         setupRecyclerView()
         invalidateOptionsMenu(requireActivity())
@@ -244,14 +249,13 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun confirmDeleteAll() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setTitle("Delete All")
-        dialogBuilder.setTitle("Delete All")
-        dialogBuilder.setMessage("Are you sure you want to delete everything?")
-        dialogBuilder.setPositiveButton("Yes") { _, _ ->
+        dialogBuilder.setTitle(getString(R.string.dialog_delete_all))
+        dialogBuilder.setMessage(getString(R.string.dialog_delete_you_sure))
+        dialogBuilder.setPositiveButton(getString(R.string.dialog_confirmation)) { _, _ ->
             noteViewModel.deleteAll()
-            showToast(requireContext(), "Successfully Deleted Everything.")
+            showToast(requireContext(), getString(R.string.delete_all_successful))
         }
-        dialogBuilder.setNegativeButton("No") { _, _ -> }
+        dialogBuilder.setNegativeButton(getString(R.string.dialog_negative)) { _, _ -> }
         dialogBuilder.show()
     }
 

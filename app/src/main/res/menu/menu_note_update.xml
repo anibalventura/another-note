@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/update_menu_save"
+        android:id="@+id/note_update_menu_save"
         android:icon="@drawable/ic_save"
         android:title="@string/note_update_menu_save"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/archive_update_menu_archive"
+        android:id="@+id/note_update_menu_archive"
         android:icon="@drawable/ic_archive"
-        android:title="@string/archive_update_menu_archive"
+        android:title="@string/note_update_menu_archive"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/archive_update_menu_delete"
+        android:id="@+id/note_update_menu_delete"
         android:title="@string/note_update_menu_delete"
         app:showAsAction="never" />
 </menu>

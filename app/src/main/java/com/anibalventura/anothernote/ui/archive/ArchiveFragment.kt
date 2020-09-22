@@ -6,6 +6,7 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.data.viewmodel.ArchiveViewModel
@@ -14,19 +15,20 @@ import com.anibalventura.anothernote.databinding.FragmentArchiveBinding
 import com.anibalventura.anothernote.ui.archive.adapter.ArchiveAdapter
 import com.anibalventura.anothernote.utils.hideKeyboard
 import com.anibalventura.anothernote.utils.showToast
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
-
-    // ViewModels
-    private val archiveViewModel: ArchiveViewModel by viewModels()
-    private val sharedViewModel: SharedViewModel by viewModels()
 
     // DataBinding.
     private var _binding: FragmentArchiveBinding? = null
     private val binding get() = _binding!!
 
+    // ViewModels
+    private val archiveViewModel: ArchiveViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by viewModels()
+
+    // Adapter.
     private val adapter: ArchiveAdapter by lazy { ArchiveAdapter() }
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +44,7 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.sharedViewModel = sharedViewModel
 
         // Setup RecyclerView
+        recyclerView = binding.archiveRecyclerView
         setupRecyclerView()
 
         // Get notify every time the database change.
@@ -60,14 +63,10 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun setupRecyclerView() {
-        val recyclerView = binding.archiveRecyclerView
         recyclerView.adapter = adapter
-//        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        recyclerView.itemAnimator = SlideInUpAnimator().apply {
-            addDuration = 300 // Milliseconds
-        }
+        recyclerView.itemAnimator = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -81,7 +80,7 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.note_menu_delete_all -> confirmDeleteAll()
+            R.id.archive_menu_delete_all -> confirmDeleteAll()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -110,14 +109,13 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun confirmDeleteAll() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setTitle("Delete All")
-        dialogBuilder.setTitle("Delete All")
-        dialogBuilder.setMessage("Are you sure you want to delete everything?")
-        dialogBuilder.setPositiveButton("Yes") { _, _ ->
+        dialogBuilder.setTitle(getString(R.string.dialog_delete_all))
+        dialogBuilder.setMessage(getString(R.string.dialog_delete_you_sure))
+        dialogBuilder.setPositiveButton(getString(R.string.dialog_confirmation)) { _, _ ->
             archiveViewModel.deleteAll()
-            showToast(requireContext(), "Successfully Deleted Everything.")
+            showToast(requireContext(), getString(R.string.delete_all_successful))
         }
-        dialogBuilder.setNegativeButton("No") { _, _ -> }
+        dialogBuilder.setNegativeButton(getString(R.string.dialog_negative)) { _, _ -> }
         dialogBuilder.show()
     }
 

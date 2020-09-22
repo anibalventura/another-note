@@ -7,7 +7,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import com.anibalventura.anothernote.CONST
+import com.anibalventura.anothernote.Constants.THEME
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.utils.setupTheme
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -54,7 +54,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             setPreferencesFromResource(R.xml.settings_preferences, rootKey)
 
             // Get preferences.
-            bindSharedPrefSummary(findPreference(CONST.THEME)!!)
+            bindSharedPrefSummary(findPreference(THEME)!!)
         }
 
         companion object {
@@ -104,6 +104,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     }
 
     override fun provideSummary(preference: ListPreference?): CharSequence =
-        if (preference?.key == CONST.THEME) preference.entry
+        if (preference?.key == THEME) preference.entry
         else "Unknown Preference"
 }

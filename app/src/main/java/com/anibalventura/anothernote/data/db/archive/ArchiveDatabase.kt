@@ -12,7 +12,6 @@ abstract class ArchiveDatabase : RoomDatabase() {
     abstract fun archiveDao(): ArchiveDao
 
     companion object {
-
         @Volatile
         private var INSTANCE: ArchiveDatabase? = null
 

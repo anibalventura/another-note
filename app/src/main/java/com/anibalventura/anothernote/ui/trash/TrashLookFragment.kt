@@ -67,7 +67,7 @@ class TrashLookFragment : Fragment() {
 
                 trashViewModel.deleteItem(deletedItem)
                 noteViewModel.insertData(restoreItem)
-                showToast(requireContext(), "Successfully Restored")
+                showToast(requireContext(), getString(R.string.successfully_restore))
                 // Navigate back.
                 findNavController().navigate(R.id.action_viewTrashFragment_to_trashFragment)
             }
@@ -77,18 +77,18 @@ class TrashLookFragment : Fragment() {
     // Show dialog to confirm delete note.
     private fun deleteForever() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setTitle("Delete Forever")
-        dialogBuilder.setMessage("Are you sure you want to delete \"${args.currentItem.title}\" forever?")
-        dialogBuilder.setPositiveButton("Yes") { _, _ ->
+        dialogBuilder.setTitle(getString(R.string.dialog_delete_forever))
+        dialogBuilder.setMessage(getString(R.string.dialog_delete_forever_you_sure))
+        dialogBuilder.setPositiveButton(getString(R.string.dialog_confirmation)) { _, _ ->
 
             val trashItem =
                 TrashData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
 
             trashViewModel.deleteItem(trashItem)
-            showToast(requireContext(), "Successfully deleted forever\"${args.currentItem.title}\"")
+            showToast(requireContext(), getString(R.string.successfully_deleted_forever))
             findNavController().navigate(R.id.action_viewTrashFragment_to_trashFragment)
         }
-        dialogBuilder.setNegativeButton("No") { _, _ -> }
+        dialogBuilder.setNegativeButton(getString(R.string.dialog_negative)) { _, _ -> }
         dialogBuilder.show()
     }
 

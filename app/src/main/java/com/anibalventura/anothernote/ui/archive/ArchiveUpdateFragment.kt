@@ -65,11 +65,11 @@ class ArchiveUpdateFragment : Fragment() {
                 // Update current note.
                 val updatedItem = ArchiveData(args.currentItem.id, title, description)
                 archiveViewModel.updateData(updatedItem)
-                showToast(requireContext(), "Successfully Updated")
+                showToast(requireContext(), getString(R.string.update_successful))
                 // Navigate back.
                 findNavController().navigate(R.id.action_updateArchiveFragment_to_archiveFragment)
             }
-            else -> showToast(requireContext(), "Please fill out all the fields.")
+            else -> showToast(requireContext(), getString(R.string.update_fill_fields))
         }
     }
 
@@ -84,7 +84,7 @@ class ArchiveUpdateFragment : Fragment() {
                 val deletedItem = ArchiveData(args.currentItem.id, title, description)
                 archiveViewModel.deleteItem(deletedItem)
                 noteViewModel.insertData(unarchiveItem)
-                showToast(requireContext(), "Successfully Unarchive")
+                showToast(requireContext(), getString(R.string.successfully_unarchive))
                 // Navigate back.
                 findNavController().navigate(R.id.action_updateArchiveFragment_to_archiveFragment)
             }
@@ -94,22 +94,21 @@ class ArchiveUpdateFragment : Fragment() {
     // Show dialog to confirm delete note.
     private fun confirmDeleteItem() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setTitle("Delete Note")
-        dialogBuilder.setMessage("Are you sure you want to delete \"${args.currentItem.title}\"?")
-        dialogBuilder.setPositiveButton("Yes") { _, _ ->
+        dialogBuilder.setTitle(getString(R.string.delete_note))
+        dialogBuilder.setMessage(getString(R.string.dialog_delete_note))
+        dialogBuilder.setPositiveButton(getString(R.string.dialog_confirmation)) { _, _ ->
 
-            val archiveItem =
-                ArchiveData(
-                    args.currentItem.id,
-                    args.currentItem.title,
-                    args.currentItem.description
-                )
+            val archiveItem = ArchiveData(
+                args.currentItem.id,
+                args.currentItem.title,
+                args.currentItem.description
+            )
 
             archiveViewModel.deleteItem(archiveItem)
-            showToast(requireContext(), "Successfully deleted \"${args.currentItem.title}\"")
-            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            showToast(requireContext(), getString(R.string.successfully_delete_note))
+            findNavController().navigate(R.id.action_updateArchiveFragment_to_archiveFragment)
         }
-        dialogBuilder.setNegativeButton("No") { _, _ -> }
+        dialogBuilder.setNegativeButton(getString(R.string.dialog_negative)) { _, _ -> }
         dialogBuilder.show()
     }
 

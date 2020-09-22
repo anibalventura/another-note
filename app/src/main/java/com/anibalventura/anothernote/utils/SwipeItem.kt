@@ -5,12 +5,14 @@ import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.anibalventura.anothernote.Constants.ARCHIVE_NOTE
+import com.anibalventura.anothernote.Constants.DELETE_NOTE
 
 abstract class SwipeItem(
-    private val direction: Int,
+    private val action: Int,
     private val background: Drawable,
     private val icon: Drawable
-) : ItemTouchHelper.SimpleCallback(0, direction) {
+) : ItemTouchHelper.SimpleCallback(0, action) {
 
     override fun onMove(
         recyclerView: RecyclerView,
@@ -41,14 +43,14 @@ abstract class SwipeItem(
         /*
          * Draw background.
          */
-        when (direction) {
-            ItemTouchHelper.LEFT -> background.setBounds(
+        when (action) {
+            DELETE_NOTE -> background.setBounds(
                 itemView.left + dX.toInt(),
                 itemView.top,
                 itemView.right,
                 itemView.bottom
             )
-            ItemTouchHelper.RIGHT -> background.setBounds(
+            ARCHIVE_NOTE -> background.setBounds(
                 itemView.left,
                 itemView.top,
                 itemView.right + dX.toInt(),
@@ -60,13 +62,13 @@ abstract class SwipeItem(
         /*
          * Draw icon.
          */
-        when (direction) {
-            ItemTouchHelper.LEFT -> {
+        when (action) {
+            DELETE_NOTE -> {
                 val iconLeft = itemView.right - iconMargin - icon.intrinsicWidth
                 val iconRight = itemView.right - iconMargin
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
             }
-            ItemTouchHelper.RIGHT -> {
+            ARCHIVE_NOTE -> {
                 val iconRight = iconMargin + icon.intrinsicWidth
                 icon.setBounds(iconMargin, iconTop, iconRight, iconBottom)
             }
