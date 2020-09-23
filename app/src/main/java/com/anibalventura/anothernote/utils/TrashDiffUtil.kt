@@ -1,11 +1,11 @@
-package com.anibalventura.anothernote.ui.note.adapter
+package com.anibalventura.anothernote.utils
 
 import androidx.recyclerview.widget.DiffUtil
-import com.anibalventura.anothernote.data.models.NoteData
+import com.anibalventura.anothernote.data.models.TrashData
 
-class NoteDiffUtil(
-    private val oldList: List<NoteData>,
-    private val newList: List<NoteData>
+class TrashDiffUtil(
+    private val oldList: List<TrashData>,
+    private val newList: List<TrashData>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {

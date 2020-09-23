@@ -11,19 +11,17 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clTrashUpdate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.note.NoteUpdateFragment">
 
-        <EditText
-            android:id="@+id/etViewTrashTitle"
+        <TextView
+            android:id="@+id/tvTrashUpdateTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:autofillHints=""
             android:background="@drawable/bg_input"
-            android:focusable="auto"
-            android:focusableInTouchMode="false"
             android:hint="@string/note_add_title"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
@@ -32,16 +30,14 @@
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:inputType="none" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/etViewTrashDescription"
+        <TextView
+            android:id="@+id/tvTrashUpdateDescription"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autofillHints="false"
             android:background="@drawable/bg_input"
-            android:focusableInTouchMode="false"
             android:gravity="top|start"
             android:hint="@string/note_add_description"
             android:paddingStart="24dp"
@@ -49,12 +45,12 @@
             android:paddingEnd="24dp"
             android:text="@{args.currentItem.description}"
             android:textAlignment="textStart"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view"
-            android:inputType="none" />
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <View
             android:id="@+id/view"
@@ -64,10 +60,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:background="@color/outlineColor"
-            app:layout_constraintBottom_toTopOf="@+id/etViewTrashDescription"
+            app:layout_constraintBottom_toTopOf="@+id/tvTrashUpdateDescription"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etViewTrashTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTrashUpdateTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

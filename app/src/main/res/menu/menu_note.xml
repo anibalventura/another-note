@@ -38,6 +38,12 @@
         android:visible="false"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menu_note_share"
+        android:enabled="false"
+        android:title="@string/menu_note_share"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menu_note_delete"
         android:enabled="false"
         android:title="@string/menu_note_delete"

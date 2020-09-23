@@ -4,17 +4,20 @@
     <color name="primaryColor">#FFB745</color>
     <color name="primaryDarkColor">#FFB745</color>
     <color name="primaryTextColor">#FFFFFF</color>
-    <color name="secondaryTextColor">#121212</color>
-    <color name="iconColor">#121212</color>
+    <color name="secondaryTextColor">#151515</color>
+    <color name="iconColor">#151515</color>
     <color name="backgroundColor">#FFFFFF</color>
     <color name="outlineColor">#DCB1B1B1</color>
+    <color name="snackBarActionColor">#FFB745</color>
+    <color name="noDataColor">#FFB745</color>
 
     <!-- Swipe -->
+    <color name="swipeIconColor">#FFFFFF</color>
     <color name="swipeDeleteColor">#FF3E3E</color>
     <color name="swipeArchiveColor">#6CBD59</color>
 
     <!-- NavDrawer -->
     <color name="navDrawerSelectedColor">#FFB745</color>
     <color name="navDrawerSelectedBackground">#85FFE2B4</color>
-    <color name="navDrawerUnselectedColor">#121212</color>
+    <color name="navDrawerUnselectedColor">#151515</color>
 </resources>

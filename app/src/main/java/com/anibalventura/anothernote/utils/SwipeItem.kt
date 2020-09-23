@@ -1,17 +1,21 @@
 package com.anibalventura.anothernote.utils
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.anibalventura.anothernote.Constants.ARCHIVE_NOTE
-import com.anibalventura.anothernote.Constants.DELETE_NOTE
+import com.anibalventura.anothernote.Constants.SWIPE_ARCHIVE
+import com.anibalventura.anothernote.Constants.SWIPE_DELETE
+import com.anibalventura.anothernote.R
 
 abstract class SwipeItem(
     private val action: Int,
     private val background: Drawable,
-    private val icon: Drawable
+    private val icon: Drawable,
+    private val context: Context
 ) : ItemTouchHelper.SimpleCallback(0, action) {
 
     override fun onMove(
@@ -44,13 +48,13 @@ abstract class SwipeItem(
          * Draw background.
          */
         when (action) {
-            DELETE_NOTE -> background.setBounds(
+            SWIPE_DELETE -> background.setBounds(
                 itemView.left + dX.toInt(),
                 itemView.top,
                 itemView.right,
                 itemView.bottom
             )
-            ARCHIVE_NOTE -> background.setBounds(
+            SWIPE_ARCHIVE -> background.setBounds(
                 itemView.left,
                 itemView.top,
                 itemView.right + dX.toInt(),
@@ -63,17 +67,23 @@ abstract class SwipeItem(
          * Draw icon.
          */
         when (action) {
-            DELETE_NOTE -> {
+            SWIPE_DELETE -> {
                 val iconLeft = itemView.right - iconMargin - icon.intrinsicWidth
                 val iconRight = itemView.right - iconMargin
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
             }
-            ARCHIVE_NOTE -> {
-                val iconRight = iconMargin + icon.intrinsicWidth
-                icon.setBounds(iconMargin, iconTop, iconRight, iconBottom)
+            SWIPE_ARCHIVE -> {
+                val iconLeft = itemView.left + iconMargin
+                val iconRight = itemView.left + iconMargin + icon.intrinsicWidth
+                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
             }
         }
+        // Temporary change icon color for swipe.
+        icon.setTint(ActivityCompat.getColor(context, R.color.swipeIconColor))
         icon.draw(canvas)
+
+        // Restore icon color after swipe.
+        icon.setTint(ActivityCompat.getColor(context, R.color.iconColor))
 
         super.onChildDraw(
             canvas,

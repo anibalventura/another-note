@@ -39,26 +39,22 @@ class NoteAddFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_note_save -> insertDataToDb()
+            R.id.menu_note_save -> insertNewNote()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun insertDataToDb() {
+    private fun insertNewNote() {
         val title = tvAddTitle.text.toString()
         val description = etAddNote.text.toString()
 
-        when (sharedViewModel.verifyData(title, description)) {
-            true -> {
-                // Insert data to database.
-                val newData =
-                    NoteData(0, title, description)
-                noteViewModel.insertData(newData)
-                showToast(requireContext(), "Note added.")
-                // Navigate back.
-                findNavController().navigate(R.id.action_noteAddFragment_to_noteFragment)
-            }
-            else -> showToast(requireContext(), "Please fill out all fields.")
-        }
+        // Insert data to database.
+        val newNote =
+            NoteData(0, title, description)
+        noteViewModel.insertData(newNote)
+        showToast(requireContext(), "Note added.")
+
+        // Navigate back.
+        findNavController().navigate(R.id.action_noteAddFragment_to_noteFragment)
     }
 }

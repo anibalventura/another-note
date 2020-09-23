@@ -34,9 +34,7 @@
     <string name="archive_no_notes">Your archived notes appear here.</string>
     <string name="trash_no_notes">No notes in trash.</string>
     <string name="menu_main_change_view">Change view</string>
-    <string name="snack_moved_trash">Note moved to trash.</string>
-    <string name="snack_undo">Undo</string>
-    <string name="snack_note_archived">Note archived.</string>
+    <string name="snackbar_undo">Undo</string>
     <string name="dialog_delete_all">Delete all</string>
     <string name="dialog_delete_you_sure">Are you sure you want to delete everything?</string>
     <string name="dialog_confirmation">Yes</string>
@@ -57,4 +55,11 @@
     <string name="dialog_empty_trash">Empty trash</string>
     <string name="dialog_empty_trash_you_sure">All notes in trash will be permanently deleted.</string>
     <string name="empty_trash_successful">Successful empty trash.</string>
+    <string name="snackbar_archive">Note move to archive.</string>
+    <string name="snackbar_trash">Note move to trash.</string>
+    <string name="snackbar_unarchive">Note unarchived.</string>
+    <string name="snackbar_note">Moved to note.</string>
+    <string name="snackbar_note_edit">Can\'t edit in trash.</string>
+    <string name="snackbar_restore">Restore</string>
+    <string name="menu_note_share">Share</string>
 </resources>

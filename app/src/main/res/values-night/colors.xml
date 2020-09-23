@@ -8,10 +8,12 @@
     <color name="iconColor">#FFFFFF</color>
     <color name="backgroundColor">#151515</color>
     <color name="outlineColor">#FFFFFF</color>
+    <color name="snackBarActionColor">#151515</color>
+    <color name="noDataColor">#FFFFFF</color>
 
     <!-- Swipe -->
-    <color name="swipeDeleteColor">#4DB83030</color>
-    <color name="swipeArchiveColor">#4D508B42</color>
+    <color name="swipeDeleteColor">#80B83030</color>
+    <color name="swipeArchiveColor">#80508B42</color>
 
     <!-- NavDrawer -->
     <color name="navDrawerSelectedColor">#FFFFFF</color>

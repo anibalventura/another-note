@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote.ui.archive.adapter
+package com.anibalventura.anothernote.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.anibalventura.anothernote.data.models.ArchiveData
 import com.anibalventura.anothernote.databinding.RecyclerviewArchiveBinding
+import com.anibalventura.anothernote.utils.ArchiveDiffUtil
 
-class ArchiveRecyclerViewAdapter : RecyclerView.Adapter<ArchiveRecyclerViewAdapter.MyViewHolder>() {
+class ArchiveAdapter : RecyclerView.Adapter<ArchiveAdapter.MyViewHolder>() {
 
     private var dataList = emptyList<ArchiveData>()
 

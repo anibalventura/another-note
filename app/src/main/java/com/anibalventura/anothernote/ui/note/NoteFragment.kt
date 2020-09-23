@@ -12,32 +12,28 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.anibalventura.anothernote.Constants.ARCHIVE_NOTE
-import com.anibalventura.anothernote.Constants.DELETE_NOTE
-import com.anibalventura.anothernote.Constants.NOTE
+import com.anibalventura.anothernote.Constants.NOTE_TO_ARCHIVE
+import com.anibalventura.anothernote.Constants.NOTE_TO_EMPTY
+import com.anibalventura.anothernote.Constants.NOTE_TO_TRASH
 import com.anibalventura.anothernote.Constants.NOTE_VIEW
+import com.anibalventura.anothernote.Constants.SWIPE_ARCHIVE
+import com.anibalventura.anothernote.Constants.SWIPE_DELETE
 import com.anibalventura.anothernote.R
+import com.anibalventura.anothernote.adapters.NoteAdapter
 import com.anibalventura.anothernote.data.models.ArchiveData
-import com.anibalventura.anothernote.data.models.NoteData
 import com.anibalventura.anothernote.data.models.TrashData
-import com.anibalventura.anothernote.data.viewmodel.ArchiveViewModel
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
-import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
 import com.anibalventura.anothernote.databinding.FragmentNoteBinding
-import com.anibalventura.anothernote.ui.note.adapter.NoteRecyclerViewAdapter
 import com.anibalventura.anothernote.utils.SwipeItem
 import com.anibalventura.anothernote.utils.hideKeyboard
 import com.anibalventura.anothernote.utils.sharedPref
-import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
 
     // ViewModels.
     private val noteViewModel: NoteViewModel by viewModels()
-    private val archiveViewModel: ArchiveViewModel by viewModels()
-    private val trashViewModel: TrashViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
 
     // DataBinding.
@@ -45,7 +41,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
     private val binding get() = _binding!!
 
     // Adapter.
-    private val adapter: NoteRecyclerViewAdapter by lazy { NoteRecyclerViewAdapter() }
+    private val adapter: NoteAdapter by lazy { NoteAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,10 +86,10 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         }
 
         // Swipe to delete.
-        swipeToArchiveOrDelete(DELETE_NOTE, recyclerView)
+        swipeToArchiveOrDelete(SWIPE_DELETE, recyclerView)
 
         // Swipe to archive.
-        swipeToArchiveOrDelete(ARCHIVE_NOTE, recyclerView)
+        swipeToArchiveOrDelete(SWIPE_ARCHIVE, recyclerView)
     }
 
     private fun swipeToArchiveOrDelete(action: Int, recyclerView: RecyclerView) {
@@ -101,19 +97,19 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         lateinit var icon: Drawable
 
         when (action) {
-            DELETE_NOTE -> {
+            SWIPE_DELETE -> {
                 background =
                     ResourcesCompat.getDrawable(resources, R.drawable.bg_swipe_delete, null)!!
                 icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_trash, null)!!
             }
-            ARCHIVE_NOTE -> {
+            SWIPE_ARCHIVE -> {
                 background =
                     ResourcesCompat.getDrawable(resources, R.drawable.bg_swipe_archive, null)!!
                 icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_archive, null)!!
             }
         }
 
-        val swipeToDeleteCallBack = object : SwipeItem(action, background, icon) {
+        val swipeToDeleteCallBack = object : SwipeItem(action, background, icon, requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, action: Int) {
 
                 val noteItem = adapter.dataList[viewHolder.adapterPosition]
@@ -128,53 +124,28 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
                     adapter.dataList[viewHolder.adapterPosition].description
                 )
 
-                archiveOrDeleteNote(action, noteItem, archiveItem, trashItem)
+                when (action) {
+                    SWIPE_ARCHIVE -> sharedViewModel.moveItem(
+                        NOTE_TO_ARCHIVE,
+                        noteItem,
+                        archiveItem,
+                        trashItem,
+                        requireView()
+                    )
+                    SWIPE_DELETE -> sharedViewModel.moveItem(
+                        NOTE_TO_TRASH,
+                        noteItem,
+                        archiveItem,
+                        trashItem,
+                        requireView()
+                    )
+                }
                 adapter.notifyItemRemoved(viewHolder.adapterPosition)
             }
         }
 
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallBack)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-    }
-
-    /*
-     * Restore data when archive or delete.
-     */
-    private fun archiveOrDeleteNote(
-        action: Int,
-        deletedItem: NoteData,
-        archiveItem: ArchiveData,
-        trashItem: TrashData
-    ) {
-        when (action) {
-            DELETE_NOTE -> {
-                trashViewModel.insertData(trashItem)
-                Snackbar.make(
-                    requireView(),
-                    getString(R.string.snack_moved_trash),
-                    Snackbar.LENGTH_LONG
-                )
-                    .setAction(getString(R.string.snack_undo)) {
-                        noteViewModel.insertData(deletedItem)
-                        trashViewModel.deleteItem(trashItem)
-                    }.show()
-            }
-            ARCHIVE_NOTE -> {
-                archiveViewModel.insertData(archiveItem)
-                Snackbar.make(
-                    requireView(),
-                    getString(R.string.snack_note_archived),
-                    Snackbar.LENGTH_LONG
-                )
-                    .setAction(getString(R.string.snack_undo)) {
-                        noteViewModel.insertData(deletedItem)
-                        archiveViewModel.deleteItem(archiveItem)
-                    }.show()
-            }
-        }
-
-        // Delete note.
-        noteViewModel.deleteItem(deletedItem)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -214,7 +185,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         when (item.itemId) {
             R.id.menu_main_list -> changeNoteView(true)
             R.id.menu_main_grid -> changeNoteView(false)
-            R.id.menu_main_delete_all -> sharedViewModel.confirmDeleteAll(requireContext(), NOTE)
+            R.id.menu_main_delete_all -> sharedViewModel.emptyData(requireContext(), NOTE_TO_EMPTY)
             R.id.menu_main_sort_title -> noteViewModel.sortByTitle.observe(this, {
                 adapter.setData(it)
             })

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -59,6 +60,22 @@ class MainActivity : AppCompatActivity() {
 
         // Setup the left drawer (called a NavigationView).
         binding.navigationView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
+            val toolBar = supportActionBar ?: return@addOnDestinationChangedListener
+            when (destination.id) {
+                // Show title.
+                R.id.noteFragment -> toolBar.setDisplayShowTitleEnabled(true)
+                R.id.archiveFragment -> toolBar.setDisplayShowTitleEnabled(true)
+                R.id.trashFragment -> toolBar.setDisplayShowTitleEnabled(true)
+
+                // Disable title .
+                R.id.noteAddFragment -> toolBar.setDisplayShowTitleEnabled(false)
+                R.id.noteUpdateFragment -> toolBar.setDisplayShowTitleEnabled(false)
+                R.id.archiveUpdateFragment -> toolBar.setDisplayShowTitleEnabled(false)
+                R.id.trashUpdateFragment -> toolBar.setDisplayShowTitleEnabled(false)
+            }
+        }
     }
 
     override fun onBackPressed() {

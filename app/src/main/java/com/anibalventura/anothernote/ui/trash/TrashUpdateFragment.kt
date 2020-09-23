@@ -7,26 +7,30 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.anibalventura.anothernote.Constants.TRASH_TO_NOTE
+import com.anibalventura.anothernote.Constants.TRASH_TO_NOTE_EDIT
 import com.anibalventura.anothernote.R
+import com.anibalventura.anothernote.data.models.ArchiveData
 import com.anibalventura.anothernote.data.models.NoteData
 import com.anibalventura.anothernote.data.models.TrashData
-import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
 import com.anibalventura.anothernote.databinding.FragmentTrashUpdateBinding
 import com.anibalventura.anothernote.utils.showToast
-import kotlinx.android.synthetic.main.fragment_trash_update.*
 
 class TrashUpdateFragment : Fragment() {
 
-    private val args by navArgs<TrashUpdateFragmentArgs>()
-
-    private val sharedViewModel: SharedViewModel by viewModels()
-    private val noteViewModel: NoteViewModel by viewModels()
-    private val trashViewModel: TrashViewModel by viewModels()
-
     private var _binding: FragmentTrashUpdateBinding? = null
     private val binding get() = _binding!!
+
+    private val sharedViewModel: SharedViewModel by viewModels()
+    private val trashViewModel: TrashViewModel by viewModels()
+
+    private val args by navArgs<TrashUpdateFragmentArgs>()
+
+    private lateinit var noteItem: NoteData
+    private lateinit var archiveItem: ArchiveData
+    private lateinit var trashItem: TrashData
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +40,17 @@ class TrashUpdateFragment : Fragment() {
         // DataBinding.
         _binding = FragmentTrashUpdateBinding.inflate(inflater, container, false)
         binding.args = args
+
+        noteItem =
+            NoteData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
+        archiveItem =
+            ArchiveData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
+        trashItem =
+            TrashData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
+
+        binding.clTrashUpdate.setOnClickListener { view ->
+            sharedViewModel.moveItem(TRASH_TO_NOTE_EDIT, noteItem, archiveItem, trashItem, view)
+        }
 
         // Set menu.
         setHasOptionsMenu(true)
@@ -52,32 +67,19 @@ class TrashUpdateFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_note_restore -> restoreItem()
+            R.id.menu_note_restore -> sharedViewModel.moveItem(
+                TRASH_TO_NOTE,
+                noteItem,
+                archiveItem,
+                trashItem,
+                requireView()
+            )
             R.id.menu_note_delete_forever -> deleteForever()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun restoreItem() {
-        val title = etViewTrashTitle.text.toString()
-        val description = etViewTrashDescription.text.toString()
-
-        when (sharedViewModel.verifyData(title, description)) {
-            true -> {
-                // Update current note.
-                val restoreItem = NoteData(args.currentItem.id, title, description)
-                val deletedItem = TrashData(args.currentItem.id, title, description)
-
-                trashViewModel.deleteItem(deletedItem)
-                noteViewModel.insertData(restoreItem)
-                showToast(requireContext(), getString(R.string.successfully_restore))
-                // Navigate back.
-                findNavController().navigate(R.id.action_trashUpdateFragment_to_trashFragment)
-            }
-        }
-    }
-
-    // Show dialog to confirm delete note.
+    // Show dialog to confirm delete note forever.
     private fun deleteForever() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setTitle(getString(R.string.dialog_delete_forever))

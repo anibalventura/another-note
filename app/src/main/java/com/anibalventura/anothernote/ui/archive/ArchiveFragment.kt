@@ -8,13 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.anibalventura.anothernote.Constants.ARCHIVE
+import com.anibalventura.anothernote.Constants.ARCHIVE_TO_EMPTY
 import com.anibalventura.anothernote.Constants.ARCHIVE_VIEW
 import com.anibalventura.anothernote.R
+import com.anibalventura.anothernote.adapters.ArchiveAdapter
 import com.anibalventura.anothernote.data.viewmodel.ArchiveViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentArchiveBinding
-import com.anibalventura.anothernote.ui.archive.adapter.ArchiveRecyclerViewAdapter
 import com.anibalventura.anothernote.utils.hideKeyboard
 import com.anibalventura.anothernote.utils.sharedPref
 
@@ -29,7 +29,7 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
     private val sharedViewModel: SharedViewModel by viewModels()
 
     // Adapter.
-    private val adapter: ArchiveRecyclerViewAdapter by lazy { ArchiveRecyclerViewAdapter() }
+    private val adapter: ArchiveAdapter by lazy { ArchiveAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -109,9 +109,9 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
         when (item.itemId) {
             R.id.menu_main_list -> changeNoteView(true)
             R.id.menu_main_grid -> changeNoteView(false)
-            R.id.menu_main_delete_all -> sharedViewModel.confirmDeleteAll(
+            R.id.menu_main_delete_all -> sharedViewModel.emptyData(
                 requireContext(),
-                ARCHIVE
+                ARCHIVE_TO_EMPTY
             )
         }
         return super.onOptionsItemSelected(item)

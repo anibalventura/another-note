@@ -22,13 +22,6 @@ fun sharedPref(context: Context): SharedPreferences {
 }
 
 /*
- * Show Toast.
- */
-fun showToast(context: Context, msg: String) {
-    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-}
-
-/*
  * Setup the current theme.
  */
 fun setupTheme(context: Context) {
@@ -38,6 +31,13 @@ fun setupTheme(context: Context) {
         "2" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         "0" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
+}
+
+/*
+ * Show Toast.
+ */
+fun showToast(context: Context, msg: String) {
+    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
 }
 
 /*
