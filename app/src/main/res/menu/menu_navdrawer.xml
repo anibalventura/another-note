@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_group_1"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/noteFragment"
             android:icon="@drawable/ic_note"
@@ -18,20 +20,21 @@
             android:title="@string/menu_trash" />
     </group>
 
-    <item android:title="@string/menu_group_app">
-        <menu>
-            <item
-                android:id="@+id/shareAppFragment"
-                android:icon="@drawable/ic_share"
-                android:title="@string/menu_share" />
-            <item
-                android:id="@+id/aboutFragment"
-                android:icon="@drawable/ic_about"
-                android:title="@string/menu_about" />
-            <item
-                android:id="@+id/settingsActivity"
-                android:icon="@drawable/ic_settings"
-                android:title="@string/menu_settings" />
-        </menu>
-    </item>
+    <group
+        android:id="@+id/menu_group_2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/shareApp"
+            android:icon="@drawable/ic_share"
+            android:title="@string/menu_share" />
+        <item
+            android:id="@+id/aboutFragment"
+            android:icon="@drawable/ic_about"
+            android:title="@string/menu_about" />
+        <item
+            android:id="@+id/settingsActivity"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/menu_settings" />
+    </group>
+
 </menu>
