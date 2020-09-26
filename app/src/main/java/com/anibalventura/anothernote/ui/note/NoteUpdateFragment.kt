@@ -1,5 +1,6 @@
 package com.anibalventura.anothernote.ui.note
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -16,8 +17,10 @@ import com.anibalventura.anothernote.data.models.TrashData
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentNoteUpdateBinding
+import com.anibalventura.anothernote.utils.changeBackgroundColor
 import com.anibalventura.anothernote.utils.shareText
 import com.anibalventura.anothernote.utils.showToast
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_note_update.*
 
 class NoteUpdateFragment : Fragment() {
@@ -26,14 +29,15 @@ class NoteUpdateFragment : Fragment() {
     private var _binding: FragmentNoteUpdateBinding? = null
     private val binding get() = _binding!!
 
-    private val args by navArgs<NoteUpdateFragmentArgs>()
-
     // ViewModels.
     private val sharedViewModel: SharedViewModel by viewModels()
     private val noteViewModel: NoteViewModel by viewModels()
 
     // Adapter.
     private val adapter: NoteAdapter by lazy { NoteAdapter() }
+
+    // Args.
+    private val args by navArgs<NoteUpdateFragmentArgs>()
 
     // Models.
     private lateinit var noteItem: NoteData
@@ -56,11 +60,29 @@ class NoteUpdateFragment : Fragment() {
         })
 
         noteItem =
-            NoteData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
+            NoteData(
+                args.currentItem.id,
+                args.currentItem.title,
+                args.currentItem.description,
+                args.currentItem.color
+            )
         archiveItem =
-            ArchiveData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
+            ArchiveData(
+                args.currentItem.id,
+                args.currentItem.title,
+                args.currentItem.description,
+                args.currentItem.color
+            )
         trashItem =
-            TrashData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
+            TrashData(
+                args.currentItem.id,
+                args.currentItem.title,
+                args.currentItem.description,
+                args.currentItem.color
+            )
+
+        // Set toolbar color from note.
+        activity?.toolbar?.setBackgroundColor(args.currentItem.color)
 
         // Set menu.
         setHasOptionsMenu(true)
@@ -73,6 +95,7 @@ class NoteUpdateFragment : Fragment() {
         // Enable required options.
         menu.findItem(R.id.menu_note_update).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_note_archive).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_note_color).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_note_share).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_note_delete).setEnabled(true).isVisible = true
     }
@@ -90,6 +113,11 @@ class NoteUpdateFragment : Fragment() {
                 )
                 findNavController().navigate(R.id.action_noteUpdateFragment_to_noteFragment)
             }
+            R.id.menu_note_color -> changeBackgroundColor(
+                binding.clNoteUpdate,
+                activity?.toolbar,
+                requireContext()
+            )
             R.id.menu_note_share -> shareText(requireContext(), args.currentItem.description)
             R.id.menu_note_delete -> {
                 sharedViewModel.moveItem(
@@ -108,9 +136,10 @@ class NoteUpdateFragment : Fragment() {
     private fun updateNote() {
         val title = etUpdateTitle.text.toString()
         val description = etUpdateDescription.text.toString()
+        val color = (binding.clNoteUpdate.background as ColorDrawable).color
 
         // Update note
-        val updatedNote = NoteData(args.currentItem.id, title, description)
+        val updatedNote = NoteData(args.currentItem.id, title, description, color)
         noteViewModel.updateData(updatedNote)
         showToast(requireContext(), getString(R.string.update_successful))
 

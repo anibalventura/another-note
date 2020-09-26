@@ -116,12 +116,14 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
                 val archiveItem = ArchiveData(
                     adapter.dataList[viewHolder.adapterPosition].id,
                     adapter.dataList[viewHolder.adapterPosition].title,
-                    adapter.dataList[viewHolder.adapterPosition].description
+                    adapter.dataList[viewHolder.adapterPosition].description,
+                    adapter.dataList[viewHolder.adapterPosition].color
                 )
                 val trashItem = TrashData(
                     adapter.dataList[viewHolder.adapterPosition].id,
                     adapter.dataList[viewHolder.adapterPosition].title,
-                    adapter.dataList[viewHolder.adapterPosition].description
+                    adapter.dataList[viewHolder.adapterPosition].description,
+                    adapter.dataList[viewHolder.adapterPosition].color
                 )
 
                 when (action) {

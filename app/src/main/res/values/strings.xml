@@ -62,4 +62,7 @@
     <string name="snackbar_note_edit">Can\'t edit in trash.</string>
     <string name="snackbar_restore">Restore</string>
     <string name="menu_note_share">Share</string>
+    <string name="menu_note_color">Change color</string>
+    <string name="dialog_choose_color">Choose a color</string>
+    <string name="dialog_select">Select</string>
 </resources>

@@ -11,8 +11,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clNoteUpdate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@{args.currentItem.color}"
         tools:context=".ui.note.NoteUpdateFragment">
 
         <EditText

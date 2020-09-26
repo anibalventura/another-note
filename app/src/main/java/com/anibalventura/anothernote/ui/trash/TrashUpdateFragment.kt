@@ -17,6 +17,7 @@ import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
 import com.anibalventura.anothernote.databinding.FragmentTrashUpdateBinding
 import com.anibalventura.anothernote.utils.showToast
+import kotlinx.android.synthetic.main.activity_main.*
 
 class TrashUpdateFragment : Fragment() {
 
@@ -42,15 +43,33 @@ class TrashUpdateFragment : Fragment() {
         binding.args = args
 
         noteItem =
-            NoteData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
+            NoteData(
+                args.currentItem.id,
+                args.currentItem.title,
+                args.currentItem.description,
+                args.currentItem.color
+            )
         archiveItem =
-            ArchiveData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
+            ArchiveData(
+                args.currentItem.id,
+                args.currentItem.title,
+                args.currentItem.description,
+                args.currentItem.color
+            )
         trashItem =
-            TrashData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
+            TrashData(
+                args.currentItem.id,
+                args.currentItem.title,
+                args.currentItem.description,
+                args.currentItem.color
+            )
 
         binding.clTrashUpdate.setOnClickListener { view ->
             sharedViewModel.moveItem(TRASH_TO_NOTE_EDIT, noteItem, archiveItem, trashItem, view)
         }
+
+        // Set toolbar color from note.
+        activity?.toolbar?.setBackgroundColor(args.currentItem.color)
 
         // Set menu.
         setHasOptionsMenu(true)
@@ -87,7 +106,12 @@ class TrashUpdateFragment : Fragment() {
         dialogBuilder.setPositiveButton(getString(R.string.dialog_confirmation)) { _, _ ->
 
             val trashItem =
-                TrashData(args.currentItem.id, args.currentItem.title, args.currentItem.description)
+                TrashData(
+                    args.currentItem.id,
+                    args.currentItem.title,
+                    args.currentItem.description,
+                    args.currentItem.color
+                )
 
             trashViewModel.deleteItem(trashItem)
             showToast(requireContext(), getString(R.string.successfully_deleted_forever))

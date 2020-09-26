@@ -8,8 +8,22 @@
     <color name="iconColor">#FFFFFF</color>
     <color name="backgroundColor">#151515</color>
     <color name="outlineColor">#FFFFFF</color>
-    <color name="snackBarActionColor">#151515</color>
+    <color name="snackBarActionColor">#282C34</color>
     <color name="noDataColor">#FFFFFF</color>
+
+    <!-- Note Background -->
+    <color name="transparent">@android:color/transparent</color>
+    <color name="red">#5A2B2B</color>
+    <color name="orange">#604A1C</color>
+    <color name="yellow">#635C1C</color>
+    <color name="green">#355922</color>
+    <color name="blue">#1C504A</color>
+    <color name="blue2">#2E555D</color>
+    <color name="blue3">#1C3B5D</color>
+    <color name="purple">#422B5D</color>
+    <color name="pink">#5A2244</color>
+    <color name="brown">#442E1C</color>
+    <color name="grey">#3D4042</color>
 
     <!-- Swipe -->
     <color name="swipeDeleteColor">#80B83030</color>

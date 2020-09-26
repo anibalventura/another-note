@@ -13,3 +13,5 @@
 /captures
 .externalNativeBuild
 .cxx
+libs/
+src/main/res/mipmap-anydpi-v26/

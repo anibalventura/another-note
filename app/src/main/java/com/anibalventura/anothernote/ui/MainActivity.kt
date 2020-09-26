@@ -3,6 +3,7 @@ package com.anibalventura.anothernote.ui
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
@@ -16,7 +17,7 @@ import com.anibalventura.anothernote.databinding.ActivityMainBinding
 import com.anibalventura.anothernote.utils.setupTheme
 import com.anibalventura.anothernote.utils.shareText
 import com.google.android.material.navigation.NavigationView
-
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -69,6 +70,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
             val toolBar = supportActionBar ?: return@addOnDestinationChangedListener
+            toolbar.setBackgroundColor(ActivityCompat.getColor(this, R.color.transparent))
+
             when (destination.id) {
                 // Show title.
                 R.id.noteFragment -> toolBar.setDisplayShowTitleEnabled(true)
