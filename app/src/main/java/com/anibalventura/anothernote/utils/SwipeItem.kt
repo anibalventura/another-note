@@ -40,6 +40,25 @@ abstract class SwipeItem(
         // Get current item view.
         val itemView = viewHolder.itemView
 
+        /** ============================= Draw background. ============================= **/
+        when (action) {
+            SWIPE_DELETE -> background.setBounds(
+                itemView.left + dX.toInt(),
+                itemView.top,
+                itemView.right,
+                itemView.bottom
+            )
+            SWIPE_ARCHIVE -> background.setBounds(
+                itemView.left,
+                itemView.top,
+                itemView.right + dX.toInt(),
+                itemView.bottom
+            )
+        }
+
+        // Draw.
+        background.draw(canvas)
+
         /** ============================= Draw Icon. ============================= **/
         // Calculate position.
         val itemHeight = itemView.bottom - itemView.top
@@ -66,25 +85,6 @@ abstract class SwipeItem(
         icon.draw(canvas)
         // Restore icon color after swipe.
         icon.setTint(ActivityCompat.getColor(context, R.color.iconColor))
-
-        /** ============================= Draw background. ============================= **/
-        when (action) {
-            SWIPE_DELETE -> background.setBounds(
-                itemView.left + dX.toInt(),
-                itemView.top,
-                itemView.right,
-                itemView.bottom
-            )
-            SWIPE_ARCHIVE -> background.setBounds(
-                itemView.left,
-                itemView.top,
-                itemView.right + dX.toInt(),
-                itemView.bottom
-            )
-        }
-
-        // Draw.
-        background.draw(canvas)
 
         super.onChildDraw(
             canvas,
