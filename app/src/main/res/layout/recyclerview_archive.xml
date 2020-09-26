@@ -7,7 +7,7 @@
 
         <variable
             name="archiveData"
-            type="com.anibalventura.anothernote.data.models.ArchiveData" />
+            type="com.anibalventura.anothernote.data.models.ArchiveModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

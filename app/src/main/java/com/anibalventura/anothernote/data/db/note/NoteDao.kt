@@ -2,29 +2,29 @@ package com.anibalventura.anothernote.data.db.note
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.anibalventura.anothernote.data.models.NoteData
+import com.anibalventura.anothernote.data.models.NoteModel
 
 @Dao
 interface NoteDao {
 
     @Query("SELECT * FROM note_table ORDER BY id DESC")
-    fun getAllData(): LiveData<List<NoteData>>
+    fun getDatabase(): LiveData<List<NoteModel>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertData(noteData: NoteData)
+    suspend fun insertItem(noteModel: NoteModel)
 
     @Update
-    suspend fun updateData(noteData: NoteData)
+    suspend fun updateItem(noteModel: NoteModel)
 
     @Delete
-    suspend fun deleteItem(noteData: NoteData)
+    suspend fun deleteItem(noteModel: NoteModel)
 
     @Query("DELETE FROM note_table")
-    suspend fun deleteAll()
+    suspend fun deleteDatabase()
 
     @Query("SELECT * FROM note_table WHERE title LIKE :searchQuery")
-    fun searchDatabase(searchQuery: String): LiveData<List<NoteData>>
+    fun searchDatabase(searchQuery: String): LiveData<List<NoteModel>>
 
     @Query("SELECT * FROM note_table ORDER BY title ASC")
-    fun sortByTitle(): LiveData<List<NoteData>>
+    fun sortByTitle(): LiveData<List<NoteModel>>
 }

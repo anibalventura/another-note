@@ -2,26 +2,26 @@ package com.anibalventura.anothernote.data.db.archive
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.anibalventura.anothernote.data.models.ArchiveData
+import com.anibalventura.anothernote.data.models.ArchiveModel
 
 @Dao
 interface ArchiveDao {
 
     @Query("SELECT * FROM archive_table ORDER BY id DESC")
-    fun getAllData(): LiveData<List<ArchiveData>>
+    fun getDatabase(): LiveData<List<ArchiveModel>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertData(archiveData: ArchiveData)
+    suspend fun insertItem(archiveModel: ArchiveModel)
 
     @Update
-    suspend fun updateData(archiveData: ArchiveData)
+    suspend fun updateItem(archiveModel: ArchiveModel)
 
     @Delete
-    suspend fun deleteItem(archiveData: ArchiveData)
+    suspend fun deleteItem(archiveModel: ArchiveModel)
 
     @Query("DELETE FROM archive_table")
-    suspend fun deleteAll()
+    suspend fun deleteDatabase()
 
     @Query("SELECT * FROM archive_table WHERE title LIKE :searchQuery")
-    fun searchDatabase(searchQuery: String): LiveData<List<ArchiveData>>
+    fun searchDatabase(searchQuery: String): LiveData<List<ArchiveModel>>
 }

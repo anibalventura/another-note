@@ -7,13 +7,11 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
         resourses = resources
     }
 
     companion object {
-        var instance: App? = null
-            private set
+        // Get app resources anywhere.
         var resourses: Resources? = null
             private set
     }

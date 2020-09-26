@@ -7,7 +7,7 @@
 
         <variable
             name="noteData"
-            type="com.anibalventura.anothernote.data.models.NoteData" />
+            type="com.anibalventura.anothernote.data.models.NoteModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

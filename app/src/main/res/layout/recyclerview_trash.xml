@@ -7,7 +7,7 @@
 
         <variable
             name="trashData"
-            type="com.anibalventura.anothernote.data.models.TrashData" />
+            type="com.anibalventura.anothernote.data.models.TrashModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

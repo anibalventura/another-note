@@ -2,20 +2,20 @@ package com.anibalventura.anothernote.data.db.trash
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.anibalventura.anothernote.data.models.TrashData
+import com.anibalventura.anothernote.data.models.TrashModel
 
 @Dao
 interface TrashDao {
 
     @Query("SELECT * FROM trash_table ORDER BY id DESC")
-    fun getAllData(): LiveData<List<TrashData>>
+    fun getDatabase(): LiveData<List<TrashModel>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertData(trashData: TrashData)
+    suspend fun insertItem(trashModel: TrashModel)
 
     @Delete
-    suspend fun deleteItem(trashData: TrashData)
+    suspend fun deleteItem(trashModel: TrashModel)
 
     @Query("DELETE FROM trash_table")
-    suspend fun deleteAll()
+    suspend fun deleteDatabase()
 }

@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.anibalventura.anothernote.data.models.ArchiveData
+import com.anibalventura.anothernote.data.models.ArchiveModel
 
-@Database(entities = [ArchiveData::class], version = 1, exportSchema = false)
+@Database(entities = [ArchiveModel::class], version = 1, exportSchema = false)
 abstract class ArchiveDatabase : RoomDatabase() {
 
     abstract fun archiveDao(): ArchiveDao

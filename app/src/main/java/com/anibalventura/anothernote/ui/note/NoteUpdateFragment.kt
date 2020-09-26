@@ -11,13 +11,13 @@ import com.anibalventura.anothernote.Constants.NOTE_TO_ARCHIVE
 import com.anibalventura.anothernote.Constants.NOTE_TO_TRASH
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.adapters.NoteAdapter
-import com.anibalventura.anothernote.data.models.ArchiveData
-import com.anibalventura.anothernote.data.models.NoteData
-import com.anibalventura.anothernote.data.models.TrashData
+import com.anibalventura.anothernote.data.models.ArchiveModel
+import com.anibalventura.anothernote.data.models.NoteModel
+import com.anibalventura.anothernote.data.models.TrashModel
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentNoteUpdateBinding
-import com.anibalventura.anothernote.utils.changeBackgroundColor
+import com.anibalventura.anothernote.utils.changeNoteBackgroundColor
 import com.anibalventura.anothernote.utils.shareText
 import com.anibalventura.anothernote.utils.showToast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,53 +33,50 @@ class NoteUpdateFragment : Fragment() {
     private val sharedViewModel: SharedViewModel by viewModels()
     private val noteViewModel: NoteViewModel by viewModels()
 
-    // Adapter.
-    private val adapter: NoteAdapter by lazy { NoteAdapter() }
+    // Models.
+    private lateinit var noteItem: NoteModel
+    private lateinit var archiveItem: ArchiveModel
+    private lateinit var trashItem: TrashModel
 
-    // Args.
+    // SafeArgs.
     private val args by navArgs<NoteUpdateFragmentArgs>()
 
-    // Models.
-    private lateinit var noteItem: NoteData
-    private lateinit var archiveItem: ArchiveData
-    private lateinit var trashItem: TrashData
+    // RecyclerView Adapter.
+    private val adapter: NoteAdapter by lazy { NoteAdapter() }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-        // DataBinding.
+        // Inflate the layout for this fragment.
         _binding = FragmentNoteUpdateBinding.inflate(inflater, container, false)
         binding.args = args
 
         // Get notify every time the database change.
-        noteViewModel.getAllData.observe(viewLifecycleOwner, { data ->
+        noteViewModel.getDatabase.observe(viewLifecycleOwner, { data ->
             sharedViewModel.checkIfNoteIsEmpty(data)
             adapter.setData(data)
         })
 
-        noteItem =
-            NoteData(
-                args.currentItem.id,
-                args.currentItem.title,
-                args.currentItem.description,
-                args.currentItem.color
-            )
-        archiveItem =
-            ArchiveData(
-                args.currentItem.id,
-                args.currentItem.title,
-                args.currentItem.description,
-                args.currentItem.color
-            )
-        trashItem =
-            TrashData(
-                args.currentItem.id,
-                args.currentItem.title,
-                args.currentItem.description,
-                args.currentItem.color
-            )
+        // Set current items.
+        noteItem = NoteModel(
+            args.currentItem.id,
+            args.currentItem.title,
+            args.currentItem.description,
+            args.currentItem.color
+        )
+        archiveItem = ArchiveModel(
+            args.currentItem.id,
+            args.currentItem.title,
+            args.currentItem.description,
+            args.currentItem.color
+        )
+        trashItem = TrashModel(
+            args.currentItem.id,
+            args.currentItem.title,
+            args.currentItem.description,
+            args.currentItem.color
+        )
 
         // Set toolbar color from note.
         activity?.toolbar?.setBackgroundColor(args.currentItem.color)
@@ -113,10 +110,8 @@ class NoteUpdateFragment : Fragment() {
                 )
                 findNavController().navigate(R.id.action_noteUpdateFragment_to_noteFragment)
             }
-            R.id.menu_note_color -> changeBackgroundColor(
-                binding.clNoteUpdate,
-                activity?.toolbar,
-                requireContext()
+            R.id.menu_note_color -> changeNoteBackgroundColor(
+                binding.clNoteUpdate, activity?.toolbar, requireContext()
             )
             R.id.menu_note_share -> shareText(requireContext(), args.currentItem.description)
             R.id.menu_note_delete -> {
@@ -134,13 +129,14 @@ class NoteUpdateFragment : Fragment() {
     }
 
     private fun updateNote() {
+        // Get data to insert.
         val title = etUpdateTitle.text.toString()
         val description = etUpdateDescription.text.toString()
         val color = (binding.clNoteUpdate.background as ColorDrawable).color
 
-        // Update note
-        val updatedNote = NoteData(args.currentItem.id, title, description, color)
-        noteViewModel.updateData(updatedNote)
+        // Insert data to database.
+        val updatedNote = NoteModel(args.currentItem.id, title, description, color)
+        noteViewModel.updateItem(updatedNote)
         showToast(requireContext(), getString(R.string.update_successful))
 
         // Navigate back.

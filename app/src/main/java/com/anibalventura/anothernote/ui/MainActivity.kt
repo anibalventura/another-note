@@ -21,8 +21,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    // Use DataBinding.
-    private lateinit var binding: ActivityMainBinding
+    // DataBinding.
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
 
     // NavController.
     private lateinit var navController: NavController
@@ -33,8 +34,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
 
         // Use DataBinding to set the activity view.
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
+        _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         // Setup navigation.
         setupNavigation()
@@ -43,17 +43,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupTheme(this)
     }
 
-    /**
-     * Called when the hamburger menu or back button are pressed on the Toolbar.
-     * Delegate this to Navigation.
-     */
+    // Called when the hamburger menu or back button are pressed on the Toolbar.
+    // Delegate this to Navigation.
     override fun onSupportNavigateUp() = navigateUp(
         findNavController(R.id.navHostFragment), binding.drawerLayout
     )
 
-    /**
-     * Setup Navigation for this Activity.
-     */
     private fun setupNavigation() {
         // Set the toolbar.
         setSupportActionBar(binding.toolbar)
@@ -88,6 +83,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(menu: MenuItem): Boolean {
+
         when (menu.itemId) {
             R.id.noteFragment -> navController.navigate(R.id.noteFragment)
             R.id.archiveFragment -> navController.navigate(R.id.archiveFragment)
@@ -96,6 +92,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.aboutFragment -> navController.navigate(R.id.aboutFragment)
             R.id.settingsActivity -> navController.navigate(R.id.settingsActivity)
         }
+
         // CLose navDrawer after selection.
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true

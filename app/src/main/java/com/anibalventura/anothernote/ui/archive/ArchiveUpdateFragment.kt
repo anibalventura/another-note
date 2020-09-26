@@ -10,13 +10,13 @@ import androidx.navigation.fragment.navArgs
 import com.anibalventura.anothernote.Constants.ARCHIVE_TO_NOTE
 import com.anibalventura.anothernote.Constants.ARCHIVE_TO_TRASH
 import com.anibalventura.anothernote.R
-import com.anibalventura.anothernote.data.models.ArchiveData
-import com.anibalventura.anothernote.data.models.NoteData
-import com.anibalventura.anothernote.data.models.TrashData
+import com.anibalventura.anothernote.data.models.ArchiveModel
+import com.anibalventura.anothernote.data.models.NoteModel
+import com.anibalventura.anothernote.data.models.TrashModel
 import com.anibalventura.anothernote.data.viewmodel.ArchiveViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentArchiveUpdateBinding
-import com.anibalventura.anothernote.utils.changeBackgroundColor
+import com.anibalventura.anothernote.utils.changeNoteBackgroundColor
 import com.anibalventura.anothernote.utils.shareText
 import com.anibalventura.anothernote.utils.showToast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,44 +32,41 @@ class ArchiveUpdateFragment : Fragment() {
     private val sharedViewModel: SharedViewModel by viewModels()
     private val archiveViewModel: ArchiveViewModel by viewModels()
 
-    // Args.
+    // Models.
+    private lateinit var noteItem: NoteModel
+    private lateinit var archiveItem: ArchiveModel
+    private lateinit var trashItem: TrashModel
+
+    // SafeArgs.
     private val args by navArgs<ArchiveUpdateFragmentArgs>()
 
-    // Models.
-    private lateinit var noteItem: NoteData
-    private lateinit var archiveItem: ArchiveData
-    private lateinit var trashItem: TrashData
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-        // DataBinding.
+        // Inflate the layout for this fragment.
         _binding = FragmentArchiveUpdateBinding.inflate(inflater, container, false)
         binding.args = args
 
-        noteItem =
-            NoteData(
-                args.currentItem.id,
-                args.currentItem.title,
-                args.currentItem.description,
-                args.currentItem.color
-            )
-        archiveItem =
-            ArchiveData(
-                args.currentItem.id,
-                args.currentItem.title,
-                args.currentItem.description,
-                args.currentItem.color
-            )
-        trashItem =
-            TrashData(
-                args.currentItem.id,
-                args.currentItem.title,
-                args.currentItem.description,
-                args.currentItem.color
-            )
+        // Set current items.
+        noteItem = NoteModel(
+            args.currentItem.id,
+            args.currentItem.title,
+            args.currentItem.description,
+            args.currentItem.color
+        )
+        archiveItem = ArchiveModel(
+            args.currentItem.id,
+            args.currentItem.title,
+            args.currentItem.description,
+            args.currentItem.color
+        )
+        trashItem = TrashModel(
+            args.currentItem.id,
+            args.currentItem.title,
+            args.currentItem.description,
+            args.currentItem.color
+        )
 
         // Set toolbar color from note.
         activity?.toolbar?.setBackgroundColor(args.currentItem.color)
@@ -100,7 +97,7 @@ class ArchiveUpdateFragment : Fragment() {
                 trashItem,
                 requireView()
             )
-            R.id.menu_note_color -> changeBackgroundColor(
+            R.id.menu_note_color -> changeNoteBackgroundColor(
                 binding.clArchiveUpdate,
                 activity?.toolbar,
                 requireContext()
@@ -118,13 +115,14 @@ class ArchiveUpdateFragment : Fragment() {
     }
 
     private fun updateItem() {
+        // Get data to insert.
         val title = etArchiveUpdateTitle.text.toString()
         val description = etArchiveUpdateDescription.text.toString()
         val color = (binding.clArchiveUpdate.background as ColorDrawable).color
 
-        // Update current note.
-        val updatedItem = ArchiveData(args.currentItem.id, title, description, color)
-        archiveViewModel.updateData(updatedItem)
+        // Insert data to database.
+        val updatedItem = ArchiveModel(args.currentItem.id, title, description, color)
+        archiveViewModel.updateItem(updatedItem)
         showToast(requireContext(), getString(R.string.update_successful))
 
         // Navigate back.

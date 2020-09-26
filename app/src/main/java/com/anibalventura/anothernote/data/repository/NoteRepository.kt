@@ -2,31 +2,31 @@ package com.anibalventura.anothernote.data.repository
 
 import androidx.lifecycle.LiveData
 import com.anibalventura.anothernote.data.db.note.NoteDao
-import com.anibalventura.anothernote.data.models.NoteData
+import com.anibalventura.anothernote.data.models.NoteModel
 
 class NoteRepository(private val noteDao: NoteDao) {
 
-    val getAllData: LiveData<List<NoteData>> = noteDao.getAllData()
+    val getDatabase: LiveData<List<NoteModel>> = noteDao.getDatabase()
 
-    val sortByTitle: LiveData<List<NoteData>> = noteDao.sortByTitle()
+    val sortByTitle: LiveData<List<NoteModel>> = noteDao.sortByTitle()
 
-    suspend fun insertData(noteData: NoteData) {
-        noteDao.insertData(noteData)
+    suspend fun insertItem(noteModel: NoteModel) {
+        noteDao.insertItem(noteModel)
     }
 
-    suspend fun updateData(noteData: NoteData) {
-        noteDao.updateData(noteData)
+    suspend fun updateItem(noteModel: NoteModel) {
+        noteDao.updateItem(noteModel)
     }
 
-    suspend fun deleteItem(noteData: NoteData) {
-        noteDao.deleteItem(noteData)
+    suspend fun deleteItem(noteModel: NoteModel) {
+        noteDao.deleteItem(noteModel)
     }
 
-    suspend fun deleteAll() {
-        noteDao.deleteAll()
+    suspend fun deleteDatabase() {
+        noteDao.deleteDatabase()
     }
 
-    fun searchDatabase(searchQuery: String): LiveData<List<NoteData>> {
+    fun searchDatabase(searchQuery: String): LiveData<List<NoteModel>> {
         return noteDao.searchDatabase(searchQuery)
     }
 }

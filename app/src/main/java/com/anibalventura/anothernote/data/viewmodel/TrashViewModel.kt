@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.anibalventura.anothernote.data.db.trash.TrashDatabase
-import com.anibalventura.anothernote.data.models.TrashData
+import com.anibalventura.anothernote.data.models.TrashModel
 import com.anibalventura.anothernote.data.repository.TrashRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,28 +15,28 @@ class TrashViewModel(application: Application) : AndroidViewModel(application) {
     private val trashDao = TrashDatabase.getDatabase(application).trashDao()
     private val repository: TrashRepository
 
-    val getAllData: LiveData<List<TrashData>>
+    val getDatabase: LiveData<List<TrashModel>>
 
     init {
         repository = TrashRepository(trashDao)
-        getAllData = repository.getAllData
+        getDatabase = repository.getDatabase
     }
 
-    fun insertData(trashData: TrashData) {
+    fun insertItem(trashModel: TrashModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertData(trashData)
+            repository.insertItem(trashModel)
         }
     }
 
-    fun deleteItem(noteData: TrashData) {
+    fun deleteItem(noteModel: TrashModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteItem(noteData)
+            repository.deleteItem(noteModel)
         }
     }
 
-    fun deleteAll() {
+    fun deleteDatabase() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAll()
+            repository.deleteDatabase()
         }
     }
 }

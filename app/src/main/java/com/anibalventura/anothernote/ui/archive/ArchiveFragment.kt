@@ -8,14 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.anibalventura.anothernote.Constants.ARCHIVE_TO_EMPTY
+import com.anibalventura.anothernote.Constants.ARCHIVE_EMPTY
 import com.anibalventura.anothernote.Constants.ARCHIVE_VIEW
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.adapters.ArchiveAdapter
 import com.anibalventura.anothernote.data.viewmodel.ArchiveViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentArchiveBinding
-import com.anibalventura.anothernote.utils.hideKeyboard
+import com.anibalventura.anothernote.utils.hideSoftKeyboard
 import com.anibalventura.anothernote.utils.sharedPref
 
 class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -28,18 +28,14 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
     private val archiveViewModel: ArchiveViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
 
-    // Adapter.
+    // RecyclerView Adapter.
     private val adapter: ArchiveAdapter by lazy { ArchiveAdapter() }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-        /**
-         * Inflate the layout for this fragment.
-         */
-        // DataBinding.
+        // Inflate the layout for this fragment.
         _binding = FragmentArchiveBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.sharedViewModel = sharedViewModel
@@ -48,7 +44,7 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
         setupRecyclerView()
 
         // Get notify every time the database change.
-        archiveViewModel.getAllData.observe(viewLifecycleOwner, { data ->
+        archiveViewModel.getDatabase.observe(viewLifecycleOwner, { data ->
             sharedViewModel.checkIfArchiveIsEmpty(data)
             adapter.setData(data)
         })
@@ -56,8 +52,8 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
         // Set menu.
         setHasOptionsMenu(true)
 
-        // Hide soft keyboard.
-        hideKeyboard(requireActivity())
+        // Hide Soft Keyboard.
+        hideSoftKeyboard(requireActivity())
 
         return binding.root
     }
@@ -66,12 +62,14 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
         val recyclerView = binding.archiveRecyclerView
         recyclerView.adapter = adapter
 
+        // Set layout view.
         when (sharedPref(requireContext()).getBoolean(ARCHIVE_VIEW, false)) {
             true -> recyclerView.layoutManager = LinearLayoutManager(requireActivity())
             false -> recyclerView.layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         }
 
+        // Set to null because a bug in RecyclerView library.
         recyclerView.itemAnimator = null
     }
 
@@ -89,9 +87,11 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
         val list = menu.findItem(R.id.menu_main_list)
         val grid = menu.findItem(R.id.menu_main_grid)
 
+        // Set search function.
         search?.isSubmitButtonEnabled = true
         search?.setOnQueryTextListener(this)
 
+        // Change option when change recyclerview layout.
         when (sharedPref(requireContext()).getBoolean(ARCHIVE_VIEW, false)) {
             true -> {
                 list.setEnabled(false).isVisible = false
@@ -102,48 +102,44 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
                 grid.setEnabled(false).isVisible = false
             }
         }
+
         return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_main_list -> changeNoteView(true)
-            R.id.menu_main_grid -> changeNoteView(false)
-            R.id.menu_main_delete_all -> sharedViewModel.emptyData(
-                requireContext(),
-                ARCHIVE_TO_EMPTY
-            )
+            R.id.menu_main_list -> changeLayoutView(true)
+            R.id.menu_main_grid -> changeLayoutView(false)
+            R.id.menu_main_delete_all ->
+                sharedViewModel.emptyDatabase(requireContext(), ARCHIVE_EMPTY)
         }
+
         return super.onOptionsItemSelected(item)
     }
 
     @Suppress("DEPRECATION")
-    private fun changeNoteView(change: Boolean) {
+    private fun changeLayoutView(change: Boolean) {
         sharedPref(requireContext()).edit().putBoolean(ARCHIVE_VIEW, change).apply()
         adapter.notifyDataSetChanged()
         setupRecyclerView()
         ActivityCompat.invalidateOptionsMenu(requireActivity())
     }
 
+    // Methods for search option.
     override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null) {
-            searchTroughDatabase(query)
-        }
+        if (query != null) searchTroughDatabase(query)
         return true
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
-        if (query != null) {
-            searchTroughDatabase(query)
-        }
+        if (query != null) searchTroughDatabase(query)
         return true
     }
 
+    // Set search option.
     private fun searchTroughDatabase(query: String) {
         archiveViewModel.searchDatabase("%$query%").observe(this, { list ->
-            list?.let {
-                adapter.setData(it)
-            }
+            list?.let { adapter.setData(it) }
         })
     }
 

@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = "archive_table")
 @Parcelize
-data class ArchiveData(
+data class ArchiveModel(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     var title: String,

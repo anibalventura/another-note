@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.anibalventura.anothernote.data.models.TrashData
+import com.anibalventura.anothernote.data.models.TrashModel
 
-@Database(entities = [TrashData::class], version = 1, exportSchema = false)
+@Database(entities = [TrashModel::class], version = 1, exportSchema = false)
 abstract class TrashDatabase : RoomDatabase() {
 
     abstract fun trashDao(): TrashDao

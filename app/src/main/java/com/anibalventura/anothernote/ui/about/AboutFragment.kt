@@ -14,16 +14,17 @@ class AboutFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-        /**
-         * Inflate the layout for this fragment.
-         */
-        // DataBinding.
+        // Inflate the layout for this fragment.
         _binding = FragmentAboutBinding.inflate(inflater, container, false)
-
         return binding.root
+    }
+
+    // Destroy all references of the fragment to avoid memory leak.
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

@@ -4,19 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.anibalventura.anothernote.data.models.NoteData
+import com.anibalventura.anothernote.data.models.NoteModel
 import com.anibalventura.anothernote.databinding.RecyclerviewNoteBinding
-import com.anibalventura.anothernote.utils.NoteDiffUtil
+import com.anibalventura.anothernote.utils.diffutil.NoteDiffUtil
 
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
 
-    var dataList = emptyList<NoteData>()
+    var dataList = emptyList<NoteModel>()
 
     class MyViewHolder(private val binding: RecyclerviewNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(noteData: NoteData) {
-            binding.noteData = noteData
+        fun bind(noteModel: NoteModel) {
+            binding.noteData = noteModel
             binding.executePendingBindings()
         }
 
@@ -42,7 +42,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
         holder.bind(currentItem)
     }
 
-    fun setData(noteData: List<NoteData>) {
+    fun setData(noteData: List<NoteModel>) {
         val noteDiffUtil = NoteDiffUtil(dataList, noteData)
         val noteDiffUtilResult = DiffUtil.calculateDiff(noteDiffUtil)
         this.dataList = noteData

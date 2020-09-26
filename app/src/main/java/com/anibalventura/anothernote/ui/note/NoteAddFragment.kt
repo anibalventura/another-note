@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.anibalventura.anothernote.R
-import com.anibalventura.anothernote.data.models.NoteData
+import com.anibalventura.anothernote.data.models.NoteModel
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.databinding.FragmentNoteAddBinding
-import com.anibalventura.anothernote.utils.changeBackgroundColor
+import com.anibalventura.anothernote.utils.changeNoteBackgroundColor
 import kotlinx.android.synthetic.main.activity_main.*
 
 class NoteAddFragment : Fragment() {
@@ -23,8 +23,7 @@ class NoteAddFragment : Fragment() {
     private val noteViewModel: NoteViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
         // DataBinding.
@@ -46,24 +45,26 @@ class NoteAddFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_note_save -> insertNewNote()
-            R.id.menu_note_color -> changeBackgroundColor(
+            R.id.menu_note_save -> insertNewItem()
+            R.id.menu_note_color -> changeNoteBackgroundColor(
                 binding.clNoteAdd,
                 activity?.toolbar,
                 requireContext()
             )
         }
+
         return super.onOptionsItemSelected(item)
     }
 
-    private fun insertNewNote() {
+    private fun insertNewItem() {
+        // Get data to insert.
         val title = binding.etNotAddTitle.text.toString()
         val description = binding.etNoteAddNote.text.toString()
         val color = (binding.clNoteAdd.background as ColorDrawable).color
 
         // Insert data to database.
-        val newNote = NoteData(0, title, description, color)
-        noteViewModel.insertData(newNote)
+        val newNote = NoteModel(0, title, description, color)
+        noteViewModel.insertItem(newNote)
 
         // Navigate back.
         findNavController().navigate(R.id.action_noteAddFragment_to_noteFragment)

@@ -5,12 +5,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "trash_table")
+@Entity(tableName = "note_table")
 @Parcelize
-data class TrashData(
+data class NoteModel(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     var title: String,
     var description: String,
-    val color: Int
+    var color: Int
 ) : Parcelable

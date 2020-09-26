@@ -10,9 +10,9 @@ import androidx.navigation.fragment.navArgs
 import com.anibalventura.anothernote.Constants.TRASH_TO_NOTE
 import com.anibalventura.anothernote.Constants.TRASH_TO_NOTE_EDIT
 import com.anibalventura.anothernote.R
-import com.anibalventura.anothernote.data.models.ArchiveData
-import com.anibalventura.anothernote.data.models.NoteData
-import com.anibalventura.anothernote.data.models.TrashData
+import com.anibalventura.anothernote.data.models.ArchiveModel
+import com.anibalventura.anothernote.data.models.NoteModel
+import com.anibalventura.anothernote.data.models.TrashModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
 import com.anibalventura.anothernote.databinding.FragmentTrashUpdateBinding
@@ -21,49 +21,51 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class TrashUpdateFragment : Fragment() {
 
+    // DataBinding.
     private var _binding: FragmentTrashUpdateBinding? = null
     private val binding get() = _binding!!
 
+    // ViewModels.
     private val sharedViewModel: SharedViewModel by viewModels()
     private val trashViewModel: TrashViewModel by viewModels()
 
+    // Models.
+    private lateinit var noteItem: NoteModel
+    private lateinit var archiveItem: ArchiveModel
+    private lateinit var trashItem: TrashModel
+
+    // SafeArgs.
     private val args by navArgs<TrashUpdateFragmentArgs>()
 
-    private lateinit var noteItem: NoteData
-    private lateinit var archiveItem: ArchiveData
-    private lateinit var trashItem: TrashData
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-        // DataBinding.
+        // Inflate the layout for this fragment.
         _binding = FragmentTrashUpdateBinding.inflate(inflater, container, false)
         binding.args = args
 
-        noteItem =
-            NoteData(
-                args.currentItem.id,
-                args.currentItem.title,
-                args.currentItem.description,
-                args.currentItem.color
-            )
-        archiveItem =
-            ArchiveData(
-                args.currentItem.id,
-                args.currentItem.title,
-                args.currentItem.description,
-                args.currentItem.color
-            )
-        trashItem =
-            TrashData(
-                args.currentItem.id,
-                args.currentItem.title,
-                args.currentItem.description,
-                args.currentItem.color
-            )
+        // Set current items.
+        noteItem = NoteModel(
+            args.currentItem.id,
+            args.currentItem.title,
+            args.currentItem.description,
+            args.currentItem.color
+        )
+        archiveItem = ArchiveModel(
+            args.currentItem.id,
+            args.currentItem.title,
+            args.currentItem.description,
+            args.currentItem.color
+        )
+        trashItem = TrashModel(
+            args.currentItem.id,
+            args.currentItem.title,
+            args.currentItem.description,
+            args.currentItem.color
+        )
 
+        // Can't update note on trash.
         binding.clTrashUpdate.setOnClickListener { view ->
             sharedViewModel.moveItem(TRASH_TO_NOTE_EDIT, noteItem, archiveItem, trashItem, view)
         }
@@ -95,29 +97,30 @@ class TrashUpdateFragment : Fragment() {
             )
             R.id.menu_note_delete_forever -> deleteForever()
         }
+
         return super.onOptionsItemSelected(item)
     }
 
     // Show dialog to confirm delete note forever.
     private fun deleteForever() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setTitle(getString(R.string.dialog_delete_forever))
-        dialogBuilder.setMessage(getString(R.string.dialog_delete_forever_you_sure))
-        dialogBuilder.setPositiveButton(getString(R.string.dialog_confirmation)) { _, _ ->
+            .setTitle(getString(R.string.dialog_delete_forever))
+            .setMessage(getString(R.string.dialog_delete_forever_you_sure))
+            .setPositiveButton(getString(R.string.dialog_confirmation)) { _, _ ->
 
-            val trashItem =
-                TrashData(
+                val trashItem = TrashModel(
                     args.currentItem.id,
                     args.currentItem.title,
                     args.currentItem.description,
                     args.currentItem.color
                 )
 
-            trashViewModel.deleteItem(trashItem)
-            showToast(requireContext(), getString(R.string.successfully_deleted_forever))
-            findNavController().navigate(R.id.action_trashUpdateFragment_to_trashFragment)
-        }
-        dialogBuilder.setNegativeButton(getString(R.string.dialog_negative)) { _, _ -> }
+                trashViewModel.deleteItem(trashItem)
+                showToast(requireContext(), getString(R.string.successfully_deleted_forever))
+                findNavController().navigate(R.id.action_trashUpdateFragment_to_trashFragment)
+            }
+            .setNegativeButton(getString(R.string.dialog_negative)) { _, _ -> }
+
         dialogBuilder.show()
     }
 

@@ -2,29 +2,29 @@ package com.anibalventura.anothernote.data.repository
 
 import androidx.lifecycle.LiveData
 import com.anibalventura.anothernote.data.db.archive.ArchiveDao
-import com.anibalventura.anothernote.data.models.ArchiveData
+import com.anibalventura.anothernote.data.models.ArchiveModel
 
 class ArchiveRepository(private val archiveDao: ArchiveDao) {
 
-    val getAllData: LiveData<List<ArchiveData>> = archiveDao.getAllData()
+    val getDatabase: LiveData<List<ArchiveModel>> = archiveDao.getDatabase()
 
-    suspend fun insertData(archiveData: ArchiveData) {
-        archiveDao.insertData(archiveData)
+    suspend fun insertData(archiveModel: ArchiveModel) {
+        archiveDao.insertItem(archiveModel)
     }
 
-    suspend fun updateData(archiveData: ArchiveData) {
-        archiveDao.updateData(archiveData)
+    suspend fun updateItem(archiveModel: ArchiveModel) {
+        archiveDao.updateItem(archiveModel)
     }
 
-    suspend fun deleteItem(archiveData: ArchiveData) {
-        archiveDao.deleteItem(archiveData)
+    suspend fun deleteItem(archiveModel: ArchiveModel) {
+        archiveDao.deleteItem(archiveModel)
     }
 
-    suspend fun deleteAll() {
-        archiveDao.deleteAll()
+    suspend fun deleteDatabase() {
+        archiveDao.deleteDatabase()
     }
 
-    fun searchDatabase(searchQuery: String): LiveData<List<ArchiveData>> {
+    fun searchDatabase(searchQuery: String): LiveData<List<ArchiveModel>> {
         return archiveDao.searchDatabase(searchQuery)
     }
 }

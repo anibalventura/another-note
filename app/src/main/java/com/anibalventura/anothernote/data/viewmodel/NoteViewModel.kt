@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.anibalventura.anothernote.data.db.note.NoteDatabase
-import com.anibalventura.anothernote.data.models.NoteData
+import com.anibalventura.anothernote.data.models.NoteModel
 import com.anibalventura.anothernote.data.repository.NoteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,42 +15,41 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     private val noteDao = NoteDatabase.getDatabase(application).noteDao()
     private val repository: NoteRepository
 
-    val getAllData: LiveData<List<NoteData>>
-
-    val sortByTitle: LiveData<List<NoteData>>
+    val getDatabase: LiveData<List<NoteModel>>
+    val sortByTitle: LiveData<List<NoteModel>>
 
     init {
         repository = NoteRepository(noteDao)
-        getAllData = repository.getAllData
+        getDatabase = repository.getDatabase
 
         sortByTitle = repository.sortByTitle
     }
 
-    fun insertData(noteData: NoteData) {
+    fun insertItem(noteModel: NoteModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertData(noteData)
+            repository.insertItem(noteModel)
         }
     }
 
-    fun updateData(noteData: NoteData) {
+    fun updateItem(noteModel: NoteModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateData(noteData)
+            repository.updateItem(noteModel)
         }
     }
 
-    fun deleteItem(noteData: NoteData) {
+    fun deleteItem(noteModel: NoteModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteItem(noteData)
+            repository.deleteItem(noteModel)
         }
     }
 
-    fun deleteAll() {
+    fun deleteDatabase() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAll()
+            repository.deleteDatabase()
         }
     }
 
-    fun searchDatabase(searchQuery: String): LiveData<List<NoteData>> {
+    fun searchDatabase(searchQuery: String): LiveData<List<NoteModel>> {
         return repository.searchDatabase(searchQuery)
     }
 }

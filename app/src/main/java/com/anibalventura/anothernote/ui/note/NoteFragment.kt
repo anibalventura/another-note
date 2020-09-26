@@ -12,35 +12,35 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.anibalventura.anothernote.Constants.NOTE_EMPTY
 import com.anibalventura.anothernote.Constants.NOTE_TO_ARCHIVE
-import com.anibalventura.anothernote.Constants.NOTE_TO_EMPTY
 import com.anibalventura.anothernote.Constants.NOTE_TO_TRASH
 import com.anibalventura.anothernote.Constants.NOTE_VIEW
 import com.anibalventura.anothernote.Constants.SWIPE_ARCHIVE
 import com.anibalventura.anothernote.Constants.SWIPE_DELETE
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.adapters.NoteAdapter
-import com.anibalventura.anothernote.data.models.ArchiveData
-import com.anibalventura.anothernote.data.models.TrashData
+import com.anibalventura.anothernote.data.models.ArchiveModel
+import com.anibalventura.anothernote.data.models.TrashModel
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentNoteBinding
 import com.anibalventura.anothernote.utils.SwipeItem
-import com.anibalventura.anothernote.utils.hideKeyboard
+import com.anibalventura.anothernote.utils.hideSoftKeyboard
 import com.anibalventura.anothernote.utils.sharedPref
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
 
-    // ViewModels.
-    private val noteViewModel: NoteViewModel by viewModels()
-    private val sharedViewModel: SharedViewModel by viewModels()
-
     // DataBinding.
     private var _binding: FragmentNoteBinding? = null
     private val binding get() = _binding!!
 
-    // Adapter.
+    // ViewModels.
+    private val noteViewModel: NoteViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by viewModels()
+
+    // RecyclerView Adapter.
     private val adapter: NoteAdapter by lazy { NoteAdapter() }
 
     override fun onCreateView(
@@ -48,16 +48,16 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        // DataBinding.
+        // Inflate the layout for this fragment.
         _binding = FragmentNoteBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.sharedViewModel = sharedViewModel
 
-        // Setup RecyclerView
+        // Setup RecyclerView.
         setupRecyclerView()
 
         // Get notify every time the database change.
-        noteViewModel.getAllData.observe(viewLifecycleOwner, { data ->
+        noteViewModel.getDatabase.observe(viewLifecycleOwner, { data ->
             sharedViewModel.checkIfNoteIsEmpty(data)
             adapter.setData(data)
         })
@@ -65,8 +65,8 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         // Set menu.
         setHasOptionsMenu(true)
 
-        // Hide soft keyboard.
-        hideKeyboard(requireActivity())
+        // Hide Soft Keyboard.
+        hideSoftKeyboard(requireActivity())
 
         return binding.root
     }
@@ -75,6 +75,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         val recyclerView = binding.noteRecyclerView
         recyclerView.adapter = adapter
 
+        // Set layout view.
         when (sharedPref(requireContext()).getBoolean(NOTE_VIEW, false)) {
             true -> recyclerView.layoutManager = LinearLayoutManager(requireActivity())
             false -> recyclerView.layoutManager =
@@ -96,6 +97,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         lateinit var background: Drawable
         lateinit var icon: Drawable
 
+        // Set background and icon depending on action.
         when (action) {
             SWIPE_DELETE -> {
                 background =
@@ -113,13 +115,13 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, action: Int) {
 
                 val noteItem = adapter.dataList[viewHolder.adapterPosition]
-                val archiveItem = ArchiveData(
+                val archiveItem = ArchiveModel(
                     adapter.dataList[viewHolder.adapterPosition].id,
                     adapter.dataList[viewHolder.adapterPosition].title,
                     adapter.dataList[viewHolder.adapterPosition].description,
                     adapter.dataList[viewHolder.adapterPosition].color
                 )
-                val trashItem = TrashData(
+                val trashItem = TrashModel(
                     adapter.dataList[viewHolder.adapterPosition].id,
                     adapter.dataList[viewHolder.adapterPosition].title,
                     adapter.dataList[viewHolder.adapterPosition].description,
@@ -166,9 +168,11 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         val list = menu.findItem(R.id.menu_main_list)
         val grid = menu.findItem(R.id.menu_main_grid)
 
+        // Set search function.
         search?.isSubmitButtonEnabled = true
         search?.setOnQueryTextListener(this)
 
+        // Change option when change recyclerview layout.
         when (sharedPref(requireContext()).getBoolean(NOTE_VIEW, false)) {
             true -> {
                 list.setEnabled(false).isVisible = false
@@ -185,43 +189,40 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_main_list -> changeNoteView(true)
-            R.id.menu_main_grid -> changeNoteView(false)
-            R.id.menu_main_delete_all -> sharedViewModel.emptyData(requireContext(), NOTE_TO_EMPTY)
+            R.id.menu_main_list -> changeLayoutView(true)
+            R.id.menu_main_grid -> changeLayoutView(false)
+            R.id.menu_main_delete_all -> sharedViewModel.emptyDatabase(requireContext(), NOTE_EMPTY)
             R.id.menu_main_sort_title -> noteViewModel.sortByTitle.observe(this, {
                 adapter.setData(it)
             })
         }
+
         return super.onOptionsItemSelected(item)
     }
 
     @Suppress("DEPRECATION")
-    private fun changeNoteView(change: Boolean) {
+    private fun changeLayoutView(change: Boolean) {
         sharedPref(requireContext()).edit().putBoolean(NOTE_VIEW, change).apply()
         adapter.notifyDataSetChanged()
         setupRecyclerView()
         invalidateOptionsMenu(requireActivity())
     }
 
+    // Methods for search option.
     override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null) {
-            searchTroughDatabase(query)
-        }
+        if (query != null) searchTroughDatabase(query)
         return true
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
-        if (query != null) {
-            searchTroughDatabase(query)
-        }
+        if (query != null) searchTroughDatabase(query)
         return true
     }
 
+    // Set search option.
     private fun searchTroughDatabase(query: String) {
         noteViewModel.searchDatabase("%$query%").observe(this, { list ->
-            list?.let {
-                adapter.setData(it)
-            }
+            list?.let { adapter.setData(it) }
         })
     }
 

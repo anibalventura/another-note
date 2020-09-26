@@ -2,21 +2,21 @@ package com.anibalventura.anothernote.data.repository
 
 import androidx.lifecycle.LiveData
 import com.anibalventura.anothernote.data.db.trash.TrashDao
-import com.anibalventura.anothernote.data.models.TrashData
+import com.anibalventura.anothernote.data.models.TrashModel
 
 class TrashRepository(private val trashDao: TrashDao) {
 
-    val getAllData: LiveData<List<TrashData>> = trashDao.getAllData()
+    val getDatabase: LiveData<List<TrashModel>> = trashDao.getDatabase()
 
-    suspend fun insertData(trashData: TrashData) {
-        trashDao.insertData(trashData)
+    suspend fun insertItem(trashModel: TrashModel) {
+        trashDao.insertItem(trashModel)
     }
 
-    suspend fun deleteItem(trashData: TrashData) {
-        trashDao.deleteItem(trashData)
+    suspend fun deleteItem(trashModel: TrashModel) {
+        trashDao.deleteItem(trashModel)
     }
 
-    suspend fun deleteAll() {
-        trashDao.deleteAll()
+    suspend fun deleteDatabase() {
+        trashDao.deleteDatabase()
     }
 }

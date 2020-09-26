@@ -6,9 +6,9 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.anibalventura.anothernote.R
-import com.anibalventura.anothernote.data.models.ArchiveData
-import com.anibalventura.anothernote.data.models.NoteData
-import com.anibalventura.anothernote.data.models.TrashData
+import com.anibalventura.anothernote.data.models.ArchiveModel
+import com.anibalventura.anothernote.data.models.NoteModel
+import com.anibalventura.anothernote.data.models.TrashModel
 import com.anibalventura.anothernote.ui.archive.ArchiveFragmentDirections
 import com.anibalventura.anothernote.ui.note.NoteFragmentDirections
 import com.anibalventura.anothernote.ui.trash.TrashFragmentDirections
@@ -40,7 +40,7 @@ class BindingAdapters {
 
         @JvmStatic
         @BindingAdapter("android:sendDataToNoteUpdateFragment")
-        fun sendDataToNoteUpdateFragment(view: ConstraintLayout, currentItem: NoteData) {
+        fun sendDataToNoteUpdateFragment(view: ConstraintLayout, currentItem: NoteModel) {
             view.setOnClickListener {
                 val action =
                     NoteFragmentDirections.actionNoteFragmentToNoteUpdateFragment(currentItem)
@@ -51,7 +51,7 @@ class BindingAdapters {
         /** ============================= TrashFragment ============================= **/
         @JvmStatic
         @BindingAdapter("android:sendDataToTrashUpdateFragment")
-        fun sendDataToTrashUpdateFragment(view: ConstraintLayout, currentItem: TrashData) {
+        fun sendDataToTrashUpdateFragment(view: ConstraintLayout, currentItem: TrashModel) {
             view.setOnClickListener {
                 val action =
                     TrashFragmentDirections.actionTrashFragmentToTrashUpdateFragment(currentItem)
@@ -62,7 +62,7 @@ class BindingAdapters {
         /** ============================= ArchiveFragment ============================= **/
         @JvmStatic
         @BindingAdapter("android:sendDataToArchiveUpdateFragment")
-        fun sendDataToArchiveUpdateFragment(view: ConstraintLayout, currentItem: ArchiveData) {
+        fun sendDataToArchiveUpdateFragment(view: ConstraintLayout, currentItem: ArchiveModel) {
             view.setOnClickListener {
                 val action = ArchiveFragmentDirections.actionArchiveFragmentToArchiveUpdateFragment(
                     currentItem

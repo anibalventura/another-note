@@ -60,7 +60,7 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="currentItem"
-            app:argType="com.anibalventura.anothernote.data.models.NoteData" />
+            app:argType="com.anibalventura.anothernote.data.models.NoteModel" />
     </fragment>
     <activity
         android:id="@+id/settingsActivity"
@@ -109,7 +109,7 @@
         tools:layout="@layout/fragment_trash_update">
         <argument
             android:name="currentItem"
-            app:argType="com.anibalventura.anothernote.data.models.TrashData" />
+            app:argType="com.anibalventura.anothernote.data.models.TrashModel" />
         <action
             android:id="@+id/action_trashUpdateFragment_to_trashFragment"
             app:destination="@id/trashFragment"
@@ -127,6 +127,6 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="currentItem"
-            app:argType="com.anibalventura.anothernote.data.models.ArchiveData" />
+            app:argType="com.anibalventura.anothernote.data.models.ArchiveModel" />
     </fragment>
 </navigation>

@@ -4,19 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.anibalventura.anothernote.data.models.TrashData
+import com.anibalventura.anothernote.data.models.TrashModel
 import com.anibalventura.anothernote.databinding.RecyclerviewTrashBinding
-import com.anibalventura.anothernote.utils.TrashDiffUtil
+import com.anibalventura.anothernote.utils.diffutil.TrashDiffUtil
 
 class TrashAdapter : RecyclerView.Adapter<TrashAdapter.MyViewHolder>() {
 
-    private var dataList = emptyList<TrashData>()
+    private var dataList = emptyList<TrashModel>()
 
     class MyViewHolder(private val binding: RecyclerviewTrashBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(trashData: TrashData) {
-            binding.trashData = trashData
+        fun bind(trashModel: TrashModel) {
+            binding.trashData = trashModel
             binding.executePendingBindings()
         }
 
@@ -42,7 +42,7 @@ class TrashAdapter : RecyclerView.Adapter<TrashAdapter.MyViewHolder>() {
         holder.bind(currentItem)
     }
 
-    fun setData(trashData: List<TrashData>) {
+    fun setData(trashData: List<TrashModel>) {
         val trashDiffUtil = TrashDiffUtil(dataList, trashData)
         val trashDiffUtilResult = DiffUtil.calculateDiff(trashDiffUtil)
         this.dataList = trashData

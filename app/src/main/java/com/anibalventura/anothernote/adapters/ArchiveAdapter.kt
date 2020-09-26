@@ -4,19 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.anibalventura.anothernote.data.models.ArchiveData
+import com.anibalventura.anothernote.data.models.ArchiveModel
 import com.anibalventura.anothernote.databinding.RecyclerviewArchiveBinding
-import com.anibalventura.anothernote.utils.ArchiveDiffUtil
+import com.anibalventura.anothernote.utils.diffutil.ArchiveDiffUtil
 
 class ArchiveAdapter : RecyclerView.Adapter<ArchiveAdapter.MyViewHolder>() {
 
-    private var dataList = emptyList<ArchiveData>()
+    private var dataList = emptyList<ArchiveModel>()
 
     class MyViewHolder(private val binding: RecyclerviewArchiveBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(archiveData: ArchiveData) {
-            binding.archiveData = archiveData
+        fun bind(archiveModel: ArchiveModel) {
+            binding.archiveData = archiveModel
             binding.executePendingBindings()
         }
 
@@ -42,7 +42,7 @@ class ArchiveAdapter : RecyclerView.Adapter<ArchiveAdapter.MyViewHolder>() {
         holder.bind(currentItem)
     }
 
-    fun setData(archiveData: List<ArchiveData>) {
+    fun setData(archiveData: List<ArchiveModel>) {
         val archiveDiffUtil = ArchiveDiffUtil(dataList, archiveData)
         val archiveDiffUtilResult = DiffUtil.calculateDiff(archiveDiffUtil)
         this.dataList = archiveData

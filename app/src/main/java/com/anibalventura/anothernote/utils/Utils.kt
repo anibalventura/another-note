@@ -20,16 +20,12 @@ import kotlinx.coroutines.Dispatchers
 
 val app = App.resourses!!
 
-/*
-* SharedPreferences.
-*/
+/** ========================== SharedPreferences. ========================== **/
 fun sharedPref(context: Context): SharedPreferences {
     return PreferenceManager.getDefaultSharedPreferences(context)
 }
 
-/*
- * Setup the current theme.
- */
+/** ============================= Setup theme. ============================= **/
 fun setupTheme(context: Context) {
     // Set the theme from the sharedPref value.
     when (sharedPref(context).getString(THEME, "0")) {
@@ -39,18 +35,14 @@ fun setupTheme(context: Context) {
     }
 }
 
-/*
- * Show Toast.
- */
+/** =========================== Toast message. =========================== **/
 fun showToast(context: Context, msg: String) {
     Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
 }
 
-/*
- * Share any text on a sharesheet.
- */
+/** ============================= Share text. ============================= **/
 fun shareText(context: Context, msg: String) {
-    // Create the intent to send.
+    // Create the intent.
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(Intent.EXTRA_TEXT, msg)
@@ -64,7 +56,10 @@ fun shareText(context: Context, msg: String) {
     }
 }
 
-fun changeBackgroundColor(view: View, toolbar: Toolbar?, context: Context) {
+/** ======================= Change note background color. ======================= **/
+fun changeNoteBackgroundColor(view: View, toolbar: Toolbar?, context: Context) {
+
+    // Get colors.
     val colors = intArrayOf(
         ActivityCompat.getColor(context, R.color.transparent),
         ActivityCompat.getColor(context, R.color.red),
@@ -80,12 +75,11 @@ fun changeBackgroundColor(view: View, toolbar: Toolbar?, context: Context) {
         ActivityCompat.getColor(context, R.color.grey)
     )
 
+    // Create dialog to choose color.
     MaterialDialog(context).show {
         title(R.string.dialog_choose_color)
         colorChooser(colors) { _, color ->
-            // Change note color.
             view.setBackgroundColor(color)
-            // Set toolbar color.
             toolbar?.setBackgroundColor(color)
         }
         negativeButton(R.string.dialog_negative)
@@ -93,10 +87,8 @@ fun changeBackgroundColor(view: View, toolbar: Toolbar?, context: Context) {
     }
 }
 
-/*
- * Hide keyboard.
- */
-fun hideKeyboard(activity: Activity) {
+/** ======================= Hide Soft Keyboard. ======================= **/
+fun hideSoftKeyboard(activity: Activity) {
     val inputMethodManager =
         activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     val currentFocusedView = activity.currentFocus

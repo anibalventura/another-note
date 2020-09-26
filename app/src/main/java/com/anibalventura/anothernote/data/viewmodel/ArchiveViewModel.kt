@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.anibalventura.anothernote.data.db.archive.ArchiveDatabase
-import com.anibalventura.anothernote.data.models.ArchiveData
+import com.anibalventura.anothernote.data.models.ArchiveModel
 import com.anibalventura.anothernote.data.repository.ArchiveRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,38 +15,38 @@ class ArchiveViewModel(application: Application) : AndroidViewModel(application)
     private val archiveDao = ArchiveDatabase.getDatabase(application).archiveDao()
     private val repository: ArchiveRepository
 
-    val getAllData: LiveData<List<ArchiveData>>
+    val getDatabase: LiveData<List<ArchiveModel>>
 
     init {
         repository = ArchiveRepository(archiveDao)
-        getAllData = repository.getAllData
+        getDatabase = repository.getDatabase
     }
 
-    fun insertData(archiveData: ArchiveData) {
+    fun insertItem(archiveModel: ArchiveModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertData(archiveData)
+            repository.insertData(archiveModel)
         }
     }
 
-    fun updateData(archiveData: ArchiveData) {
+    fun updateItem(archiveModel: ArchiveModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateData(archiveData)
+            repository.updateItem(archiveModel)
         }
     }
 
-    fun deleteItem(archiveData: ArchiveData) {
+    fun deleteItem(archiveModel: ArchiveModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteItem(archiveData)
+            repository.deleteItem(archiveModel)
         }
     }
 
-    fun deleteAll() {
+    fun deleteDatabase() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAll()
+            repository.deleteDatabase()
         }
     }
 
-    fun searchDatabase(searchQuery: String): LiveData<List<ArchiveData>> {
+    fun searchDatabase(searchQuery: String): LiveData<List<ArchiveModel>> {
         return repository.searchDatabase(searchQuery)
     }
 }
