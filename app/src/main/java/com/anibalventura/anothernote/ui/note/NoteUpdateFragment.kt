@@ -18,6 +18,7 @@ import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentNoteUpdateBinding
 import com.anibalventura.anothernote.utils.changeNoteBackgroundColor
+import com.anibalventura.anothernote.utils.setBarsColor
 import com.anibalventura.anothernote.utils.shareText
 import com.anibalventura.anothernote.utils.showToast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -59,6 +60,18 @@ class NoteUpdateFragment : Fragment() {
         })
 
         // Set current items.
+        setCurrentItems()
+
+        // Set ToolBar/NavigationBar/StatusBar color from note.
+        setBarsColor(args.currentItem.color, activity?.toolbar, activity?.window)
+
+        // Set menu.
+        setHasOptionsMenu(true)
+
+        return binding.root
+    }
+
+    private fun setCurrentItems() {
         noteItem = NoteModel(
             args.currentItem.id,
             args.currentItem.title,
@@ -77,14 +90,6 @@ class NoteUpdateFragment : Fragment() {
             args.currentItem.description,
             args.currentItem.color
         )
-
-        // Set toolbar color from note.
-        activity?.toolbar?.setBackgroundColor(args.currentItem.color)
-
-        // Set menu.
-        setHasOptionsMenu(true)
-
-        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -111,9 +116,10 @@ class NoteUpdateFragment : Fragment() {
                 findNavController().navigate(R.id.action_noteUpdateFragment_to_noteFragment)
             }
             R.id.menu_note_color -> changeNoteBackgroundColor(
-                binding.clNoteUpdate, activity?.toolbar, requireContext()
+                binding.clNoteUpdate, activity?.toolbar, activity?.window, requireContext()
             )
-            R.id.menu_note_share -> shareText(requireContext(), args.currentItem.description)
+            R.id.menu_note_share
+            -> shareText(requireContext(), args.currentItem.description)
             R.id.menu_note_delete -> {
                 sharedViewModel.moveItem(
                     NOTE_TO_TRASH,

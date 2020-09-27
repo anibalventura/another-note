@@ -22,6 +22,6 @@ object Constants {
 
     // Preferences.
     const val THEME = "theme"
-    const val NOTE_VIEW = "note_view"
-    const val ARCHIVE_VIEW = "archive_view"
+    const val NOTE_LAYOUT = "note_view"
+    const val ARCHIVE_LAYOUT = "archive_view"
 }

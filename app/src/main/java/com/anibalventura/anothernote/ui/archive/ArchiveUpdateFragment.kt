@@ -17,6 +17,7 @@ import com.anibalventura.anothernote.data.viewmodel.ArchiveViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentArchiveUpdateBinding
 import com.anibalventura.anothernote.utils.changeNoteBackgroundColor
+import com.anibalventura.anothernote.utils.setBarsColor
 import com.anibalventura.anothernote.utils.shareText
 import com.anibalventura.anothernote.utils.showToast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -49,6 +50,18 @@ class ArchiveUpdateFragment : Fragment() {
         binding.args = args
 
         // Set current items.
+        setCurrentItems()
+
+        // Set ToolBar/NavigationBar/StatusBar color from note.
+        setBarsColor(args.currentItem.color, activity?.toolbar, activity?.window)
+
+        // Set menu.
+        setHasOptionsMenu(true)
+
+        return binding.root
+    }
+
+    private fun setCurrentItems() {
         noteItem = NoteModel(
             args.currentItem.id,
             args.currentItem.title,
@@ -67,14 +80,6 @@ class ArchiveUpdateFragment : Fragment() {
             args.currentItem.description,
             args.currentItem.color
         )
-
-        // Set toolbar color from note.
-        activity?.toolbar?.setBackgroundColor(args.currentItem.color)
-
-        // Set menu.
-        setHasOptionsMenu(true)
-
-        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -100,6 +105,7 @@ class ArchiveUpdateFragment : Fragment() {
             R.id.menu_note_color -> changeNoteBackgroundColor(
                 binding.clArchiveUpdate,
                 activity?.toolbar,
+                activity?.window,
                 requireContext()
             )
             R.id.menu_note_share -> shareText(requireContext(), args.currentItem.description)

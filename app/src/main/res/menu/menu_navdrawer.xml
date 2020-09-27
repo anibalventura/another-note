@@ -24,9 +24,9 @@
         android:id="@+id/menu_group_2"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/shareApp"
+            android:id="@+id/tellFriends"
             android:icon="@drawable/ic_share"
-            android:title="@string/menu_share" />
+            android:title="@string/menu_tell_friends" />
         <item
             android:id="@+id/aboutFragment"
             android:icon="@drawable/ic_about"

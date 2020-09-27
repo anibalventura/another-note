@@ -46,6 +46,23 @@ class TrashUpdateFragment : Fragment() {
         binding.args = args
 
         // Set current items.
+        setCurrentItems()
+
+        // Can't update note on trash.
+        binding.clTrashUpdate.setOnClickListener { view ->
+            sharedViewModel.moveItem(TRASH_TO_NOTE_EDIT, noteItem, archiveItem, trashItem, view)
+        }
+
+        // Set toolbar color from note.
+        activity?.toolbar?.setBackgroundColor(args.currentItem.color)
+
+        // Set menu.
+        setHasOptionsMenu(true)
+
+        return binding.root
+    }
+
+    private fun setCurrentItems() {
         noteItem = NoteModel(
             args.currentItem.id,
             args.currentItem.title,
@@ -64,19 +81,6 @@ class TrashUpdateFragment : Fragment() {
             args.currentItem.description,
             args.currentItem.color
         )
-
-        // Can't update note on trash.
-        binding.clTrashUpdate.setOnClickListener { view ->
-            sharedViewModel.moveItem(TRASH_TO_NOTE_EDIT, noteItem, archiveItem, trashItem, view)
-        }
-
-        // Set toolbar color from note.
-        activity?.toolbar?.setBackgroundColor(args.currentItem.color)
-
-        // Set menu.
-        setHasOptionsMenu(true)
-
-        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

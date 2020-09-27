@@ -17,12 +17,14 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     val getDatabase: LiveData<List<NoteModel>>
     val sortByTitle: LiveData<List<NoteModel>>
+    val sortByCreation: LiveData<List<NoteModel>>
 
     init {
         repository = NoteRepository(noteDao)
         getDatabase = repository.getDatabase
 
         sortByTitle = repository.sortByTitle
+        sortByCreation = repository.sortByCreation
     }
 
     fun insertItem(noteModel: NoteModel) {

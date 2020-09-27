@@ -49,6 +49,7 @@ class NoteAddFragment : Fragment() {
             R.id.menu_note_color -> changeNoteBackgroundColor(
                 binding.clNoteAdd,
                 activity?.toolbar,
+                activity?.window,
                 requireContext()
             )
         }

@@ -28,34 +28,49 @@
         android:visible="false"
         app:showAsAction="ifRoom" />
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/menu_main_sort_by"
-            android:enabled="false"
-            android:icon="@drawable/ic_sort"
-            android:title="@string/menu_main_sort_by"
-            android:visible="false"
-            app:showAsAction="ifRoom">
-            <menu>
-                <item
-                    android:id="@+id/menu_main_sort_title"
-                    android:enabled="false"
-                    android:title="@string/menu_main_sort_title"
-                    android:visible="false" />
-            </menu>
-        </item>
-    </group>
+    <item
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/ic_menu"
+        android:title="@string/overflow_menu"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/menu_main_sort_by"
+                android:enabled="false"
+                android:icon="@drawable/ic_sort"
+                android:title="@string/menu_main_sort_by"
+                android:visible="false"
+                app:showAsAction="never">
+                <menu>
+                    <item
+                        android:id="@+id/menu_main_sort_title"
+                        android:enabled="false"
+                        android:icon="@drawable/ic_sort_title"
+                        android:title="@string/menu_main_sort_title"
+                        android:visible="false" />
+                    <item
+                        android:id="@+id/menu_main_sort_creation"
+                        android:enabled="false"
+                        android:icon="@drawable/ic_sort_creation"
+                        android:title="@string/menu_main_sort_creation"
+                        android:visible="false" />
+                </menu>
+            </item>
 
-    <item
-        android:id="@+id/menu_main_delete_all"
-        android:enabled="false"
-        android:title="@string/menu_main_delete_all"
-        android:visible="false"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_main_empty_trash"
-        android:enabled="false"
-        android:title="@string/menu_main_empty_trash"
-        android:visible="false"
-        app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_main_delete_all"
+                android:enabled="false"
+                android:icon="@drawable/ic_delete_forever"
+                android:title="@string/menu_main_delete_all"
+                android:visible="false"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_main_empty_trash"
+                android:enabled="false"
+                android:icon="@drawable/ic_delete_forever"
+                android:title="@string/menu_main_empty_trash"
+                android:visible="false"
+                app:showAsAction="never" />
+        </menu>
+    </item>
 </menu>

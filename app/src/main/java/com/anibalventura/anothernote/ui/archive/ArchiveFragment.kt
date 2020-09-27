@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.anibalventura.anothernote.Constants.ARCHIVE_EMPTY
-import com.anibalventura.anothernote.Constants.ARCHIVE_VIEW
+import com.anibalventura.anothernote.Constants.ARCHIVE_LAYOUT
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.adapters.ArchiveAdapter
 import com.anibalventura.anothernote.data.viewmodel.ArchiveViewModel
@@ -63,7 +63,7 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
         recyclerView.adapter = adapter
 
         // Set layout view.
-        when (sharedPref(requireContext()).getBoolean(ARCHIVE_VIEW, false)) {
+        when (sharedPref(requireContext()).getBoolean(ARCHIVE_LAYOUT, false)) {
             true -> recyclerView.layoutManager = LinearLayoutManager(requireActivity())
             false -> recyclerView.layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -92,7 +92,7 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
         search?.setOnQueryTextListener(this)
 
         // Change option when change recyclerview layout.
-        when (sharedPref(requireContext()).getBoolean(ARCHIVE_VIEW, false)) {
+        when (sharedPref(requireContext()).getBoolean(ARCHIVE_LAYOUT, false)) {
             true -> {
                 list.setEnabled(false).isVisible = false
                 grid.setEnabled(true).isVisible = true
@@ -119,7 +119,7 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
 
     @Suppress("DEPRECATION")
     private fun changeLayoutView(change: Boolean) {
-        sharedPref(requireContext()).edit().putBoolean(ARCHIVE_VIEW, change).apply()
+        sharedPref(requireContext()).edit().putBoolean(ARCHIVE_LAYOUT, change).apply()
         adapter.notifyDataSetChanged()
         setupRecyclerView()
         ActivityCompat.invalidateOptionsMenu(requireActivity())

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.view.View
+import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
@@ -56,8 +57,15 @@ fun shareText(context: Context, msg: String) {
     }
 }
 
+/** ===================== ToolBar/NavigationBar/StatusBar color. ===================== **/
+fun setBarsColor(color: Int, toolbar: Toolbar?, window: Window?) {
+    toolbar?.setBackgroundColor(color)
+    window?.navigationBarColor = color
+    window?.statusBarColor = color
+}
+
 /** ======================= Change note background color. ======================= **/
-fun changeNoteBackgroundColor(view: View, toolbar: Toolbar?, context: Context) {
+fun changeNoteBackgroundColor(view: View, toolbar: Toolbar?, window: Window?, context: Context) {
 
     // Get colors.
     val colors = intArrayOf(
@@ -80,7 +88,7 @@ fun changeNoteBackgroundColor(view: View, toolbar: Toolbar?, context: Context) {
         title(R.string.dialog_choose_color)
         colorChooser(colors) { _, color ->
             view.setBackgroundColor(color)
-            toolbar?.setBackgroundColor(color)
+            setBarsColor(color, toolbar, window)
         }
         negativeButton(R.string.dialog_negative)
         positiveButton(R.string.dialog_select)

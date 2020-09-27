@@ -66,6 +66,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
             val toolBar = supportActionBar ?: return@addOnDestinationChangedListener
             toolbar.setBackgroundColor(ActivityCompat.getColor(this, R.color.transparent))
+            this.window.navigationBarColor = ActivityCompat.getColor(this, R.color.primaryColor)
+            this.window.statusBarColor = ActivityCompat.getColor(this, R.color.primaryColor)
 
             when (destination.id) {
                 // Show title.
@@ -88,7 +90,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.noteFragment -> navController.navigate(R.id.noteFragment)
             R.id.archiveFragment -> navController.navigate(R.id.archiveFragment)
             R.id.trashFragment -> navController.navigate(R.id.trashFragment)
-            R.id.shareApp -> shareText(this, getString(R.string.share_app))
+            R.id.tellFriends -> shareText(this, getString(R.string.tell_friends))
             R.id.aboutFragment -> navController.navigate(R.id.aboutFragment)
             R.id.settingsActivity -> navController.navigate(R.id.settingsActivity)
         }

@@ -27,4 +27,7 @@ interface NoteDao {
 
     @Query("SELECT * FROM note_table ORDER BY title ASC")
     fun sortByTitle(): LiveData<List<NoteModel>>
+
+    @Query("SELECT * FROM note_table ORDER BY id DESC")
+    fun sortByCreation(): LiveData<List<NoteModel>>
 }

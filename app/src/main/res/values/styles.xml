@@ -4,7 +4,6 @@
         <item name="colorPrimary">@color/secondaryTextColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/primaryDarkColor</item>
-        <item name="android:navigationBarColor">@color/primaryDarkColor</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
         <!-- Navdrawer Menu -->
         <item name="colorNavigationItem">@color/bg_navdrawer_item_color_state</item>

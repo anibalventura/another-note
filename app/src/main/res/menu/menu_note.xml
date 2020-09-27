@@ -37,29 +37,43 @@
         android:title="@string/menu_note_unarchive"
         android:visible="false"
         app:showAsAction="ifRoom" />
+
     <item
-        android:id="@+id/menu_note_color"
-        android:enabled="false"
-        android:icon="@drawable/ic_theme"
-        android:title="@string/menu_note_color"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/menu_note_share"
-        android:enabled="false"
-        android:title="@string/menu_note_share"
-        android:visible="false"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_note_delete"
-        android:enabled="false"
-        android:title="@string/menu_note_delete"
-        android:visible="false"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_note_delete_forever"
-        android:enabled="false"
-        android:title="@string/menu_note_delete_forever"
-        android:visible="false"
-        app:showAsAction="never" />
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/ic_menu"
+        android:title="@string/overflow_menu"
+        app:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/menu_note_color"
+                android:enabled="false"
+                android:icon="@drawable/ic_theme"
+                android:title="@string/menu_note_color"
+                android:visible="false"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/menu_note_share"
+                android:enabled="false"
+                android:icon="@drawable/ic_share"
+                android:title="@string/menu_note_share"
+                android:visible="false"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_note_delete"
+                android:enabled="false"
+                android:icon="@drawable/ic_trash"
+                android:title="@string/menu_note_delete"
+                android:visible="false"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_note_delete_forever"
+                android:enabled="false"
+                android:icon="@drawable/ic_delete_forever"
+                android:title="@string/menu_note_delete_forever"
+                android:visible="false"
+                app:showAsAction="never" />
+        </menu>
+
+    </item>
 </menu>

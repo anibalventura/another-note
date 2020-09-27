@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.anibalventura.anothernote.Constants.NOTE_EMPTY
+import com.anibalventura.anothernote.Constants.NOTE_LAYOUT
 import com.anibalventura.anothernote.Constants.NOTE_TO_ARCHIVE
 import com.anibalventura.anothernote.Constants.NOTE_TO_TRASH
-import com.anibalventura.anothernote.Constants.NOTE_VIEW
 import com.anibalventura.anothernote.Constants.SWIPE_ARCHIVE
 import com.anibalventura.anothernote.Constants.SWIPE_DELETE
 import com.anibalventura.anothernote.R
@@ -76,7 +76,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         recyclerView.adapter = adapter
 
         // Set layout view.
-        when (sharedPref(requireContext()).getBoolean(NOTE_VIEW, false)) {
+        when (sharedPref(requireContext()).getBoolean(NOTE_LAYOUT, false)) {
             true -> recyclerView.layoutManager = LinearLayoutManager(requireActivity())
             false -> recyclerView.layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -160,6 +160,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         menu.findItem(R.id.menu_main_grid).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_main_sort_by).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_main_sort_title).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_main_sort_creation).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_main_delete_all).setEnabled(true).isVisible = true
     }
 
@@ -173,7 +174,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         search?.setOnQueryTextListener(this)
 
         // Change option when change recyclerview layout.
-        when (sharedPref(requireContext()).getBoolean(NOTE_VIEW, false)) {
+        when (sharedPref(requireContext()).getBoolean(NOTE_LAYOUT, false)) {
             true -> {
                 list.setEnabled(false).isVisible = false
                 grid.setEnabled(true).isVisible = true
@@ -195,6 +196,9 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
             R.id.menu_main_sort_title -> noteViewModel.sortByTitle.observe(this, {
                 adapter.setData(it)
             })
+            R.id.menu_main_sort_creation -> noteViewModel.sortByCreation.observe(this, {
+                adapter.setData(it)
+            })
         }
 
         return super.onOptionsItemSelected(item)
@@ -202,7 +206,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
 
     @Suppress("DEPRECATION")
     private fun changeLayoutView(change: Boolean) {
-        sharedPref(requireContext()).edit().putBoolean(NOTE_VIEW, change).apply()
+        sharedPref(requireContext()).edit().putBoolean(NOTE_LAYOUT, change).apply()
         adapter.notifyDataSetChanged()
         setupRecyclerView()
         invalidateOptionsMenu(requireActivity())
