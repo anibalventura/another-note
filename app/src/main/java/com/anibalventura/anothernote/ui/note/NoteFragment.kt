@@ -12,12 +12,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.anibalventura.anothernote.Constants.NOTE_EMPTY
-import com.anibalventura.anothernote.Constants.NOTE_LAYOUT
-import com.anibalventura.anothernote.Constants.NOTE_TO_ARCHIVE
-import com.anibalventura.anothernote.Constants.NOTE_TO_TRASH
-import com.anibalventura.anothernote.Constants.SWIPE_ARCHIVE
-import com.anibalventura.anothernote.Constants.SWIPE_DELETE
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.adapters.NoteAdapter
 import com.anibalventura.anothernote.data.models.ArchiveModel
@@ -25,6 +19,12 @@ import com.anibalventura.anothernote.data.models.TrashModel
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentNoteBinding
+import com.anibalventura.anothernote.utils.Constants.NOTE_EMPTY
+import com.anibalventura.anothernote.utils.Constants.NOTE_LAYOUT
+import com.anibalventura.anothernote.utils.Constants.NOTE_TO_ARCHIVE
+import com.anibalventura.anothernote.utils.Constants.NOTE_TO_TRASH
+import com.anibalventura.anothernote.utils.Constants.SWIPE_ARCHIVE
+import com.anibalventura.anothernote.utils.Constants.SWIPE_DELETE
 import com.anibalventura.anothernote.utils.SwipeItem
 import com.anibalventura.anothernote.utils.hideSoftKeyboard
 import com.anibalventura.anothernote.utils.sharedPref
@@ -44,8 +44,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
     private val adapter: NoteAdapter by lazy { NoteAdapter() }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
         // Inflate the layout for this fragment.

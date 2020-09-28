@@ -7,8 +7,8 @@ import android.graphics.drawable.Drawable
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.anibalventura.anothernote.Constants.SWIPE_ARCHIVE
-import com.anibalventura.anothernote.Constants.SWIPE_DELETE
+import com.anibalventura.anothernote.utils.Constants.SWIPE_ARCHIVE
+import com.anibalventura.anothernote.utils.Constants.SWIPE_DELETE
 import com.anibalventura.anothernote.R
 
 abstract class SwipeItem(

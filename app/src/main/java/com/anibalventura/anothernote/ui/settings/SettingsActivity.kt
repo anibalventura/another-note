@@ -7,7 +7,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import com.anibalventura.anothernote.Constants.THEME
+import com.anibalventura.anothernote.utils.Constants.THEME
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.utils.setupTheme
 import kotlinx.android.synthetic.main.activity_settings.*

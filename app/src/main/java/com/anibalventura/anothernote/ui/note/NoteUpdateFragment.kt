@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.anibalventura.anothernote.Constants.NOTE_TO_ARCHIVE
-import com.anibalventura.anothernote.Constants.NOTE_TO_TRASH
+import com.anibalventura.anothernote.utils.Constants.NOTE_TO_ARCHIVE
+import com.anibalventura.anothernote.utils.Constants.NOTE_TO_TRASH
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.adapters.NoteAdapter
 import com.anibalventura.anothernote.data.models.ArchiveModel

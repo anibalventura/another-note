@@ -1,4 +1,4 @@
-package com.anibalventura.anothernote
+package com.anibalventura.anothernote.utils
 
 import androidx.recyclerview.widget.ItemTouchHelper
 

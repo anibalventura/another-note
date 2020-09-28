@@ -9,15 +9,15 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.anibalventura.anothernote.App
-import com.anibalventura.anothernote.Constants.ARCHIVE_EMPTY
-import com.anibalventura.anothernote.Constants.ARCHIVE_TO_NOTE
-import com.anibalventura.anothernote.Constants.ARCHIVE_TO_TRASH
-import com.anibalventura.anothernote.Constants.NOTE_EMPTY
-import com.anibalventura.anothernote.Constants.NOTE_TO_ARCHIVE
-import com.anibalventura.anothernote.Constants.NOTE_TO_TRASH
-import com.anibalventura.anothernote.Constants.TRASH_EMPTY
-import com.anibalventura.anothernote.Constants.TRASH_TO_NOTE
-import com.anibalventura.anothernote.Constants.TRASH_TO_NOTE_EDIT
+import com.anibalventura.anothernote.utils.Constants.ARCHIVE_EMPTY
+import com.anibalventura.anothernote.utils.Constants.ARCHIVE_TO_NOTE
+import com.anibalventura.anothernote.utils.Constants.ARCHIVE_TO_TRASH
+import com.anibalventura.anothernote.utils.Constants.NOTE_EMPTY
+import com.anibalventura.anothernote.utils.Constants.NOTE_TO_ARCHIVE
+import com.anibalventura.anothernote.utils.Constants.NOTE_TO_TRASH
+import com.anibalventura.anothernote.utils.Constants.TRASH_EMPTY
+import com.anibalventura.anothernote.utils.Constants.TRASH_TO_NOTE
+import com.anibalventura.anothernote.utils.Constants.TRASH_TO_NOTE_EDIT
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.data.models.ArchiveModel
 import com.anibalventura.anothernote.data.models.NoteModel
@@ -81,31 +81,29 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 archiveViewModel.insertItem(archiveItem)
 
                 // Show SnackBar to undo.
-                snackBar
-                    .setAction(resources.getString(R.string.snackbar_undo)) {
-                        // Insert/delete data.
-                        noteViewModel.insertItem(noteItem)
-                        archiveViewModel.deleteItem(archiveItem)
-                    }
+                snackBar.setAction(resources.getString(R.string.snackbar_undo)) {
+                    // Insert/delete data.
+                    noteViewModel.insertItem(noteItem)
+                    archiveViewModel.deleteItem(archiveItem)
+                }
             }
             NOTE_TO_TRASH -> {
                 noteViewModel.deleteItem(noteItem)
                 trashViewModel.insertItem(trashItem)
-                snackBar
-                    .setAction(resources.getString(R.string.snackbar_undo)) {
-                        noteViewModel.insertItem(noteItem)
-                        archiveViewModel.deleteItem(archiveItem)
-                    }
+
+                snackBar.setAction(resources.getString(R.string.snackbar_undo)) {
+                    noteViewModel.insertItem(noteItem)
+                    archiveViewModel.deleteItem(archiveItem)
+                }
             }
             ARCHIVE_TO_NOTE -> {
                 archiveViewModel.deleteItem(archiveItem)
                 noteViewModel.insertItem(noteItem)
 
-                snackBar
-                    .setAction(resources.getString(R.string.snackbar_undo)) {
-                        archiveViewModel.insertItem(archiveItem)
-                        noteViewModel.deleteItem(noteItem)
-                    }.show()
+                snackBar.setAction(resources.getString(R.string.snackbar_undo)) {
+                    archiveViewModel.insertItem(archiveItem)
+                    noteViewModel.deleteItem(noteItem)
+                }.show()
 
                 // Navigate back.
                 view.findNavController()
@@ -115,11 +113,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 archiveViewModel.deleteItem(archiveItem)
                 trashViewModel.insertItem(trashItem)
 
-                snackBar
-                    .setAction(resources.getString(R.string.snackbar_undo)) {
-                        archiveViewModel.insertItem(archiveItem)
-                        trashViewModel.deleteItem(trashItem)
-                    }
+                snackBar.setAction(resources.getString(R.string.snackbar_undo)) {
+                    archiveViewModel.insertItem(archiveItem)
+                    trashViewModel.deleteItem(trashItem)
+                }
 
                 view.findNavController()
                     .navigate(R.id.action_archiveUpdateFragment_to_archiveFragment)
@@ -128,34 +125,30 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 trashViewModel.deleteItem(trashItem)
                 noteViewModel.insertItem(noteItem)
 
-                snackBar
-                    .setAction(resources.getString(R.string.snackbar_undo)) {
-                        trashViewModel.insertItem(trashItem)
-                        noteViewModel.deleteItem(noteItem)
-                    }
+                snackBar.setAction(resources.getString(R.string.snackbar_undo)) {
+                    trashViewModel.insertItem(trashItem)
+                    noteViewModel.deleteItem(noteItem)
+                }
 
                 view.findNavController().navigate(R.id.action_trashUpdateFragment_to_trashFragment)
             }
             TRASH_TO_NOTE_EDIT -> {
-                snackBar
-                    .setAction(resources.getString(R.string.snackbar_restore)) {
-                        trashViewModel.deleteItem(trashItem)
-                        noteViewModel.insertItem(noteItem)
+                snackBar.setAction(resources.getString(R.string.snackbar_restore)) {
+                    trashViewModel.deleteItem(trashItem)
+                    noteViewModel.insertItem(noteItem)
 
-                        Snackbar
-                            .make(
-                                view,
-                                resources.getString(R.string.snackbar_note),
-                                Snackbar.LENGTH_LONG
-                            )
-                            .setAction(resources.getString(R.string.snackbar_undo)) {
-                                trashViewModel.insertItem(trashItem)
-                                noteViewModel.deleteItem(noteItem)
-                            }.show()
+                    Snackbar.make(
+                        view,
+                        resources.getString(R.string.snackbar_note),
+                        Snackbar.LENGTH_LONG
+                    ).setAction(resources.getString(R.string.snackbar_undo)) {
+                        trashViewModel.insertItem(trashItem)
+                        noteViewModel.deleteItem(noteItem)
+                    }.show()
 
-                        view.findNavController()
-                            .navigate(R.id.action_trashUpdateFragment_to_trashFragment)
-                    }
+                    view.findNavController()
+                        .navigate(R.id.action_trashUpdateFragment_to_trashFragment)
+                }
             }
         }
 

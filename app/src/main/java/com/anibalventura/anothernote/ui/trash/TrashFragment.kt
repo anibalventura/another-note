@@ -5,7 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.anibalventura.anothernote.Constants.TRASH_EMPTY
+import com.anibalventura.anothernote.utils.Constants.TRASH_EMPTY
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.adapters.TrashAdapter
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel

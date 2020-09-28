@@ -15,8 +15,8 @@ import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.colorChooser
 import com.anibalventura.anothernote.App
-import com.anibalventura.anothernote.Constants.THEME
 import com.anibalventura.anothernote.R
+import com.anibalventura.anothernote.utils.Constants.THEME
 import kotlinx.coroutines.Dispatchers
 
 val app = App.resourses!!
