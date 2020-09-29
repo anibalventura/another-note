@@ -3,12 +3,11 @@ package com.anibalventura.anothernote.ui.archive
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.anibalventura.anothernote.utils.Constants.ARCHIVE_TO_NOTE
-import com.anibalventura.anothernote.utils.Constants.ARCHIVE_TO_TRASH
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.data.models.ArchiveModel
 import com.anibalventura.anothernote.data.models.NoteModel
@@ -16,12 +15,14 @@ import com.anibalventura.anothernote.data.models.TrashModel
 import com.anibalventura.anothernote.data.viewmodel.ArchiveViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentArchiveUpdateBinding
+import com.anibalventura.anothernote.utils.Constants.ARCHIVE_DISCARD
+import com.anibalventura.anothernote.utils.Constants.ARCHIVE_TO_NOTE
+import com.anibalventura.anothernote.utils.Constants.ARCHIVE_TO_TRASH
 import com.anibalventura.anothernote.utils.changeNoteBackgroundColor
-import com.anibalventura.anothernote.utils.setBarsColor
-import com.anibalventura.anothernote.utils.shareText
-import com.anibalventura.anothernote.utils.showToast
+import com.anibalventura.anothernote.utils.discardDialog
+import com.anibalventura.anothernote.utils.share
+import com.anibalventura.anothernote.utils.toast
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_archive_update.*
 
 class ArchiveUpdateFragment : Fragment() {
 
@@ -34,6 +35,7 @@ class ArchiveUpdateFragment : Fragment() {
     private val archiveViewModel: ArchiveViewModel by viewModels()
 
     // Models.
+    private lateinit var currentItem: ArchiveModel
     private lateinit var noteItem: NoteModel
     private lateinit var archiveItem: ArchiveModel
     private lateinit var trashItem: TrashModel
@@ -49,11 +51,14 @@ class ArchiveUpdateFragment : Fragment() {
         _binding = FragmentArchiveUpdateBinding.inflate(inflater, container, false)
         binding.args = args
 
-        // Set current items.
-        setCurrentItems()
+        // Set toolbar color from note.
+        activity?.toolbar?.setBackgroundColor(args.currentItem.color)
 
-        // Set ToolBar/NavigationBar/StatusBar color from note.
-        setBarsColor(args.currentItem.color, activity?.toolbar, activity?.window)
+        // Set current items.
+        setItems()
+
+        // Handle back pressed for item changes.
+        onBackPressed()
 
         // Set menu.
         setHasOptionsMenu(true)
@@ -61,7 +66,7 @@ class ArchiveUpdateFragment : Fragment() {
         return binding.root
     }
 
-    private fun setCurrentItems() {
+    private fun setItems() {
         noteItem = NoteModel(
             args.currentItem.id,
             args.currentItem.title,
@@ -80,6 +85,26 @@ class ArchiveUpdateFragment : Fragment() {
             args.currentItem.description,
             args.currentItem.color
         )
+    }
+
+    private fun onBackPressed() {
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    currentItem = ArchiveModel(
+                        args.currentItem.id,
+                        binding.etArchiveUpdateTitle.text.toString(),
+                        binding.etArchiveUpdateDescription.text.toString(),
+                        (binding.clArchiveUpdate.background as ColorDrawable).color
+                    )
+                    when {
+                        currentItem != archiveItem -> {
+                            discardDialog(ARCHIVE_DISCARD, requireContext(), requireView())
+                        }
+                        else -> findNavController().navigate(R.id.action_archiveUpdateFragment_to_archiveFragment)
+                    }
+                }
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -105,10 +130,9 @@ class ArchiveUpdateFragment : Fragment() {
             R.id.menu_note_color -> changeNoteBackgroundColor(
                 binding.clArchiveUpdate,
                 activity?.toolbar,
-                activity?.window,
                 requireContext()
             )
-            R.id.menu_note_share -> shareText(requireContext(), args.currentItem.description)
+            R.id.menu_note_share -> share(requireContext(), args.currentItem.description)
             R.id.menu_note_delete -> sharedViewModel.moveItem(
                 ARCHIVE_TO_TRASH,
                 noteItem,
@@ -122,14 +146,16 @@ class ArchiveUpdateFragment : Fragment() {
 
     private fun updateItem() {
         // Get data to insert.
-        val title = etArchiveUpdateTitle.text.toString()
-        val description = etArchiveUpdateDescription.text.toString()
-        val color = (binding.clArchiveUpdate.background as ColorDrawable).color
+        currentItem = ArchiveModel(
+            args.currentItem.id,
+            binding.etArchiveUpdateTitle.text.toString(),
+            binding.etArchiveUpdateDescription.text.toString(),
+            (binding.clArchiveUpdate.background as ColorDrawable).color
+        )
 
         // Insert data to database.
-        val updatedItem = ArchiveModel(args.currentItem.id, title, description, color)
-        archiveViewModel.updateItem(updatedItem)
-        showToast(requireContext(), getString(R.string.update_successful))
+        archiveViewModel.updateItem(currentItem)
+        toast(requireContext(), R.string.update_successful)
 
         // Navigate back.
         findNavController().navigate(R.id.action_archiveUpdateFragment_to_archiveFragment)

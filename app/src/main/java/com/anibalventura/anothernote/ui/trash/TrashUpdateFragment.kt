@@ -1,14 +1,14 @@
 package com.anibalventura.anothernote.ui.trash
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.anibalventura.anothernote.utils.Constants.TRASH_TO_NOTE
-import com.anibalventura.anothernote.utils.Constants.TRASH_TO_NOTE_EDIT
+import com.afollestad.materialdialogs.LayoutMode
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.data.models.ArchiveModel
 import com.anibalventura.anothernote.data.models.NoteModel
@@ -16,7 +16,9 @@ import com.anibalventura.anothernote.data.models.TrashModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
 import com.anibalventura.anothernote.databinding.FragmentTrashUpdateBinding
-import com.anibalventura.anothernote.utils.showToast
+import com.anibalventura.anothernote.utils.Constants.TRASH_TO_NOTE
+import com.anibalventura.anothernote.utils.Constants.TRASH_TO_NOTE_EDIT
+import com.anibalventura.anothernote.utils.toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class TrashUpdateFragment : Fragment() {
@@ -45,16 +47,16 @@ class TrashUpdateFragment : Fragment() {
         _binding = FragmentTrashUpdateBinding.inflate(inflater, container, false)
         binding.args = args
 
-        // Set current items.
-        setCurrentItems()
+        // Set toolbar color from note.
+        activity?.toolbar?.setBackgroundColor(args.currentItem.color)
 
         // Can't update note on trash.
         binding.clTrashUpdate.setOnClickListener { view ->
             sharedViewModel.moveItem(TRASH_TO_NOTE_EDIT, noteItem, archiveItem, trashItem, view)
         }
 
-        // Set toolbar color from note.
-        activity?.toolbar?.setBackgroundColor(args.currentItem.color)
+        // Set current items.
+        setItems()
 
         // Set menu.
         setHasOptionsMenu(true)
@@ -62,7 +64,7 @@ class TrashUpdateFragment : Fragment() {
         return binding.root
     }
 
-    private fun setCurrentItems() {
+    private fun setItems() {
         noteItem = NoteModel(
             args.currentItem.id,
             args.currentItem.title,
@@ -107,25 +109,17 @@ class TrashUpdateFragment : Fragment() {
 
     // Show dialog to confirm delete note forever.
     private fun deleteForever() {
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.dialog_delete_forever))
-            .setMessage(getString(R.string.dialog_delete_forever_you_sure))
-            .setPositiveButton(getString(R.string.dialog_confirmation)) { _, _ ->
-
-                val trashItem = TrashModel(
-                    args.currentItem.id,
-                    args.currentItem.title,
-                    args.currentItem.description,
-                    args.currentItem.color
-                )
-
+        MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+            icon(R.drawable.ic_delete_forever)
+            title(R.string.dialog_delete_forever)
+            message(R.string.dialog_delete_confirmation)
+            positiveButton(R.string.dialog_confirmation) {
                 trashViewModel.deleteItem(trashItem)
-                showToast(requireContext(), getString(R.string.successfully_deleted_forever))
                 findNavController().navigate(R.id.action_trashUpdateFragment_to_trashFragment)
+                toast(requireContext(), R.string.successfully_deleted_forever)
             }
-            .setNegativeButton(getString(R.string.dialog_negative)) { _, _ -> }
-
-        dialogBuilder.show()
+            negativeButton(R.string.dialog_negative)
+        }
     }
 
     // Destroy all references of the fragment to avoid memory leak.

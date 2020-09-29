@@ -1,6 +1,5 @@
 package com.anibalventura.anothernote.data.viewmodel
 
-import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.view.View
@@ -8,7 +7,14 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
+import com.afollestad.materialdialogs.LayoutMode
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.anibalventura.anothernote.App
+import com.anibalventura.anothernote.R
+import com.anibalventura.anothernote.data.models.ArchiveModel
+import com.anibalventura.anothernote.data.models.NoteModel
+import com.anibalventura.anothernote.data.models.TrashModel
 import com.anibalventura.anothernote.utils.Constants.ARCHIVE_EMPTY
 import com.anibalventura.anothernote.utils.Constants.ARCHIVE_TO_NOTE
 import com.anibalventura.anothernote.utils.Constants.ARCHIVE_TO_TRASH
@@ -18,11 +24,7 @@ import com.anibalventura.anothernote.utils.Constants.NOTE_TO_TRASH
 import com.anibalventura.anothernote.utils.Constants.TRASH_EMPTY
 import com.anibalventura.anothernote.utils.Constants.TRASH_TO_NOTE
 import com.anibalventura.anothernote.utils.Constants.TRASH_TO_NOTE_EDIT
-import com.anibalventura.anothernote.R
-import com.anibalventura.anothernote.data.models.ArchiveModel
-import com.anibalventura.anothernote.data.models.NoteModel
-import com.anibalventura.anothernote.data.models.TrashModel
-import com.anibalventura.anothernote.utils.showToast
+import com.anibalventura.anothernote.utils.toast
 import com.google.android.material.snackbar.Snackbar
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
@@ -69,7 +71,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         } else if (from == TRASH_TO_NOTE) {
             message = resources.getString(R.string.snackbar_note)
         } else if (from == TRASH_TO_NOTE_EDIT) {
-            resources.getString(R.string.snackbar_note_edit)
+            message = resources.getString(R.string.snackbar_note_edit)
         }
 
         val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
@@ -160,34 +162,37 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     /** ========================= Confirm empty database. ========================= **/
     fun emptyDatabase(context: Context, database: String) {
 
-        // Create dialog to confirm.
-        val dialogBuilder = AlertDialog.Builder(context)
+        val dialog = MaterialDialog(context, BottomSheet(LayoutMode.WRAP_CONTENT))
 
         when (database) {
             TRASH_EMPTY -> {
-                dialogBuilder.setTitle(resources.getString(R.string.dialog_empty_trash))
-                    .setMessage(resources.getString(R.string.dialog_empty_trash_you_sure))
-                    .setPositiveButton(resources.getString(R.string.dialog_empty_trash)) { _, _ ->
-                        // Delete database.
+                dialog.show {
+                    icon(R.drawable.ic_delete_forever)
+                    title(R.string.dialog_empty_trash)
+                    message(R.string.dialog_delete_confirmation)
+                    positiveButton(R.string.dialog_empty_trash) {
                         trashViewModel.deleteDatabase()
-                        showToast(context, resources.getString(R.string.empty_trash_successful))
+                        toast(context, R.string.empty_trash_successful)
                     }
+                    negativeButton(R.string.dialog_negative)
+                }
             }
             else -> {
-                dialogBuilder.setTitle(resources.getString(R.string.dialog_delete_all))
-                    .setMessage(resources.getString(R.string.dialog_delete_you_sure))
-                    .setPositiveButton(resources.getString(R.string.dialog_confirmation)) { _, _ ->
+                dialog.show {
+                    icon(R.drawable.ic_delete_forever)
+                    title(R.string.dialog_delete_all)
+                    message(R.string.dialog_delete_confirmation)
+                    positiveButton(R.string.dialog_confirmation) {
                         when (database) {
                             // Delete database.
                             NOTE_EMPTY -> noteViewModel.deleteDatabase()
                             ARCHIVE_EMPTY -> archiveViewModel.deleteDatabase()
                         }
-                        showToast(context, resources.getString(R.string.delete_all_successful))
+                        toast(context, R.string.delete_all_successful)
                     }
+                    negativeButton(R.string.dialog_negative)
+                }
             }
         }
-
-        dialogBuilder.setNegativeButton(resources.getString(R.string.dialog_negative)) { _, _ -> }
-            .show()
     }
 }

@@ -18,37 +18,27 @@
         tools:context=".ui.note.NoteUpdateFragment">
 
         <EditText
-            android:id="@+id/etUpdateTitle"
+            android:id="@+id/etNoteUpdateTitle"
+            style="@style/EditTitleTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:autofillHints=""
-            android:background="@drawable/bg_input"
-            android:hint="@string/note_add_title"
-            android:inputType="textPersonName"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
+            android:hint="@string/note_title"
+            android:inputType="text"
             android:text="@{args.currentItem.title}"
-            android:textColor="@color/secondaryTextColor"
-            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/etUpdateDescription"
+            android:id="@+id/etNoteUpdateDescription"
+            style="@style/EditDescriptionTheme"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autofillHints="false"
-            android:background="@drawable/bg_input"
-            android:gravity="top|start"
-            android:hint="@string/note_add_description"
+            android:hint="@string/note_description"
             android:inputType="textMultiLine"
-            android:paddingStart="24dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="24dp"
             android:text="@{args.currentItem.description}"
-            android:textAlignment="textStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -57,16 +47,11 @@
 
         <View
             android:id="@+id/view"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/outlineColor"
-            app:layout_constraintBottom_toTopOf="@+id/etUpdateDescription"
+            style="@style/EditLineViewTheme"
+            app:layout_constraintBottom_toTopOf="@+id/etNoteUpdateDescription"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etUpdateTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/etNoteUpdateTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

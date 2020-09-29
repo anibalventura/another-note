@@ -19,10 +19,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/recyclerview_row"
+            style="@style/RecyclerViewTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:background="@drawable/bg_item"
             android:backgroundTint="@{archiveData.color}"
             android:sendDataToArchiveUpdateFragment="@{archiveData}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -32,36 +31,27 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tvListTitle"
+                android:id="@+id/tvRecyclerViewTitle"
+                style="@style/RecyclerViewTitleTheme"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
                 android:text="@{archiveData.title}"
-                android:textColor="@color/secondaryTextColor"
-                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Title" />
 
             <TextView
-                android:id="@+id/tvListDescription"
+                android:id="@+id/tvRecyclerViewDescription"
+                style="@style/RecyclerViewDescriptionTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:maxLength="300"
-                android:maxLines="5"
                 android:text="@{archiveData.description}"
-                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/tvListTitle"
-                app:layout_constraintTop_toBottomOf="@+id/tvListTitle"
+                app:layout_constraintStart_toStartOf="@+id/tvRecyclerViewTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvRecyclerViewTitle"
                 tools:text="Description" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

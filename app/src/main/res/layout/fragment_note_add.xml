@@ -12,50 +12,36 @@
 
         <EditText
             android:id="@+id/etNotAddTitle"
+            style="@style/EditTitleTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:autofillHints=""
-            android:background="@android:color/transparent"
-            android:ems="10"
-            android:hint="@string/note_add_title"
+            android:hint="@string/note_title"
             android:inputType="textPersonName"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/outlineColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etNotAddTitle" />
-
         <EditText
             android:id="@+id/etNoteAddNote"
+            style="@style/EditDescriptionTheme"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autofillHints="false"
-            android:background="@android:color/transparent"
-            android:gravity="top|start"
-            android:hint="@string/note_add_description"
+            android:hint="@string/note_description"
             android:inputType="textMultiLine"
-            android:paddingStart="24dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <View
+            android:id="@+id/view"
+            style="@style/EditLineViewTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etNotAddTitle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

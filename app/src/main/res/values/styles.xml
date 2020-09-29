@@ -1,5 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_layout</item>
+        <item name="colorPrimaryDark">@color/backgroundColor</item>
+        <item name="android:navigationBarColor">@color/backgroundColor</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/secondaryTextColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
@@ -16,10 +22,10 @@
         <item name="colorControlNormal">@color/secondaryTextColor</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_layout</item>
-        <item name="colorPrimaryDark">@color/backgroundColor</item>
-        <item name="android:navigationBarColor">@color/backgroundColor</item>
+    <style name="Widget.Custom.NavigationView" parent="Widget.Design.NavigationView">
+        <item name="itemIconTint">?attr/colorNavigationItem</item>
+        <item name="itemTextColor">?attr/colorNavigationItem</item>
+        <item name="itemBackground">?attr/drawableNavigationItemBackground</item>
     </style>
 
     <style name="PreferenceTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -29,10 +35,69 @@
         <item name="android:navigationBarColor">@color/primaryColor</item>
     </style>
 
-    <style name="Widget.Custom.NavigationView" parent="Widget.Design.NavigationView">
-        <item name="itemIconTint">?attr/colorNavigationItem</item>
-        <item name="itemTextColor">?attr/colorNavigationItem</item>
-        <item name="itemBackground">?attr/drawableNavigationItemBackground</item>
+    <!-- Notes/Archive/Trash Main-->
+    <style name="Notes_Archive_Trash_Theme">
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+    </style>
+
+    <style name="ImageNoDataTheme">
+        <item name="android:layout_width">160dp</item>
+        <item name="android:layout_height">160dp</item>
+        <item name="android:visibility">invisible</item>
+        <item name="tint">@color/noDataColor</item>
+    </style>
+
+    <!-- Edit Notes-->
+    <style name="EditTitleTheme">
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:background">@drawable/bg_input</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+    </style>
+
+    <style name="EditDescriptionTheme">
+        <item name="android:background">@drawable/bg_input</item>
+        <item name="android:gravity">top|start</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="EditLineViewTheme">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:background">@color/outlineColor</item>
+    </style>
+
+    <!-- RecyclerView -->
+    <style name="RecyclerViewTheme">
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:background">@drawable/bg_item</item>
+    </style>
+
+    <style name="RecyclerViewTitleTheme">
+        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+    </style>
+
+    <style name="RecyclerViewDescriptionTheme">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:maxLength">300</item>
+        <item name="android:maxLines">10</item>
     </style>
 
 </resources>

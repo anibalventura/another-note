@@ -11,11 +11,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/trashLayout"
+        android:id="@+id/clTrash"
+        style="@style/Notes_Archive_Trash_Theme"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
         tools:context=".ui.trash.TrashFragment">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -32,18 +31,15 @@
 
         <ImageView
             android:id="@+id/ivNoNotes"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            style="@style/ImageNoDataTheme"
             android:contentDescription="@string/no_data"
             android:emptyDatabase="@{sharedViewModel.emptyDatabase}"
             android:src="@drawable/ic_trash"
-            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/trashRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35"
-            app:tint="@color/noDataColor" />
+            app:layout_constraintVertical_bias="0.35" />
 
         <TextView
             android:id="@+id/tvNoNotes"

@@ -15,7 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.databinding.ActivityMainBinding
 import com.anibalventura.anothernote.utils.setupTheme
-import com.anibalventura.anothernote.utils.shareText
+import com.anibalventura.anothernote.utils.share
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -45,9 +45,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     // Called when the hamburger menu or back button are pressed on the Toolbar.
     // Delegate this to Navigation.
-    override fun onSupportNavigateUp() = navigateUp(
-        findNavController(R.id.navHostFragment), binding.drawerLayout
-    )
+    override fun onSupportNavigateUp() =
+        navigateUp(findNavController(R.id.navHostFragment), binding.drawerLayout)
 
     private fun setupNavigation() {
         // Set the toolbar.
@@ -69,28 +68,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             this.window.navigationBarColor = ActivityCompat.getColor(this, R.color.primaryColor)
             this.window.statusBarColor = ActivityCompat.getColor(this, R.color.primaryColor)
 
-            when (destination.id) {
-                // Show title.
-                R.id.noteFragment -> toolBar.setDisplayShowTitleEnabled(true)
-                R.id.archiveFragment -> toolBar.setDisplayShowTitleEnabled(true)
-                R.id.trashFragment -> toolBar.setDisplayShowTitleEnabled(true)
+            if (destination.id == R.id.noteFragment
+                || destination.id == R.id.archiveFragment
+                || destination.id == R.id.trashFragment
+            ) toolBar.setDisplayShowTitleEnabled(true)
 
-                // Disable title .
-                R.id.noteAddFragment -> toolBar.setDisplayShowTitleEnabled(false)
-                R.id.noteUpdateFragment -> toolBar.setDisplayShowTitleEnabled(false)
-                R.id.archiveUpdateFragment -> toolBar.setDisplayShowTitleEnabled(false)
-                R.id.trashUpdateFragment -> toolBar.setDisplayShowTitleEnabled(false)
+            if (destination.id == R.id.noteAddFragment
+                || destination.id == R.id.noteUpdateFragment
+                || destination.id == R.id.archiveUpdateFragment
+                || destination.id == R.id.trashUpdateFragment
+            ) {
+                toolBar.setDisplayHomeAsUpEnabled(false)
+                toolBar.setDisplayShowTitleEnabled(false)
             }
         }
     }
 
     override fun onNavigationItemSelected(menu: MenuItem): Boolean {
-
         when (menu.itemId) {
             R.id.noteFragment -> navController.navigate(R.id.noteFragment)
             R.id.archiveFragment -> navController.navigate(R.id.archiveFragment)
             R.id.trashFragment -> navController.navigate(R.id.trashFragment)
-            R.id.tellFriends -> shareText(this, getString(R.string.tell_friends))
+            R.id.tellFriends -> share(this, getString(R.string.tell_friends))
             R.id.aboutFragment -> navController.navigate(R.id.aboutFragment)
             R.id.settingsActivity -> navController.navigate(R.id.settingsActivity)
         }

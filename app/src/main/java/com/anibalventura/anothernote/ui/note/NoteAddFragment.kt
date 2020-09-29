@@ -3,6 +3,7 @@ package com.anibalventura.anothernote.ui.note
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -10,7 +11,9 @@ import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.data.models.NoteModel
 import com.anibalventura.anothernote.data.viewmodel.NoteViewModel
 import com.anibalventura.anothernote.databinding.FragmentNoteAddBinding
+import com.anibalventura.anothernote.utils.Constants.NOTE_ADD_DISCARD
 import com.anibalventura.anothernote.utils.changeNoteBackgroundColor
+import com.anibalventura.anothernote.utils.discardDialog
 import kotlinx.android.synthetic.main.activity_main.*
 
 class NoteAddFragment : Fragment() {
@@ -22,6 +25,9 @@ class NoteAddFragment : Fragment() {
     // ViewModel.
     private val noteViewModel: NoteViewModel by viewModels()
 
+    // Model.
+    private lateinit var currentItem: NoteModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -30,10 +36,32 @@ class NoteAddFragment : Fragment() {
         _binding = FragmentNoteAddBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
 
+        // Handle back pressed for item changes.
+        onBackPressed()
+
         // Set menu.
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    private fun onBackPressed() {
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    currentItem = NoteModel(
+                        0,
+                        binding.etNotAddTitle.text.toString(),
+                        binding.etNoteAddNote.text.toString(),
+                        (binding.clNoteAdd.background as ColorDrawable).color
+                    )
+                    if (currentItem.title != "" || currentItem.description != "") {
+                        discardDialog(NOTE_ADD_DISCARD, requireContext(), requireView())
+                    } else {
+                        findNavController().navigate(R.id.action_noteAddFragment_to_noteFragment)
+                    }
+                }
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -49,7 +77,6 @@ class NoteAddFragment : Fragment() {
             R.id.menu_note_color -> changeNoteBackgroundColor(
                 binding.clNoteAdd,
                 activity?.toolbar,
-                activity?.window,
                 requireContext()
             )
         }
@@ -59,13 +86,15 @@ class NoteAddFragment : Fragment() {
 
     private fun insertNewItem() {
         // Get data to insert.
-        val title = binding.etNotAddTitle.text.toString()
-        val description = binding.etNoteAddNote.text.toString()
-        val color = (binding.clNoteAdd.background as ColorDrawable).color
+        currentItem = NoteModel(
+            0,
+            binding.etNotAddTitle.text.toString(),
+            binding.etNoteAddNote.text.toString(),
+            (binding.clNoteAdd.background as ColorDrawable).color
+        )
 
         // Insert data to database.
-        val newNote = NoteModel(0, title, description, color)
-        noteViewModel.insertItem(newNote)
+        noteViewModel.insertItem(currentItem)
 
         // Navigate back.
         findNavController().navigate(R.id.action_noteAddFragment_to_noteFragment)
