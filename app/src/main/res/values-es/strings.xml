@@ -60,4 +60,5 @@
     <string name="dialog_discard">Descartar?</string>
     <string name="dialog_discard_confirmation">¿Estás seguro? Tus cambios no seran guardados.</string>
     <string name="dialog_discard_successful">Cambios descartados</string>
+    <string name="menu_rate_app">Calificar App</string>
 </resources>

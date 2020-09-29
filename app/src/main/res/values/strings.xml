@@ -65,4 +65,5 @@
     <string name="dialog_discard_confirmation">Are you sure? Your changes won\'t be save.</string>
     <string name="dialog_discard_successful">Changes discarded</string>
     <string name="menu_main_sort_color" translatable="false">Color</string>
+    <string name="menu_rate_app">Rate App</string>
 </resources>

@@ -28,6 +28,10 @@
             android:icon="@drawable/ic_share"
             android:title="@string/menu_tell_friends" />
         <item
+            android:id="@+id/rateApp"
+            android:icon="@drawable/ic_rate"
+            android:title="@string/menu_rate_app" />
+        <item
             android:id="@+id/aboutFragment"
             android:icon="@drawable/ic_about"
             android:title="@string/menu_about" />

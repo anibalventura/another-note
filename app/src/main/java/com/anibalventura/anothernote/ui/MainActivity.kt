@@ -1,5 +1,7 @@
 package com.anibalventura.anothernote.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,7 @@ import com.anibalventura.anothernote.utils.setupTheme
 import com.anibalventura.anothernote.utils.share
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -90,6 +93,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.archiveFragment -> navController.navigate(R.id.archiveFragment)
             R.id.trashFragment -> navController.navigate(R.id.trashFragment)
             R.id.tellFriends -> share(this, getString(R.string.tell_friends))
+            R.id.rateApp -> {
+                // Create the intent.
+                val rateIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=com.anibalventura.anothernote")
+                )
+                // Send the intent.
+                startActivity(Intent.createChooser(rateIntent, null))
+            }
             R.id.aboutFragment -> navController.navigate(R.id.aboutFragment)
             R.id.settingsActivity -> navController.navigate(R.id.settingsActivity)
         }
