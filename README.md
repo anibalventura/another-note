@@ -41,7 +41,7 @@ Simple textfield with an intuitive user interface for adding notes based on mode
 ## Architecture
 This app uses [Clean Architecture](https://medium.cobeisfresh.com/developing-android-apps-with-kotlin-and-clean-architecture-21bc21b2aac2).
 
-<img src="images/architecture.png" width="100%"/>
+<img src="images/architecture.png" width="70%"/>
 
 ## Contribute
 Awesome! If you would like to contribute you're always welcome!
