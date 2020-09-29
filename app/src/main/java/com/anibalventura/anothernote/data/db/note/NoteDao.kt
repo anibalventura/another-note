@@ -30,4 +30,7 @@ interface NoteDao {
 
     @Query("SELECT * FROM note_table ORDER BY id DESC")
     fun sortByCreation(): LiveData<List<NoteModel>>
+
+    @Query("SELECT * FROM note_table ORDER BY color ASC")
+    fun sortByColor(): LiveData<List<NoteModel>>
 }

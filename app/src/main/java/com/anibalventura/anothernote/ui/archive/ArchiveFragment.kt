@@ -8,13 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.anibalventura.anothernote.utils.Constants.ARCHIVE_EMPTY
-import com.anibalventura.anothernote.utils.Constants.ARCHIVE_LAYOUT
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.adapters.ArchiveAdapter
 import com.anibalventura.anothernote.data.viewmodel.ArchiveViewModel
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.databinding.FragmentArchiveBinding
+import com.anibalventura.anothernote.utils.Constants.ARCHIVE_EMPTY
+import com.anibalventura.anothernote.utils.Constants.ARCHIVE_LAYOUT
 import com.anibalventura.anothernote.utils.hideSoftKeyboard
 import com.anibalventura.anothernote.utils.sharedPref
 
@@ -28,7 +28,7 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
     private val archiveViewModel: ArchiveViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
 
-    // RecyclerView Adapter.
+    // RecyclerView.
     private val adapter: ArchiveAdapter by lazy { ArchiveAdapter() }
 
     override fun onCreateView(
@@ -79,6 +79,7 @@ class ArchiveFragment : Fragment(), SearchView.OnQueryTextListener {
         menu.findItem(R.id.menu_main_search).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_main_list).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_main_grid).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_main_overflow).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_main_delete_all).setEnabled(true).isVisible = true
     }
 

@@ -38,7 +38,7 @@
     <string name="menu_tell_friends">Compartir</string>
     <string name="note_title">Título</string>
     <string name="note_no_data">Las notas que agregues apareceran aquí.</string>
-    <string name="overflow_menu">Menú adicional</string>
+    <string name="menu_overflow">Menú adicional</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_choose">Elige un tema</string>
     <string name="settings_theme_dark">Oscuro</string>

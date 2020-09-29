@@ -39,9 +39,9 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/overflowMenu"
+        android:id="@+id/menu_note_overflow"
         android:icon="@drawable/ic_menu"
-        android:title="@string/overflow_menu"
+        android:title="@string/menu_overflow"
         app:showAsAction="always">
 
         <menu>

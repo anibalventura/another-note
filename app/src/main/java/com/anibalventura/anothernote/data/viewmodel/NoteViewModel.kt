@@ -18,6 +18,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     val getDatabase: LiveData<List<NoteModel>>
     val sortByTitle: LiveData<List<NoteModel>>
     val sortByCreation: LiveData<List<NoteModel>>
+    val sortByColor: LiveData<List<NoteModel>>
 
     init {
         repository = NoteRepository(noteDao)
@@ -25,6 +26,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
         sortByTitle = repository.sortByTitle
         sortByCreation = repository.sortByCreation
+        sortByColor = repository.sortByColor
     }
 
     fun insertItem(noteModel: NoteModel) {

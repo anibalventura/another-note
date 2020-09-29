@@ -10,6 +10,7 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     val sortByTitle: LiveData<List<NoteModel>> = noteDao.sortByTitle()
     val sortByCreation: LiveData<List<NoteModel>> = noteDao.sortByCreation()
+    val sortByColor: LiveData<List<NoteModel>> = noteDao.sortByColor()
 
     suspend fun insertItem(noteModel: NoteModel) {
         noteDao.insertItem(noteModel)

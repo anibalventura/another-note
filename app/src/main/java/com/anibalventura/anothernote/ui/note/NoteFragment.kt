@@ -28,7 +28,7 @@ import com.anibalventura.anothernote.utils.Constants.SWIPE_DELETE
 import com.anibalventura.anothernote.utils.SwipeItem
 import com.anibalventura.anothernote.utils.hideSoftKeyboard
 import com.anibalventura.anothernote.utils.sharedPref
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
+import jp.wasabeef.recyclerview.animators.LandingAnimator
 
 class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
 
@@ -40,8 +40,9 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
     private val noteViewModel: NoteViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
 
-    // RecyclerView Adapter.
+    // RecyclerView.
     private val adapter: NoteAdapter by lazy { NoteAdapter() }
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -71,7 +72,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun setupRecyclerView() {
-        val recyclerView = binding.noteRecyclerView
+        recyclerView = binding.noteRecyclerView
         recyclerView.adapter = adapter
 
         // Set layout view.
@@ -81,7 +82,7 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         }
 
-        recyclerView.itemAnimator = SlideInUpAnimator().apply {
+        recyclerView.itemAnimator = LandingAnimator().apply {
             addDuration = 300 // Milliseconds
         }
 
@@ -158,9 +159,8 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         menu.findItem(R.id.menu_main_search).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_main_list).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_main_grid).setEnabled(true).isVisible = true
+        menu.findItem(R.id.menu_main_overflow).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_main_sort_by).setEnabled(true).isVisible = true
-        menu.findItem(R.id.menu_main_sort_title).setEnabled(true).isVisible = true
-        menu.findItem(R.id.menu_main_sort_creation).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_main_delete_all).setEnabled(true).isVisible = true
     }
 
@@ -192,13 +192,21 @@ class NoteFragment : Fragment(), SearchView.OnQueryTextListener {
         when (item.itemId) {
             R.id.menu_main_list -> changeLayoutView(true)
             R.id.menu_main_grid -> changeLayoutView(false)
-            R.id.menu_main_delete_all -> sharedViewModel.emptyDatabase(requireContext(), NOTE_EMPTY)
             R.id.menu_main_sort_title -> noteViewModel.sortByTitle.observe(this, {
                 adapter.setData(it)
             })
             R.id.menu_main_sort_creation -> noteViewModel.sortByCreation.observe(this, {
                 adapter.setData(it)
             })
+            R.id.menu_main_sort_color -> noteViewModel.sortByColor.observe(this, {
+                adapter.setData(it)
+            })
+            R.id.menu_main_delete_all -> {
+                sharedViewModel.emptyDatabase(requireContext(), NOTE_EMPTY)
+                recyclerView.itemAnimator = LandingAnimator().apply {
+                    addDuration = 300 // Milliseconds
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item)

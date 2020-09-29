@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.anibalventura.anothernote.utils.Constants.TRASH_EMPTY
 import com.anibalventura.anothernote.R
 import com.anibalventura.anothernote.adapters.TrashAdapter
 import com.anibalventura.anothernote.data.viewmodel.SharedViewModel
 import com.anibalventura.anothernote.data.viewmodel.TrashViewModel
 import com.anibalventura.anothernote.databinding.FragmentTrashBinding
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
+import com.anibalventura.anothernote.utils.Constants.TRASH_EMPTY
+import jp.wasabeef.recyclerview.animators.LandingAnimator
 
 class TrashFragment : Fragment() {
 
@@ -23,8 +24,9 @@ class TrashFragment : Fragment() {
     private val trashViewModel: TrashViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
 
-    // RecyclerView Adapter.
+    // RecyclerView.
     private val adapter: TrashAdapter by lazy { TrashAdapter() }
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -51,14 +53,14 @@ class TrashFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        val recyclerView = binding.trashRecyclerView
+        recyclerView = binding.trashRecyclerView
         recyclerView.adapter = adapter
 
         // Set layout view.
         recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-        recyclerView.itemAnimator = SlideInUpAnimator().apply {
+        recyclerView.itemAnimator = LandingAnimator().apply {
             addDuration = 300 // Milliseconds
         }
     }
@@ -66,14 +68,18 @@ class TrashFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_main, menu)
         // Enable required options.
+        menu.findItem(R.id.menu_main_overflow).setEnabled(true).isVisible = true
         menu.findItem(R.id.menu_main_empty_trash).setEnabled(true).isVisible = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_main_empty_trash -> sharedViewModel.emptyDatabase(
-                requireContext(), TRASH_EMPTY
-            )
+            R.id.menu_main_empty_trash -> {
+                sharedViewModel.emptyDatabase(requireContext(), TRASH_EMPTY)
+                recyclerView.itemAnimator = LandingAnimator().apply {
+                    addDuration = 300 // Milliseconds
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item)

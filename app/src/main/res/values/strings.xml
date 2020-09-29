@@ -56,7 +56,7 @@
     <string name="menu_note_color">Change color</string>
     <string name="dialog_choose_color">Choose color</string>
     <string name="dialog_select">Select</string>
-    <string name="overflow_menu">Overflow Menu</string>
+    <string name="menu_overflow">Overflow Menu</string>
     <string name="menu_main_sort_creation">Creation</string>
     <string name="about_changelog_title">Changelog</string>
     <string name="about_changelog_v100_title" translatable="false">v 1.0.0</string>
@@ -64,4 +64,5 @@
     <string name="dialog_discard">Discard?</string>
     <string name="dialog_discard_confirmation">Are you sure? Your changes won\'t be save.</string>
     <string name="dialog_discard_successful">Changes discarded</string>
+    <string name="menu_main_sort_color" translatable="false">Color</string>
 </resources>
