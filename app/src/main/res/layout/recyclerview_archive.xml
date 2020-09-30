@@ -44,7 +44,7 @@
             <TextView
                 android:id="@+id/tvRecyclerViewDescription"
                 style="@style/RecyclerViewDescriptionTheme"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{archiveData.description}"
                 app:layout_constraintBottom_toBottomOf="parent"

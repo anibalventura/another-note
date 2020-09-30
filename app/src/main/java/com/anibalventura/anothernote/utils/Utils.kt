@@ -67,7 +67,7 @@ fun changeNoteBackgroundColor(view: View, toolbar: Toolbar?, context: Context) {
 
     // Get colors.
     val colors = intArrayOf(
-        ActivityCompat.getColor(context, R.color.transparent),
+        ActivityCompat.getColor(context, R.color.plain),
         ActivityCompat.getColor(context, R.color.red),
         ActivityCompat.getColor(context, R.color.orange),
         ActivityCompat.getColor(context, R.color.yellow),

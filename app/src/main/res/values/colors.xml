@@ -12,7 +12,7 @@
     <color name="noDataColor">#FFB745</color>
 
     <!-- Note Background -->
-    <color name="transparent">#00FFFFFF</color>
+    <color name="plain">#FFFFFF</color>
     <color name="red">#F28B82</color>
     <color name="orange">#FBBC00</color>
     <color name="yellow">#FFF475</color>

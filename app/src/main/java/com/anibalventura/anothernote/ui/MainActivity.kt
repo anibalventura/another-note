@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
             val toolBar = supportActionBar ?: return@addOnDestinationChangedListener
-            toolbar.setBackgroundColor(ActivityCompat.getColor(this, R.color.transparent))
+            toolbar.setBackgroundColor(ActivityCompat.getColor(this, R.color.backgroundColor))
             this.window.navigationBarColor = ActivityCompat.getColor(this, R.color.primaryColor)
             this.window.statusBarColor = ActivityCompat.getColor(this, R.color.primaryColor)
 
