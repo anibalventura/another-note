@@ -3,7 +3,7 @@
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.4.10-blue.svg)](https://kotlinlang.org)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Simple textfield with an intuitive user interface for adding notes based on modern Android application tech-stacks and Clean Architecture.
+Simple note taking app with an intuitive user interface based on modern Android application tech-stacks and Clean Architecture.
 
 <a href="https://play.google.com/store/apps/details?id=com.anibalventura.anothernote"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="75"></a>
 
