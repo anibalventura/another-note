@@ -5,7 +5,7 @@
 
 Simple note taking app with an intuitive user interface based on modern Android application tech-stacks and Clean Architecture.
 
-<a href="https://play.google.com/store/apps/details?id=com.anibalventura.anothernote"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="75"></a>
+<a href="https://play.google.com/store/apps/details?id=com.anibalventura.anothernote" target="blank"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="75"></a>
 
 ## Features
 * Color notes to organize and identify.
