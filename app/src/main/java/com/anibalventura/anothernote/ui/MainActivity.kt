@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
@@ -20,7 +21,6 @@ import com.anibalventura.anothernote.utils.setupTheme
 import com.anibalventura.anothernote.utils.share
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -71,20 +71,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             this.window.navigationBarColor = ActivityCompat.getColor(this, R.color.primaryColor)
             this.window.statusBarColor = ActivityCompat.getColor(this, R.color.primaryColor)
 
-            if (destination.id == R.id.noteFragment
-                || destination.id == R.id.archiveFragment
-                || destination.id == R.id.trashFragment
-            ) toolBar.setDisplayShowTitleEnabled(true)
+            when (destination.id) {
+                R.id.noteFragment -> showToolbarTitleOrUp(toolBar, true, true)
+                R.id.archiveFragment -> showToolbarTitleOrUp(toolBar, true, true)
+                R.id.trashFragment -> showToolbarTitleOrUp(toolBar, true, true)
+                R.id.noteAddFragment -> showToolbarTitleOrUp(toolBar, false, false)
+                R.id.noteUpdateFragment -> showToolbarTitleOrUp(toolBar, false, false)
+                R.id.archiveUpdateFragment -> showToolbarTitleOrUp(toolBar, false, false)
+                R.id.trashUpdateFragment -> showToolbarTitleOrUp(toolBar, false, false)
 
-            if (destination.id == R.id.noteAddFragment
-                || destination.id == R.id.noteUpdateFragment
-                || destination.id == R.id.archiveUpdateFragment
-                || destination.id == R.id.trashUpdateFragment
-            ) {
-                toolBar.setDisplayHomeAsUpEnabled(false)
-                toolBar.setDisplayShowTitleEnabled(false)
             }
         }
+    }
+
+    private fun showToolbarTitleOrUp(
+        toolBar: ActionBar,
+        showTitle: Boolean,
+        showUpButton: Boolean
+    ) {
+        toolBar.setDisplayShowTitleEnabled(showTitle)
+        toolBar.setDisplayHomeAsUpEnabled(showUpButton)
     }
 
     override fun onNavigationItemSelected(menu: MenuItem): Boolean {

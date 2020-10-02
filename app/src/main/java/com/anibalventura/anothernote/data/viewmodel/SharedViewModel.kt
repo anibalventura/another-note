@@ -95,7 +95,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
                 snackBar.setAction(resources.getString(R.string.snackbar_undo)) {
                     noteViewModel.insertItem(noteItem)
-                    archiveViewModel.deleteItem(archiveItem)
+                    trashViewModel.deleteItem(trashItem)
                 }
             }
             ARCHIVE_TO_NOTE -> {

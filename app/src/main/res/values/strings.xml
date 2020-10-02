@@ -21,7 +21,7 @@
     <string name="settings_theme_choose">Choose a theme</string>
     <string name="settings_theme_selected">Theme selected</string>
     <string name="settings_theme">Theme</string>
-    <string name="about_app_version">Version 1.0.0</string>
+    <string name="about_app_version">Version 1.0.1</string>
     <string name="about_app_copyright" translatable="false">© 2020 Anibal Ventura</string>
     <string name="tell_friends">Download now this amazing note taking app!\n\n
         https://play.google.com/store/apps/details?id=com.anibalventura.anothernote</string>
@@ -66,4 +66,6 @@
     <string name="dialog_discard_successful">Changes discarded</string>
     <string name="menu_main_sort_color" translatable="false">Color</string>
     <string name="menu_rate_app">Rate App</string>
+    <string name="about_changelog_v101_title" translatable="false">v 1.0.1</string>
+    <string name="about_changelog_v101_content">- Bug fixes and optimizations.</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="about_app_version">Versión 1.0.0</string>
+    <string name="about_app_version">Versión 1.0.1</string>
     <string name="about_changelog_title">Cambios</string>
     <string name="about_changelog_v100_content">- Lanzamiento inicial.</string>
     <string name="archive_no_notes">Tus notas archivadas aparecen aquí.</string>
@@ -61,4 +61,5 @@
     <string name="dialog_discard_confirmation">¿Estás seguro? Tus cambios no seran guardados.</string>
     <string name="dialog_discard_successful">Cambios descartados</string>
     <string name="menu_rate_app">Calificar App</string>
+    <string name="about_changelog_v101_content">- Corrección de errores y optimizaciones.</string>
 </resources>

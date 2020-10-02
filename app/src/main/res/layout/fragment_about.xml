@@ -136,7 +136,19 @@
                             android:id="@+id/tvV100"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
                             android:text="@string/about_changelog_v100_title"
+                            android:textColor="@color/secondaryTextColor"
+                            android:textSize="18sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvV101Changes" />
+
+                        <TextView
+                            android:id="@+id/tvV101"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/about_changelog_v101_title"
                             android:textColor="@color/secondaryTextColor"
                             android:textSize="18sp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -147,10 +159,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/about_changelog_v100_content"
                             android:textColor="@color/secondaryTextColor"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvV100" />
+
+                        <TextView
+                            android:id="@+id/tvV101Changes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="19dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/about_changelog_v101_content"
+                            android:textColor="@color/secondaryTextColor"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvV101" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class com.anibalventura.anothernote.data.models.NoteModel
+-keep class com.anibalventura.anothernote.data.models.ArchiveModel
+-keep class com.anibalventura.anothernote.data.models.TrashModel
+-keep class androidx.appcompat.graphics.drawable.DrawerArrowDrawable { *; }
